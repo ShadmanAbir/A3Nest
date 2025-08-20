@@ -32,33 +32,27 @@
                 
                 <components:CardWidget Grid.Column="0" Grid.Row="0"
                                      Title="Total Revenue"
-                                     Value="{Binding TotalRevenue}"
-                                     Icon="💰" />
+                                     PrimaryValue="{Binding TotalRevenue}" />
                 
                 <components:CardWidget Grid.Column="1" Grid.Row="0"
                                      Title="Active Properties"
-                                     Value="{Binding ActivePropertiesCount}"
-                                     Icon="🏢" />
+                                     PrimaryValue="{Binding ActivePropertiesCount}" />
                 
                 <components:CardWidget Grid.Column="2" Grid.Row="0"
                                      Title="Occupancy Rate"
-                                     Value="{Binding OccupancyRate}"
-                                     Icon="📊" />
+                                     PrimaryValue="{Binding OccupancyRate}" />
                 
                 <components:CardWidget Grid.Column="0" Grid.Row="1"
                                      Title="Monthly Income"
-                                     Value="{Binding MonthlyIncome}"
-                                     Icon="📈" />
+                                     PrimaryValue="{Binding MonthlyIncome}" />
                 
                 <components:CardWidget Grid.Column="1" Grid.Row="1"
                                      Title="Pending Maintenance"
-                                     Value="{Binding PendingMaintenanceCount}"
-                                     Icon="🔧" />
+                                     PrimaryValue="{Binding PendingMaintenanceCount}" />
                 
                 <components:CardWidget Grid.Column="2" Grid.Row="1"
                                      Title="Lease Renewals"
-                                     Value="{Binding UpcomingRenewalsCount}"
-                                     Icon="📋" />
+                                     PrimaryValue="{Binding UpcomingRenewalsCount}" />
             </Grid>
 
             <!-- Main Content Tabs -->

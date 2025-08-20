@@ -58,6 +58,24 @@ public partial class OwnerPortalViewModel : BaseViewModel
     [ObservableProperty]
     private bool isLoadingFinancials;
 
+    [ObservableProperty]
+    private decimal totalRevenue = 50000m;
+
+    [ObservableProperty]
+    private int activePropertiesCount = 5;
+
+    [ObservableProperty]
+    private decimal occupancyRate = 85.5m;
+
+    [ObservableProperty]
+    private decimal monthlyIncome = 12500m;
+
+    [ObservableProperty]
+    private int pendingMaintenanceCount = 3;
+
+    [ObservableProperty]
+    private int upcomingRenewalsCount = 2;
+
     public ObservableCollection<PropertyDto> OwnerProperties { get; }
     public ObservableCollection<TenantDto> OwnerTenants { get; }
     public ObservableCollection<LeaseApplicationDto> OwnerLeaseApplications { get; }

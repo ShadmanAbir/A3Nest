@@ -71,6 +71,18 @@ public partial class MessagingViewModel : BaseViewModel
     [ObservableProperty]
     private int totalCount;
 
+    [ObservableProperty]
+    private string senderName = "Sample Sender";
+
+    [ObservableProperty]
+    private string subject = "Sample Subject";
+
+    [ObservableProperty]
+    private DateTime createdAt = DateTime.Now;
+
+    [ObservableProperty]
+    private bool isMessageSelected;
+
     public ObservableCollection<MessageDto> Messages { get; }
     public ObservableCollection<MessageDto> FilteredMessages { get; }
     public ObservableCollection<ConversationDto> Conversations { get; }

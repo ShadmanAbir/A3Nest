@@ -45,6 +45,18 @@ public partial class TenantsViewModel : BaseViewModel
     [ObservableProperty]
     private bool showActiveOnly = true;
 
+    [ObservableProperty]
+    private string fullName = "Sample Tenant";
+
+    [ObservableProperty]
+    private DateTime createdAt = DateTime.Now;
+
+    [ObservableProperty]
+    private string contactInfo = "Sample Contact Info";
+
+    [ObservableProperty]
+    private string email = "sample@email.com";
+
     public ObservableCollection<TenantDto> Tenants { get; }
     public ObservableCollection<TenantDto> FilteredTenants { get; }
 

@@ -86,7 +86,8 @@
 
                 <StackLayout Grid.Column="1" Orientation="Horizontal">
                     <Button Text="Reply" 
-                            Command="{Binding ReplyMessageCommand}" 
+                            Command="{Binding ReplyToMessageCommand}" 
+                            CommandParameter="{Binding SelectedMessage}"
                             BackgroundColor="Green" 
                             TextColor="White" />
                     <Button Text="Delete" 

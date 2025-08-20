@@ -61,6 +61,9 @@ public partial class LeaseApplicationsViewModel : BaseViewModel
     [ObservableProperty]
     private int rejectedCount;
 
+    [ObservableProperty]
+    private string tenant = "Sample Tenant";
+
     public ObservableCollection<LeaseApplicationDto> LeaseApplications { get; }
     public ObservableCollection<LeaseApplicationDto> FilteredApplications { get; }
 

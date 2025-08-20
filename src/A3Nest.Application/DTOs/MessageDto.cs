@@ -23,4 +23,7 @@ public class MessageDto
     public UserDto? Receiver { get; set; }
     public MessageDto? ParentMessage { get; set; }
     public List<MessageDto> Replies { get; set; } = new();
+    
+    // Computed properties for UI binding
+    public string SenderName => Sender?.FullName ?? "Unknown";
 }

@@ -65,6 +65,15 @@ public partial class DashboardViewModel : BaseViewModel
     [ObservableProperty]
     private int occupancyRate;
 
+    [ObservableProperty]
+    private string name = "Dashboard";
+
+    [ObservableProperty]
+    private string address = "Sample Address";
+
+    [ObservableProperty]
+    private string street = "Sample Street";
+
     public ObservableCollection<PropertyDto> RecentProperties { get; }
     public ObservableCollection<TenantDto> RecentTenants { get; }
     public ObservableCollection<TaskDto> PendingTasks { get; }

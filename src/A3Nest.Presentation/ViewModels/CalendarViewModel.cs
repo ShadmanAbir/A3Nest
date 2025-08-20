@@ -82,6 +82,16 @@ public partial class CalendarViewModel : BaseViewModel
     [ObservableProperty]
     private bool isSavingEvent;
 
+    // Additional properties for calendar events
+    [ObservableProperty]
+    private DateTime startDate = DateTime.Now;
+
+    [ObservableProperty]
+    private string description = "Sample Description";
+
+    [ObservableProperty]
+    private string location = "Sample Location";
+
     public string CurrentMonthYear => CurrentDate.ToString("MMMM yyyy");
 
     public ObservableCollection<CalendarEventDto> Events { get; }

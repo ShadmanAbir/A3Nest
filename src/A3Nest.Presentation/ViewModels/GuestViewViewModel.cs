@@ -89,6 +89,15 @@ public partial class GuestViewViewModel : BaseViewModel
     [ObservableProperty]
     private bool isSubmittingInquiry;
 
+    [ObservableProperty]
+    private string name = "Guest View";
+
+    [ObservableProperty]
+    private string address = "Sample Address";
+
+    [ObservableProperty]
+    private string street = "Sample Street";
+
     public ObservableCollection<PropertyDto> AvailableProperties { get; }
     public ObservableCollection<PropertyDto> FilteredProperties { get; }
     public ObservableCollection<PropertyDto> FeaturedProperties { get; }

@@ -42,6 +42,15 @@ public partial class PropertiesViewModel : BaseViewModel
     [ObservableProperty]
     private bool sortAscending = true;
 
+    [ObservableProperty]
+    private string name = "Sample Property";
+
+    [ObservableProperty]
+    private string address = "Sample Address";
+
+    [ObservableProperty]
+    private string street = "Sample Street";
+
     public ObservableCollection<PropertyDto> Properties { get; }
     public ObservableCollection<PropertyDto> FilteredProperties { get; }
 
