@@ -340,6 +340,142 @@ public class SampleDataService : ISampleDataService
         };
     }
 
+    public async Task<IEnumerable<LeaseApplicationDto>> GetSampleLeaseApplicationsAsync()
+    {
+        await Task.Delay(100);
+
+        return new List<LeaseApplicationDto>
+        {
+            new LeaseApplicationDto
+            {
+                Id = 1,
+                TenantId = 1,
+                PropertyId = 1,
+                UnitId = 1,
+                Status = LeaseStatus.Pending,
+                RequestedLeaseTerms = new DateRangeDto
+                {
+                    StartDate = DateTime.Now.AddDays(30),
+                    EndDate = DateTime.Now.AddDays(395) // 1 year lease
+                },
+                ProposedRent = new MoneyDto { Amount = 1800.00m, Currency = "USD" },
+                SecurityDepositAmount = new MoneyDto { Amount = 3600.00m, Currency = "USD" },
+                ApplicationDate = DateTime.Now.AddDays(-5),
+                Notes = "Excellent credit score and references",
+                CreatedAt = DateTime.Now.AddDays(-5),
+                UpdatedAt = DateTime.Now.AddDays(-5),
+                Tenant = new TenantDto
+                {
+                    Id = 1,
+                    FirstName = "John",
+                    LastName = "Smith",
+                    ContactInfo = new ContactInfoDto
+                    {
+                        Email = "john.smith@email.com",
+                        PhoneNumber = "(555) 123-4567"
+                    }
+                },
+                Property = new PropertyDto
+                {
+                    Id = 1,
+                    Name = "Sunset Apartments"
+                },
+                Unit = new UnitDto
+                {
+                    Id = 1,
+                    UnitNumber = "A101",
+                    PropertyId = 1
+                }
+            },
+            new LeaseApplicationDto
+            {
+                Id = 2,
+                TenantId = 2,
+                PropertyId = 1,
+                UnitId = 2,
+                Status = LeaseStatus.Active,
+                RequestedLeaseTerms = new DateRangeDto
+                {
+                    StartDate = DateTime.Now.AddDays(-30),
+                    EndDate = DateTime.Now.AddDays(335) // 1 year lease
+                },
+                ProposedRent = new MoneyDto { Amount = 1650.00m, Currency = "USD" },
+                SecurityDepositAmount = new MoneyDto { Amount = 3300.00m, Currency = "USD" },
+                ApplicationDate = DateTime.Now.AddDays(-45),
+                ApprovalDate = DateTime.Now.AddDays(-35),
+                ApprovedById = 2,
+                Notes = "Approved after background check",
+                CreatedAt = DateTime.Now.AddDays(-45),
+                UpdatedAt = DateTime.Now.AddDays(-35),
+                Tenant = new TenantDto
+                {
+                    Id = 2,
+                    FirstName = "Sarah",
+                    LastName = "Johnson",
+                    ContactInfo = new ContactInfoDto
+                    {
+                        Email = "sarah.johnson@email.com",
+                        PhoneNumber = "(555) 987-6543"
+                    }
+                },
+                Property = new PropertyDto
+                {
+                    Id = 1,
+                    Name = "Sunset Apartments"
+                },
+                Unit = new UnitDto
+                {
+                    Id = 2,
+                    UnitNumber = "B205",
+                    PropertyId = 1
+                }
+            },
+            new LeaseApplicationDto
+            {
+                Id = 3,
+                TenantId = 3,
+                PropertyId = 2,
+                UnitId = 3,
+                Status = LeaseStatus.Terminated,
+                RequestedLeaseTerms = new DateRangeDto
+                {
+                    StartDate = DateTime.Now.AddDays(-60),
+                    EndDate = DateTime.Now.AddDays(305) // 1 year lease
+                },
+                ProposedRent = new MoneyDto { Amount = 2500.00m, Currency = "USD" },
+                SecurityDepositAmount = new MoneyDto { Amount = 5000.00m, Currency = "USD" },
+                ApplicationDate = DateTime.Now.AddDays(-70),
+                RejectionDate = DateTime.Now.AddDays(-65),
+                RejectionReason = "Insufficient income verification",
+                Notes = "Income did not meet 3x rent requirement",
+                CreatedAt = DateTime.Now.AddDays(-70),
+                UpdatedAt = DateTime.Now.AddDays(-65),
+                Tenant = new TenantDto
+                {
+                    Id = 3,
+                    FirstName = "Mike",
+                    LastName = "Davis",
+                    ContactInfo = new ContactInfoDto
+                    {
+                        Email = "mike.davis@email.com",
+                        PhoneNumber = "(555) 456-7890"
+                    }
+                },
+                Property = new PropertyDto
+                {
+                    Id = 2,
+                    Name = "Downtown Office Complex"
+                },
+                Unit = new UnitDto
+                {
+                    Id = 3,
+                    UnitNumber = "Suite 301",
+                    PropertyId = 2
+                }
+            }
+        };
+    }
+
     public async Task<OwnerFinancialSummaryDto> GetSampleOwnerFinancialSummaryAsync()
     {
         await Task.Delay(100);

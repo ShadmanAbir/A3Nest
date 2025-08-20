@@ -2,6 +2,7 @@
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:A3Nest.Presentation"
+             xmlns:converters="clr-namespace:A3Nest.Presentation.Converters"
              x:Class="A3Nest.Presentation.App">
     <Application.Resources>
         <ResourceDictionary>
@@ -12,6 +13,10 @@
                 <ResourceDictionary Source="Resources/Styles/ResponsiveStyles.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            
+            <!-- Converters -->
+            <converters:BoolToActiveStatusConverter x:Key="BoolToActiveStatusConverter" />
+            <converters:BoolToStatusColorConverter x:Key="BoolToStatusColorConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

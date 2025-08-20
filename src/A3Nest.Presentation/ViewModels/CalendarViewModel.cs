@@ -4,6 +4,7 @@ using A3Nest.Application.Interfaces;
 using A3Nest.Application.DTOs;
 using A3Nest.Application.Commands.Calendar;
 using A3Nest.Application.Queries.Calendar;
+using A3Nest.Presentation.Services;
 using System.Collections.ObjectModel;
 
 namespace A3Nest.Presentation.ViewModels;
@@ -11,10 +12,12 @@ namespace A3Nest.Presentation.ViewModels;
 public partial class CalendarViewModel : BaseViewModel
 {
     private readonly ICalendarService _calendarService;
+    private readonly ISampleDataService _sampleDataService;
 
-    public CalendarViewModel(ICalendarService calendarService)
+    public CalendarViewModel(ICalendarService calendarService, ISampleDataService sampleDataService)
     {
         _calendarService = calendarService;
+        _sampleDataService = sampleDataService;
         Title = "Calendar";
         
         Events = new ObservableCollection<CalendarEventDto>();
@@ -79,6 +82,8 @@ public partial class CalendarViewModel : BaseViewModel
     [ObservableProperty]
     private bool isSavingEvent;
 
+    public string CurrentMonthYear => CurrentDate.ToString("MMMM yyyy");
+
     public ObservableCollection<CalendarEventDto> Events { get; }
     public ObservableCollection<CalendarEventDto> FilteredEvents { get; }
     public ObservableCollection<CalendarEventDto> UpcomingEvents { get; }
@@ -132,15 +137,11 @@ public partial class CalendarViewModel : BaseViewModel
                 return;
             }
 
-            // Placeholder implementation - would call actual search service
-            await Task.Delay(100); // Simulate async operation
+            // Simulate search delay
+            await Task.Delay(100);
             
-            // In real implementation:
-            // var searchQuery = new SearchCalendarEventsQuery { SearchTerm = SearchText, UserId = CurrentUserId };
-            // var searchResults = await _calendarService.SearchEventsAsync(searchQuery);
-            // FilteredEvents.Clear();
-            // foreach (var eventItem in searchResults)
-            //     FilteredEvents.Add(eventItem);
+            // Apply search filter through existing filter mechanism
+            ApplyFilters();
         }
         catch (Exception ex)
         {
@@ -353,41 +354,49 @@ public partial class CalendarViewModel : BaseViewModel
     {
         Events.Clear();
         
-        // Placeholder implementation - would call actual service based on view
-        await Task.Delay(100); // Simulate async operation
+        // Load sample calendar events
+        var allEvents = await _sampleDataService.GetSampleCalendarEventsAsync();
         
-        // In real implementation:
-        // var events = await _calendarService.GetEventsByDateRangeAsync(
-        //     CurrentUserId, ViewStartDate, ViewEndDate);
-        // foreach (var eventItem in events)
-        //     Events.Add(eventItem);
+        // Filter events based on current view date range
+        var filteredEvents = allEvents.Where(e => 
+            e.StartDate >= ViewStartDate && e.StartDate < ViewEndDate);
+            
+        foreach (var eventItem in filteredEvents)
+        {
+            Events.Add(eventItem);
+        }
     }
 
     private async Task LoadUpcomingEventsAsync()
     {
         UpcomingEvents.Clear();
         
-        // Placeholder implementation - would call actual service
-        await Task.Delay(100); // Simulate async operation
-        
-        // In real implementation:
-        // var upcomingEvents = await _calendarService.GetUpcomingEventsAsync(CurrentUserId, 7);
-        // foreach (var eventItem in upcomingEvents)
-        //     UpcomingEvents.Add(eventItem);
+        // Load sample calendar events and filter for upcoming
+        var allEvents = await _sampleDataService.GetSampleCalendarEventsAsync();
+        var upcomingEvents = allEvents.Where(e => 
+            e.StartDate >= DateTime.Now && e.StartDate <= DateTime.Now.AddDays(7))
+            .OrderBy(e => e.StartDate);
+            
+        foreach (var eventItem in upcomingEvents)
+        {
+            UpcomingEvents.Add(eventItem);
+        }
     }
 
     private async Task LoadTodayEventsAsync()
     {
         TodayEvents.Clear();
         
-        // Placeholder implementation - would call actual service
-        await Task.Delay(100); // Simulate async operation
-        
-        // In real implementation:
-        // var todayEvents = await _calendarService.GetEventsByDateRangeAsync(
-        //     CurrentUserId, DateTime.Today, DateTime.Today.AddDays(1));
-        // foreach (var eventItem in todayEvents)
-        //     TodayEvents.Add(eventItem);
+        // Load sample calendar events and filter for today
+        var allEvents = await _sampleDataService.GetSampleCalendarEventsAsync();
+        var todayEvents = allEvents.Where(e => 
+            e.StartDate.Date == DateTime.Today)
+            .OrderBy(e => e.StartDate);
+            
+        foreach (var eventItem in todayEvents)
+        {
+            TodayEvents.Add(eventItem);
+        }
     }
 
     private void UpdateViewDates()

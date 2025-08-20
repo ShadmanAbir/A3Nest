@@ -40,6 +40,11 @@ public interface ISampleDataService
     Task<IEnumerable<ReportDto>> GetSampleReportsAsync();
 
     /// <summary>
+    /// Gets sample lease application data for demonstration
+    /// </summary>
+    Task<IEnumerable<LeaseApplicationDto>> GetSampleLeaseApplicationsAsync();
+
+    /// <summary>
     /// Gets sample owner financial summary for demonstration
     /// </summary>
     Task<OwnerFinancialSummaryDto> GetSampleOwnerFinancialSummaryAsync();

@@ -4,6 +4,7 @@ using A3Nest.Application.Interfaces;
 using A3Nest.Application.DTOs;
 using A3Nest.Application.Commands.Tenants;
 using A3Nest.Application.Queries.Tenants;
+using A3Nest.Presentation.Services;
 using System.Collections.ObjectModel;
 
 namespace A3Nest.Presentation.ViewModels;
@@ -11,10 +12,12 @@ namespace A3Nest.Presentation.ViewModels;
 public partial class TenantsViewModel : BaseViewModel
 {
     private readonly ITenantService _tenantService;
+    private readonly ISampleDataService _sampleDataService;
 
-    public TenantsViewModel(ITenantService tenantService)
+    public TenantsViewModel(ITenantService tenantService, ISampleDataService sampleDataService)
     {
         _tenantService = tenantService;
+        _sampleDataService = sampleDataService;
         Title = "Tenants";
         
         Tenants = new ObservableCollection<TenantDto>();
@@ -70,18 +73,21 @@ public partial class TenantsViewModel : BaseViewModel
             IsLoading = true;
             ClearError();
 
-            // Placeholder implementation - would call actual service
-            await Task.Delay(100); // Simulate async operation
-            
             Tenants.Clear();
             FilteredTenants.Clear();
 
-            // In real implementation:
-            // var tenants = ShowActiveOnly 
-            //     ? await _tenantService.GetActiveTenantsAsync()
-            //     : await _tenantService.GetTenantsAsync();
-            // foreach (var tenant in tenants)
-            //     Tenants.Add(tenant);
+            // Load sample tenants data
+            var tenants = await _sampleDataService.GetSampleTenantsAsync();
+            
+            // Apply active filter if needed
+            var filteredTenants = ShowActiveOnly 
+                ? tenants.Where(t => t.IsActive)
+                : tenants;
+                
+            foreach (var tenant in filteredTenants)
+            {
+                Tenants.Add(tenant);
+            }
             
             ApplyFilters();
         }
@@ -111,15 +117,11 @@ public partial class TenantsViewModel : BaseViewModel
                 return;
             }
 
-            // Placeholder implementation - would call actual search service
-            await Task.Delay(100); // Simulate async operation
+            // Simulate search delay
+            await Task.Delay(100);
             
-            // In real implementation:
-            // var searchQuery = new SearchTenantsQuery { SearchTerm = SearchText };
-            // var searchResults = await _tenantService.SearchTenantsAsync(searchQuery);
-            // FilteredTenants.Clear();
-            // foreach (var tenant in searchResults)
-            //     FilteredTenants.Add(tenant);
+            // Apply search filter through existing filter mechanism
+            ApplyFilters();
         }
         catch (Exception ex)
         {

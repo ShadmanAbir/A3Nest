@@ -167,7 +167,10 @@
 
 
 
-- [-] 15. Add sample data and navigation functionality
+- [x] 15. Add sample data and navigation functionality
+
+
+
 
 
 
@@ -180,6 +183,9 @@
 
 
 - [-] 16. Create branding assets and splash screen
+
+
+
 
 
   - Design and implement A3Nest logo placeholder

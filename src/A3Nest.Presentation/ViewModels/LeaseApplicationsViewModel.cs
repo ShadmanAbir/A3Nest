@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using A3Nest.Application.Interfaces;
 using A3Nest.Application.DTOs;
 using A3Nest.Domain.Enums;
+using A3Nest.Presentation.Services;
 using System.Collections.ObjectModel;
 
 namespace A3Nest.Presentation.ViewModels;
@@ -11,13 +12,16 @@ public partial class LeaseApplicationsViewModel : BaseViewModel
 {
     private readonly ITenantService _tenantService;
     private readonly IPropertyService _propertyService;
+    private readonly ISampleDataService _sampleDataService;
 
     public LeaseApplicationsViewModel(
         ITenantService tenantService,
-        IPropertyService propertyService)
+        IPropertyService propertyService,
+        ISampleDataService sampleDataService)
     {
         _tenantService = tenantService;
         _propertyService = propertyService;
+        _sampleDataService = sampleDataService;
         Title = "Lease Applications";
         
         LeaseApplications = new ObservableCollection<LeaseApplicationDto>();
@@ -87,16 +91,15 @@ public partial class LeaseApplicationsViewModel : BaseViewModel
             IsLoading = true;
             ClearError();
 
-            // Placeholder implementation - would call actual service
-            await Task.Delay(100); // Simulate async operation
-            
             LeaseApplications.Clear();
             FilteredApplications.Clear();
 
-            // In real implementation:
-            // var applications = await _tenantService.GetLeaseApplicationsAsync();
-            // foreach (var application in applications)
-            //     LeaseApplications.Add(application);
+            // Load sample lease applications data
+            var applications = await _sampleDataService.GetSampleLeaseApplicationsAsync();
+            foreach (var application in applications)
+            {
+                LeaseApplications.Add(application);
+            }
             
             UpdateStatusCounts();
             ApplyFilters();
@@ -127,9 +130,10 @@ public partial class LeaseApplicationsViewModel : BaseViewModel
                 return;
             }
 
-            // Placeholder implementation - would call actual search service
-            await Task.Delay(100); // Simulate async operation
+            // Simulate search delay
+            await Task.Delay(100);
             
+            // Apply search filter through existing filter mechanism
             ApplyFilters();
         }
         catch (Exception ex)

@@ -5,6 +5,7 @@ using A3Nest.Application.DTOs;
 using A3Nest.Application.Commands.Messages;
 using A3Nest.Application.Queries.Messages;
 using A3Nest.Domain.Enums;
+using A3Nest.Presentation.Services;
 using System.Collections.ObjectModel;
 
 namespace A3Nest.Presentation.ViewModels;
@@ -12,10 +13,12 @@ namespace A3Nest.Presentation.ViewModels;
 public partial class MessagingViewModel : BaseViewModel
 {
     private readonly IMessageService _messageService;
+    private readonly ISampleDataService _sampleDataService;
 
-    public MessagingViewModel(IMessageService messageService)
+    public MessagingViewModel(IMessageService messageService, ISampleDataService sampleDataService)
     {
         _messageService = messageService;
+        _sampleDataService = sampleDataService;
         Title = "Messages";
         
         Messages = new ObservableCollection<MessageDto>();
@@ -127,15 +130,11 @@ public partial class MessagingViewModel : BaseViewModel
                 return;
             }
 
-            // Placeholder implementation - would call actual search service
-            await Task.Delay(100); // Simulate async operation
+            // Simulate search delay
+            await Task.Delay(100);
             
-            // In real implementation:
-            // var searchQuery = new SearchMessagesQuery { SearchTerm = SearchText, UserId = CurrentUserId };
-            // var searchResults = await _messageService.SearchMessagesAsync(searchQuery);
-            // FilteredMessages.Clear();
-            // foreach (var message in searchResults)
-            //     FilteredMessages.Add(message);
+            // Apply search filter through existing filter mechanism
+            ApplyFilters();
         }
         catch (Exception ex)
         {
@@ -161,6 +160,12 @@ public partial class MessagingViewModel : BaseViewModel
         NewMessageText = string.Empty;
         NewMessageSubject = string.Empty;
         NewMessageRecipientId = 0;
+    }
+
+    [RelayCommand]
+    private void NewMessage()
+    {
+        StartComposingMessage();
     }
 
     [RelayCommand]
@@ -341,19 +346,22 @@ public partial class MessagingViewModel : BaseViewModel
     {
         Messages.Clear();
         
-        // Placeholder implementation - would call actual service based on selected folder
-        await Task.Delay(100); // Simulate async operation
+        // Load sample messages data
+        var messages = await _sampleDataService.GetSampleMessagesAsync();
         
-        // In real implementation:
-        // var messages = SelectedFolder switch
-        // {
-        //     "Inbox" => await _messageService.GetReceivedMessagesAsync(CurrentUserId),
-        //     "Sent" => await _messageService.GetSentMessagesAsync(CurrentUserId),
-        //     "Unread" => await _messageService.GetUnreadMessagesAsync(CurrentUserId),
-        //     _ => await _messageService.GetMessagesAsync(CurrentUserId)
-        // };
-        // foreach (var message in messages)
-        //     Messages.Add(message);
+        // Filter messages based on selected folder
+        var filteredMessages = SelectedFolder switch
+        {
+            "Inbox" => messages.Where(m => m.ReceiverId == CurrentUserId),
+            "Sent" => messages.Where(m => m.SenderId == CurrentUserId),
+            "Unread" => messages.Where(m => m.ReceiverId == CurrentUserId && !m.IsRead),
+            _ => messages
+        };
+        
+        foreach (var message in filteredMessages)
+        {
+            Messages.Add(message);
+        }
         
         ApplyFilters();
     }

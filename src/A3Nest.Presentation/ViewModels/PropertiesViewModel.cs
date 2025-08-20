@@ -4,6 +4,7 @@ using A3Nest.Application.Interfaces;
 using A3Nest.Application.DTOs;
 using A3Nest.Application.Commands.Properties;
 using A3Nest.Application.Queries.Properties;
+using A3Nest.Presentation.Services;
 using System.Collections.ObjectModel;
 
 namespace A3Nest.Presentation.ViewModels;
@@ -11,10 +12,12 @@ namespace A3Nest.Presentation.ViewModels;
 public partial class PropertiesViewModel : BaseViewModel
 {
     private readonly IPropertyService _propertyService;
+    private readonly ISampleDataService _sampleDataService;
 
-    public PropertiesViewModel(IPropertyService propertyService)
+    public PropertiesViewModel(IPropertyService propertyService, ISampleDataService sampleDataService)
     {
         _propertyService = propertyService;
+        _sampleDataService = sampleDataService;
         Title = "Properties";
         
         Properties = new ObservableCollection<PropertyDto>();
@@ -68,16 +71,15 @@ public partial class PropertiesViewModel : BaseViewModel
             IsLoading = true;
             ClearError();
 
-            // Placeholder implementation - would call actual service
-            await Task.Delay(100); // Simulate async operation
-            
             Properties.Clear();
             FilteredProperties.Clear();
 
-            // In real implementation:
-            // var properties = await _propertyService.GetPropertiesAsync();
-            // foreach (var property in properties)
-            //     Properties.Add(property);
+            // Load sample properties data
+            var properties = await _sampleDataService.GetSamplePropertiesAsync();
+            foreach (var property in properties)
+            {
+                Properties.Add(property);
+            }
             
             ApplyFilters();
         }
@@ -107,15 +109,11 @@ public partial class PropertiesViewModel : BaseViewModel
                 return;
             }
 
-            // Placeholder implementation - would call actual search service
-            await Task.Delay(100); // Simulate async operation
+            // Simulate search delay
+            await Task.Delay(100);
             
-            // In real implementation:
-            // var searchQuery = new SearchPropertiesQuery { SearchTerm = SearchText };
-            // var searchResults = await _propertyService.SearchPropertiesAsync(searchQuery);
-            // FilteredProperties.Clear();
-            // foreach (var property in searchResults)
-            //     FilteredProperties.Add(property);
+            // Apply search filter through existing filter mechanism
+            ApplyFilters();
         }
         catch (Exception ex)
         {

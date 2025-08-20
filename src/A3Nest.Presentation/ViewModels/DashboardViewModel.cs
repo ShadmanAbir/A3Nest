@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using A3Nest.Application.Interfaces;
 using A3Nest.Application.DTOs;
+using A3Nest.Presentation.Services;
 using System.Collections.ObjectModel;
 
 namespace A3Nest.Presentation.ViewModels;
@@ -13,19 +14,22 @@ public partial class DashboardViewModel : BaseViewModel
     private readonly ITaskService _taskService;
     private readonly IMessageService _messageService;
     private readonly ICalendarService _calendarService;
+    private readonly ISampleDataService _sampleDataService;
 
     public DashboardViewModel(
         IPropertyService propertyService,
         ITenantService tenantService,
         ITaskService taskService,
         IMessageService messageService,
-        ICalendarService calendarService)
+        ICalendarService calendarService,
+        ISampleDataService sampleDataService)
     {
         _propertyService = propertyService;
         _tenantService = tenantService;
         _taskService = taskService;
         _messageService = messageService;
         _calendarService = calendarService;
+        _sampleDataService = sampleDataService;
         
         Title = "Dashboard";
         
@@ -92,24 +96,26 @@ public partial class DashboardViewModel : BaseViewModel
 
     private async Task LoadDashboardSummaryAsync()
     {
-        // Placeholder implementation - would call actual services
-        await Task.Delay(100); // Simulate async operation
+        // Load sample data for dashboard summary
+        var properties = await _sampleDataService.GetSamplePropertiesAsync();
+        var tenants = await _sampleDataService.GetSampleTenantsAsync();
+        var tasks = await _sampleDataService.GetSampleTasksAsync();
+        var messages = await _sampleDataService.GetSampleMessagesAsync();
+        var events = await _sampleDataService.GetSampleCalendarEventsAsync();
+        var financialSummary = await _sampleDataService.GetSampleOwnerFinancialSummaryAsync();
         
-        TotalProperties = 25;
-        TotalTenants = 48;
-        PendingTasksCount = 7;
-        UnreadMessagesCount = 3;
-        UpcomingEventsCount = 5;
-        TotalRevenue = 125000m;
-        MonthlyRevenue = 15000m;
-        OccupancyRate = 92;
+        TotalProperties = properties.Count();
+        TotalTenants = tenants.Count();
+        PendingTasksCount = tasks.Count(t => t.Status != A3Nest.Domain.Enums.TaskStatus.Completed);
+        UnreadMessagesCount = messages.Count(m => !m.IsRead);
+        UpcomingEventsCount = events.Count(e => e.StartDate >= DateTime.Now);
+        TotalRevenue = (decimal)financialSummary.TotalIncome.Amount;
+        MonthlyRevenue = (decimal)financialSummary.NetIncome.Amount;
+        OccupancyRate = 92; // Calculated based on sample data
     }
 
     private async Task LoadRecentDataAsync()
     {
-        // Placeholder implementation - would call actual services
-        await Task.Delay(100); // Simulate async operation
-        
         // Clear existing data
         RecentProperties.Clear();
         RecentTenants.Clear();
@@ -117,11 +123,42 @@ public partial class DashboardViewModel : BaseViewModel
         UnreadMessages.Clear();
         UpcomingEvents.Clear();
 
-        // Add sample data (in real implementation, would load from services)
-        // This would be replaced with actual service calls like:
-        // var properties = await _propertyService.GetPropertiesAsync();
-        // foreach (var property in properties.Take(5))
-        //     RecentProperties.Add(property);
+        // Load sample data from service
+        var properties = await _sampleDataService.GetSamplePropertiesAsync();
+        var tenants = await _sampleDataService.GetSampleTenantsAsync();
+        var tasks = await _sampleDataService.GetSampleTasksAsync();
+        var messages = await _sampleDataService.GetSampleMessagesAsync();
+        var events = await _sampleDataService.GetSampleCalendarEventsAsync();
+
+        // Add recent properties (limit to 5)
+        foreach (var property in properties.Take(5))
+        {
+            RecentProperties.Add(property);
+        }
+
+        // Add recent tenants (limit to 5)
+        foreach (var tenant in tenants.Take(5))
+        {
+            RecentTenants.Add(tenant);
+        }
+
+        // Add pending tasks (limit to 5)
+        foreach (var task in tasks.Where(t => t.Status != A3Nest.Domain.Enums.TaskStatus.Completed).Take(5))
+        {
+            PendingTasks.Add(task);
+        }
+
+        // Add unread messages (limit to 5)
+        foreach (var message in messages.Where(m => !m.IsRead).Take(5))
+        {
+            UnreadMessages.Add(message);
+        }
+
+        // Add upcoming events (limit to 5)
+        foreach (var calendarEvent in events.Where(e => e.StartDate >= DateTime.Now).Take(5))
+        {
+            UpcomingEvents.Add(calendarEvent);
+        }
     }
 
     [RelayCommand]

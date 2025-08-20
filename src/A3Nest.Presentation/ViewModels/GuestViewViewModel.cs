@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using A3Nest.Application.Interfaces;
 using A3Nest.Application.DTOs;
+using A3Nest.Presentation.Services;
 using System.Collections.ObjectModel;
 
 namespace A3Nest.Presentation.ViewModels;
@@ -9,10 +10,12 @@ namespace A3Nest.Presentation.ViewModels;
 public partial class GuestViewViewModel : BaseViewModel
 {
     private readonly IPropertyService _propertyService;
+    private readonly ISampleDataService _sampleDataService;
 
-    public GuestViewViewModel(IPropertyService propertyService)
+    public GuestViewViewModel(IPropertyService propertyService, ISampleDataService sampleDataService)
     {
         _propertyService = propertyService;
+        _sampleDataService = sampleDataService;
         Title = "Property Search";
         
         AvailableProperties = new ObservableCollection<PropertyDto>();
@@ -157,9 +160,10 @@ public partial class GuestViewViewModel : BaseViewModel
                 return;
             }
 
-            // Placeholder implementation - would call actual search service
-            await Task.Delay(100); // Simulate async operation
+            // Simulate search delay
+            await Task.Delay(100);
             
+            // Apply search filter through existing filter mechanism
             ApplyFilters();
         }
         catch (Exception ex)
@@ -349,26 +353,24 @@ public partial class GuestViewViewModel : BaseViewModel
     {
         AvailableProperties.Clear();
         
-        // Placeholder implementation - would call actual service
-        await Task.Delay(100); // Simulate async operation
-        
-        // In real implementation:
-        // var properties = await _propertyService.GetAvailablePropertiesAsync();
-        // foreach (var property in properties)
-        //     AvailableProperties.Add(property);
+        // Load sample properties data
+        var properties = await _sampleDataService.GetSamplePropertiesAsync();
+        foreach (var property in properties)
+        {
+            AvailableProperties.Add(property);
+        }
     }
 
     private async Task LoadFeaturedPropertiesAsync()
     {
         FeaturedProperties.Clear();
         
-        // Placeholder implementation - would call actual service
-        await Task.Delay(100); // Simulate async operation
-        
-        // In real implementation:
-        // var featuredProperties = await _propertyService.GetFeaturedPropertiesAsync();
-        // foreach (var property in featuredProperties)
-        //     FeaturedProperties.Add(property);
+        // Load sample properties data and mark first two as featured
+        var properties = await _sampleDataService.GetSamplePropertiesAsync();
+        foreach (var property in properties.Take(2))
+        {
+            FeaturedProperties.Add(property);
+        }
     }
 
     private void ApplyFilters()

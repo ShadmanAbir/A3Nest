@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using A3Nest.Application.Interfaces;
 using A3Nest.Application.DTOs;
+using A3Nest.Presentation.Services;
 using System.Collections.ObjectModel;
 
 namespace A3Nest.Presentation.ViewModels;
@@ -11,15 +12,18 @@ public partial class OwnerPortalViewModel : BaseViewModel
     private readonly IOwnerPortalService _ownerPortalService;
     private readonly IPropertyService _propertyService;
     private readonly ITenantService _tenantService;
+    private readonly ISampleDataService _sampleDataService;
 
     public OwnerPortalViewModel(
         IOwnerPortalService ownerPortalService,
         IPropertyService propertyService,
-        ITenantService tenantService)
+        ITenantService tenantService,
+        ISampleDataService sampleDataService)
     {
         _ownerPortalService = ownerPortalService;
         _propertyService = propertyService;
         _tenantService = tenantService;
+        _sampleDataService = sampleDataService;
         Title = "Owner Portal";
         
         OwnerProperties = new ObservableCollection<PropertyDto>();
@@ -118,12 +122,8 @@ public partial class OwnerPortalViewModel : BaseViewModel
             IsLoadingFinancials = true;
             ClearError();
 
-            // Placeholder implementation - would call actual service
-            await Task.Delay(100); // Simulate async operation
-            
-            // In real implementation:
-            // FinancialSummary = await _ownerPortalService.GetOwnerFinancialSummaryAsync(
-            //     CurrentOwnerId, FinancialStartDate, FinancialEndDate);
+            // Load sample financial summary data
+            FinancialSummary = await _sampleDataService.GetSampleOwnerFinancialSummaryAsync();
         }
         catch (Exception ex)
         {
@@ -262,80 +262,74 @@ public partial class OwnerPortalViewModel : BaseViewModel
 
     private async Task LoadOwnerPropertiesAsync()
     {
-        // Placeholder implementation - would call actual service
-        await Task.Delay(100); // Simulate async operation
-        
         OwnerProperties.Clear();
         
-        // In real implementation:
-        // var properties = await _ownerPortalService.GetOwnerPropertiesAsync(CurrentOwnerId);
-        // foreach (var property in properties)
-        //     OwnerProperties.Add(property);
+        // Load sample properties data
+        var properties = await _sampleDataService.GetSamplePropertiesAsync();
+        foreach (var property in properties)
+        {
+            OwnerProperties.Add(property);
+        }
     }
 
     private async Task LoadOwnerTenantsAsync()
     {
-        // Placeholder implementation - would call actual service
-        await Task.Delay(100); // Simulate async operation
-        
         OwnerTenants.Clear();
         
-        // In real implementation:
-        // var tenants = await _ownerPortalService.GetOwnerTenantsAsync(CurrentOwnerId);
-        // foreach (var tenant in tenants)
-        //     OwnerTenants.Add(tenant);
+        // Load sample tenants data
+        var tenants = await _sampleDataService.GetSampleTenantsAsync();
+        foreach (var tenant in tenants)
+        {
+            OwnerTenants.Add(tenant);
+        }
     }
 
     private async Task LoadOwnerLeaseApplicationsAsync()
     {
-        // Placeholder implementation - would call actual service
-        await Task.Delay(100); // Simulate async operation
-        
         OwnerLeaseApplications.Clear();
         
-        // In real implementation:
-        // var applications = await _ownerPortalService.GetOwnerLeaseApplicationsAsync(CurrentOwnerId);
-        // foreach (var application in applications)
-        //     OwnerLeaseApplications.Add(application);
+        // Load sample lease applications data
+        var applications = await _sampleDataService.GetSampleLeaseApplicationsAsync();
+        foreach (var application in applications)
+        {
+            OwnerLeaseApplications.Add(application);
+        }
     }
 
     private async Task LoadOwnerReportsAsync()
     {
-        // Placeholder implementation - would call actual service
-        await Task.Delay(100); // Simulate async operation
-        
         OwnerReports.Clear();
         
-        // In real implementation:
-        // var reports = await _ownerPortalService.GetOwnerReportsAsync(CurrentOwnerId);
-        // foreach (var report in reports)
-        //     OwnerReports.Add(report);
+        // Load sample reports data
+        var reports = await _sampleDataService.GetSampleReportsAsync();
+        foreach (var report in reports)
+        {
+            OwnerReports.Add(report);
+        }
     }
 
     private async Task LoadOwnerTasksAsync()
     {
-        // Placeholder implementation - would call actual service
-        await Task.Delay(100); // Simulate async operation
-        
         OwnerTasks.Clear();
         
-        // In real implementation:
-        // var tasks = await _ownerPortalService.GetOwnerTasksAsync(CurrentOwnerId);
-        // foreach (var task in tasks)
-        //     OwnerTasks.Add(task);
+        // Load sample tasks data
+        var tasks = await _sampleDataService.GetSampleTasksAsync();
+        foreach (var task in tasks)
+        {
+            OwnerTasks.Add(task);
+        }
     }
 
     private async Task LoadOwnerMessagesAsync()
     {
-        // Placeholder implementation - would call actual service
-        await Task.Delay(100); // Simulate async operation
-        
         OwnerMessages.Clear();
         
-        // In real implementation:
-        // var messages = await _ownerPortalService.GetOwnerMessagesAsync(CurrentOwnerId);
-        // foreach (var message in messages)
-        //     OwnerMessages.Add(message);
+        // Load sample messages data
+        var messages = await _sampleDataService.GetSampleMessagesAsync();
+        foreach (var message in messages)
+        {
+            OwnerMessages.Add(message);
+        }
     }
 
     private void UpdateDateRangeFromSelection()
