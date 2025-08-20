@@ -21,7 +21,9 @@
   - Define UserRole, PropertyType, LeaseStatus, TaskStatus, MessageType enums
   - _Requirements: 7.1, 7.2, 7.3_
 
-- [-] 3. Create Application layer service interfaces and DTOs
+- [x] 3. Create Application layer service interfaces and DTOs
+
+
 
 
 
@@ -30,7 +32,9 @@
   - Implement Commands and Queries stubs for CRUD operations with NotImplementedException
   - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5_
 
-- [ ] 4. Set up Infrastructure layer with EF Core DbContext
+
+- [-] 4. Set up Infrastructure layer with EF Core DbContext
+
 
   - Create A3NestDbContext with all entity DbSets
   - Configure entity relationships: Property→Units (1:N), Tenant→LeaseApplications (1:N), Role→Users (1:N)
