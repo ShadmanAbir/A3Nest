@@ -1,4 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="456" height="456" viewBox="0 0 456 456" version="1.1" xmlns="http://www.w3.org/2000/svg">
-    <rect x="0" y="0" width="456" height="456" fill="#512BD4" />
+    <!-- Background -->
+    <rect x="0" y="0" width="456" height="456" fill="#2E7D32" rx="64" />
+    
+    <!-- House/Building Icon -->
+    <g transform="translate(78, 78)">
+        <!-- Main building structure -->
+        <rect x="50" y="120" width="200" height="180" fill="#FFFFFF" rx="8" />
+        
+        <!-- Roof -->
+        <polygon points="40,120 150,40 260,120" fill="#1B5E20" />
+        
+        <!-- Door -->
+        <rect x="130" y="220" width="40" height="80" fill="#2E7D32" rx="4" />
+        <circle cx="160" cy="260" r="3" fill="#FFFFFF" />
+        
+        <!-- Windows -->
+        <rect x="80" y="160" width="30" height="30" fill="#81C784" rx="4" />
+        <rect x="190" y="160" width="30" height="30" fill="#81C784" rx="4" />
+        <rect x="80" y="220" width="30" height="30" fill="#81C784" rx="4" />
+        <rect x="190" y="220" width="30" height="30" fill="#81C784" rx="4" />
+        
+        <!-- A3 Text -->
+        <text x="150" y="340" font-family="Arial, sans-serif" font-size="36" font-weight="bold" text-anchor="middle" fill="#2E7D32">A3</text>
+    </g>
 </svg>

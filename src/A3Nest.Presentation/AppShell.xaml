@@ -8,61 +8,61 @@
     FlyoutBehavior="Flyout">
 
     <!-- Desktop Navigation - FlyoutItems for sidebar navigation -->
-    <FlyoutItem Title="Dashboard" Icon="dashboard_icon.png">
+    <FlyoutItem Title="Dashboard" Icon="dashboard_icon.svg">
         <ShellContent Route="dashboard" ContentTemplate="{DataTemplate pages:DashboardPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Properties" Icon="properties_icon.png">
+    <FlyoutItem Title="Properties" Icon="properties_icon.svg">
         <ShellContent Route="properties" ContentTemplate="{DataTemplate pages:PropertiesPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Tenants" Icon="tenants_icon.png">
+    <FlyoutItem Title="Tenants" Icon="tenants_icon.svg">
         <ShellContent Route="tenants" ContentTemplate="{DataTemplate pages:TenantsPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Lease Applications" Icon="applications_icon.png">
+    <FlyoutItem Title="Lease Applications" Icon="properties_icon.svg">
         <ShellContent Route="leaseapplications" ContentTemplate="{DataTemplate pages:LeaseApplicationsPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Owner Portal" Icon="owner_icon.png">
+    <FlyoutItem Title="Owner Portal" Icon="properties_icon.svg">
         <ShellContent Route="ownerportal" ContentTemplate="{DataTemplate pages:OwnerPortalPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Messaging" Icon="messages_icon.png">
+    <FlyoutItem Title="Messaging" Icon="messaging_icon.svg">
         <ShellContent Route="messaging" ContentTemplate="{DataTemplate pages:MessagingPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Calendar" Icon="calendar_icon.png">
+    <FlyoutItem Title="Calendar" Icon="calendar_icon.svg">
         <ShellContent Route="calendar" ContentTemplate="{DataTemplate pages:CalendarPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Settings" Icon="settings_icon.png">
+    <FlyoutItem Title="Settings" Icon="settings_icon.svg">
         <ShellContent Route="settings" ContentTemplate="{DataTemplate pages:SettingsPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Guest View" Icon="guest_icon.png">
+    <FlyoutItem Title="Guest View" Icon="tenants_icon.svg">
         <ShellContent Route="guestview" ContentTemplate="{DataTemplate pages:GuestViewPage}" />
     </FlyoutItem>
 
     <!-- Mobile Navigation - TabBar for bottom navigation -->
     <TabBar x:Name="MobileTabBar">
-        <Tab Title="Dashboard" Icon="dashboard_icon.png">
+        <Tab Title="Dashboard" Icon="dashboard_icon.svg">
             <ShellContent Route="dashboard_mobile" ContentTemplate="{DataTemplate pages:DashboardPage}" />
         </Tab>
         
-        <Tab Title="Properties" Icon="properties_icon.png">
+        <Tab Title="Properties" Icon="properties_icon.svg">
             <ShellContent Route="properties_mobile" ContentTemplate="{DataTemplate pages:PropertiesPage}" />
         </Tab>
         
-        <Tab Title="Tenants" Icon="tenants_icon.png">
+        <Tab Title="Tenants" Icon="tenants_icon.svg">
             <ShellContent Route="tenants_mobile" ContentTemplate="{DataTemplate pages:TenantsPage}" />
         </Tab>
         
-        <Tab Title="Messages" Icon="messages_icon.png">
+        <Tab Title="Messages" Icon="messaging_icon.svg">
             <ShellContent Route="messaging_mobile" ContentTemplate="{DataTemplate pages:MessagingPage}" />
         </Tab>
         
-        <Tab Title="More" Icon="more_icon.png">
+        <Tab Title="More" Icon="settings_icon.svg">
             <ShellContent Route="settings_mobile" ContentTemplate="{DataTemplate pages:SettingsPage}" />
         </Tab>
     </TabBar>

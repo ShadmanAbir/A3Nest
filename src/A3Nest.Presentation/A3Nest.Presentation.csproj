@@ -21,14 +21,20 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>A3Nest.Presentation</ApplicationTitle>
+		<ApplicationTitle>A3Nest</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.a3nest.presentation</ApplicationId>
+		<ApplicationId>com.a3nest.propertymanagement</ApplicationId>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
+
+		<!-- App Description -->
+		<Description>A3Nest - Comprehensive Property Management Solution</Description>
+		<Product>A3Nest Property Management</Product>
+		<Company>A3Nest</Company>
+		<Copyright>Copyright © 2024 A3Nest. All rights reserved.</Copyright>
 
 		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
 		<WindowsPackageType>None</WindowsPackageType>
@@ -43,14 +49,21 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#2E7D32" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#E8F5E8" BaseSize="200,200" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
 		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
+		<MauiImage Update="Resources\Images\a3nest_logo.svg" />
+		<MauiImage Update="Resources\Images\dashboard_icon.svg" />
+		<MauiImage Update="Resources\Images\properties_icon.svg" />
+		<MauiImage Update="Resources\Images\tenants_icon.svg" />
+		<MauiImage Update="Resources\Images\calendar_icon.svg" />
+		<MauiImage Update="Resources\Images\messaging_icon.svg" />
+		<MauiImage Update="Resources\Images\settings_icon.svg" />
 		
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />

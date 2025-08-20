@@ -119,6 +119,7 @@ public static class MauiProgram
         services.AddSingleton<IErrorHandlingService, ErrorHandlingService>();
         services.AddSingleton<ISampleDataService, SampleDataService>();
         services.AddSingleton<IStartupService, StartupService>();
+        services.AddSingleton<IBrandingService, BrandingService>();
     }
 
     private static void ConfigureViewModels(IServiceCollection services)

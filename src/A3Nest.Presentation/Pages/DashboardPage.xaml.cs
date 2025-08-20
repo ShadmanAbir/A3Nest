@@ -7,11 +7,13 @@ namespace A3Nest.Presentation.Pages;
 public partial class DashboardPage : ContentPage
 {
     private readonly IResponsiveLayoutService _responsiveLayoutService;
+    private readonly DashboardViewModel _viewModel;
 
     public DashboardPage(DashboardViewModel viewModel, IResponsiveLayoutService responsiveLayoutService)
     {
         InitializeComponent();
-        BindingContext = viewModel;
+        _viewModel = viewModel;
+        BindingContext = _viewModel;
         _responsiveLayoutService = responsiveLayoutService;
         
         // Subscribe to layout changes
@@ -31,6 +33,14 @@ public partial class DashboardPage : ContentPage
         // For now, just log the device type change
         // More complex responsive layout changes can be implemented later
         System.Diagnostics.Debug.WriteLine($"Device type changed to: {deviceType}");
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        
+        // Load sample data when page appears
+        await _viewModel.LoadAsync();
     }
 
     protected override void OnDisappearing()
