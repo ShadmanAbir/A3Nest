@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView x:Class="A3Nest.Presentation.Components.SearchBar"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Border BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+            Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+            StrokeThickness="1"
+            StrokeShape="RoundRectangle 8"
+            Padding="12,8">
+        <Grid ColumnDefinitions="Auto,*,Auto,Auto">
+            <!-- Search Icon -->
+            <Image Grid.Column="0"
+                   Source="search_icon.svg"
+                   WidthRequest="20"
+                   HeightRequest="20"
+                   VerticalOptions="Center"
+                   Margin="0,0,8,0"
+                   Opacity="0.6" />
+
+            <!-- Search Entry -->
+            <Entry x:Name="SearchEntry"
+                   Grid.Column="1"
+                   Text="{Binding Source={x:Reference SearchBarView}, Path=SearchText, Mode=TwoWay}"
+                   Placeholder="{Binding Source={x:Reference SearchBarView}, Path=Placeholder}"
+                   BackgroundColor="Transparent"
+                   VerticalOptions="Center"
+                   FontSize="16"
+                   ReturnType="Search"
+                   ReturnCommand="{Binding Source={x:Reference SearchBarView}, Path=SearchCommand}"
+                   ReturnCommandParameter="{Binding Source={x:Reference SearchBarView}, Path=SearchText}"
+                   TextChanged="OnSearchTextChanged" />
+
+            <!-- Clear Button -->
+            <Button x:Name="ClearButton"
+                    Grid.Column="2"
+                    Text="✕"
+                    BackgroundColor="Transparent"
+                    TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
+                    FontSize="16"
+                    WidthRequest="32"
+                    HeightRequest="32"
+                    Padding="0"
+                    Margin="4,0"
+                    Command="{Binding Source={x:Reference SearchBarView}, Path=ClearCommand}"
+                    IsVisible="{Binding Source={x:Reference SearchBarView}, Path=HasSearchText}" />
+
+            <!-- Search Button -->
+            <Button x:Name="SearchButton"
+                    Grid.Column="3"
+                    Text="Search"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                    TextColor="White"
+                    FontSize="14"
+                    Padding="12,6"
+                    CornerRadius="6"
+                    Command="{Binding Source={x:Reference SearchBarView}, Path=SearchCommand}"
+                    CommandParameter="{Binding Source={x:Reference SearchBarView}, Path=SearchText}"
+                    IsVisible="{Binding Source={x:Reference SearchBarView}, Path=ShowSearchButton}" />
+        </Grid>
+    </Border>
+</ContentView>

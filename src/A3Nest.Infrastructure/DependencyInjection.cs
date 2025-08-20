@@ -1,8 +1,12 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using A3Nest.Application.Interfaces;
 using A3Nest.Infrastructure.Data;
 using A3Nest.Infrastructure.Repositories;
+using A3Nest.Infrastructure.Hubs;
+using A3Nest.Infrastructure.Search;
+using A3Nest.Infrastructure.ExternalServices;
 
 namespace A3Nest.Infrastructure;
 
@@ -25,11 +29,30 @@ public static class DependencyInjection
         services.AddScoped<ICalendarService, CalendarRepository>();
         services.AddScoped<IOwnerPortalService, OwnerPortalRepository>();
 
-        // Additional infrastructure services will be added here in future tasks
-        // - SignalR hubs
-        // - Elasticsearch services
-        // - External service adapters
+        // Add SignalR services
+        services.AddSignalR();
+
+        // Add Elasticsearch services
+        services.AddElasticsearch(configuration);
+        services.AddScoped<IElasticsearchIndexer, ElasticsearchIndexer>();
+
+        // Add External Service Adapters
+        services.AddScoped<IEmailService, EmailServiceAdapter>();
+        services.AddScoped<IPushNotificationService, PushNotificationServiceAdapter>();
 
         return services;
     }
-}
+
+    /// <summary>
+    /// Extension method to configure SignalR hub endpoints
+    /// This should be called from the Presentation layer in the Configure method
+    /// </summary>
+    /// <param name="app">The application builder</param>
+    /// <returns>The application builder for chaining</returns>
+    public static IApplicationBuilder UseSignalRHubs(this IApplicationBuilder app)
+    {
+        // Note: This method is intended to be used in ASP.NET Core applications
+        // For MAUI applications, SignalR client configuration will be handled differently
+        // This is provided as a placeholder for future server-side implementation
+        throw new NotImplementedException("SignalR hub endpoint configuration will be implemented when server-side hosting is added");
+    }}

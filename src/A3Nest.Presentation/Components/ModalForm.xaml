@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView x:Class="A3Nest.Presentation.Components.ModalForm"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             IsVisible="{Binding Source={x:Reference ModalFormView}, Path=IsVisible}">
+    
+    <!-- Modal Overlay -->
+    <Grid BackgroundColor="Black"
+          Opacity="0.5">
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding Source={x:Reference ModalFormView}, Path=CloseCommand}" />
+        </Grid.GestureRecognizers>
+        
+        <!-- Modal Content Container -->
+        <Border BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+                Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 12"
+                WidthRequest="{Binding Source={x:Reference ModalFormView}, Path=ModalWidth}"
+                HeightRequest="{Binding Source={x:Reference ModalFormView}, Path=ModalHeight}"
+                MaximumWidthRequest="600"
+                MaximumHeightRequest="800"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Margin="20">
+            
+            <Border.Shadow>
+                <Shadow Brush="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray800}}"
+                        Offset="0,4"
+                        Radius="12"
+                        Opacity="0.4" />
+            </Border.Shadow>
+
+            <Grid RowDefinitions="Auto,*,Auto"
+                  Padding="0">
+                
+                <!-- Header -->
+                <Border Grid.Row="0"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                        StrokeShape="RoundRectangle 12,12,0,0"
+                        Padding="20,16">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Grid.Column="0"
+                               Text="{Binding Source={x:Reference ModalFormView}, Path=Title}"
+                               FontSize="20"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                        
+                        <Button Grid.Column="1"
+                                Text="✕"
+                                BackgroundColor="Transparent"
+                                TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                                FontSize="18"
+                                WidthRequest="32"
+                                HeightRequest="32"
+                                Padding="0"
+                                Command="{Binding Source={x:Reference ModalFormView}, Path=CloseCommand}" />
+                    </Grid>
+                </Border>
+
+                <!-- Content Area -->
+                <ScrollView Grid.Row="1"
+                            Padding="20">
+                    <StackLayout Spacing="16">
+                        <!-- Form Fields Container -->
+                        <StackLayout x:Name="FormFieldsContainer"
+                                     Spacing="12"
+                                     BindableLayout.ItemsSource="{Binding Source={x:Reference ModalFormView}, Path=FormFields}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <StackLayout Spacing="4">
+                                        <Label Text="{Binding Label}"
+                                               FontSize="14"
+                                               FontAttributes="Bold"
+                                               TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
+                                        
+                                        <!-- Entry Field -->
+                                        <Entry Text="{Binding Value, Mode=TwoWay}"
+                                               Placeholder="{Binding Placeholder}"
+                                               Keyboard="{Binding KeyboardType}"
+                                               IsPassword="{Binding IsPassword}"
+                                               IsEnabled="{Binding IsEnabled}"
+                                               IsVisible="{Binding IsEntry}"
+                                               BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
+                                               FontSize="16" />
+                                        
+                                        <!-- Editor Field -->
+                                        <Editor Text="{Binding Value, Mode=TwoWay}"
+                                                Placeholder="{Binding Placeholder}"
+                                                IsEnabled="{Binding IsEnabled}"
+                                                IsVisible="{Binding IsEditor}"
+                                                HeightRequest="100"
+                                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
+                                                FontSize="16" />
+                                        
+                                        <!-- Picker Field -->
+                                        <Picker ItemsSource="{Binding PickerItems}"
+                                                SelectedItem="{Binding Value, Mode=TwoWay}"
+                                                Title="{Binding Placeholder}"
+                                                IsEnabled="{Binding IsEnabled}"
+                                                IsVisible="{Binding IsPicker}"
+                                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
+                                                FontSize="16" />
+                                        
+                                        <!-- DatePicker Field -->
+                                        <DatePicker Date="{Binding DateValue, Mode=TwoWay}"
+                                                    IsEnabled="{Binding IsEnabled}"
+                                                    IsVisible="{Binding IsDatePicker}"
+                                                    BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
+                                                    FontSize="16" />
+                                        
+                                        <!-- Switch Field -->
+                                        <Switch IsToggled="{Binding BoolValue, Mode=TwoWay}"
+                                                IsEnabled="{Binding IsEnabled}"
+                                                IsVisible="{Binding IsSwitch}"
+                                                HorizontalOptions="Start" />
+                                        
+                                        <!-- Validation Error -->
+                                        <Label Text="{Binding ValidationError}"
+                                               TextColor="Red"
+                                               FontSize="12"
+                                               IsVisible="{Binding HasValidationError}" />
+                                    </StackLayout>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </StackLayout>
+
+                        <!-- Custom Content Area -->
+                        <ContentPresenter Content="{Binding Source={x:Reference ModalFormView}, Path=CustomContent}" />
+                    </StackLayout>
+                </ScrollView>
+
+                <!-- Footer Buttons -->
+                <Border Grid.Row="2"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                        StrokeShape="RoundRectangle 0,0,12,12"
+                        Padding="20,16">
+                    <Grid ColumnDefinitions="*,Auto,Auto"
+                          ColumnSpacing="12">
+                        
+                        <!-- Loading Indicator -->
+                        <ActivityIndicator Grid.Column="0"
+                                           IsRunning="{Binding Source={x:Reference ModalFormView}, Path=IsLoading}"
+                                           IsVisible="{Binding Source={x:Reference ModalFormView}, Path=IsLoading}"
+                                           Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                                           HorizontalOptions="Start"
+                                           VerticalOptions="Center" />
+                        
+                        <!-- Cancel Button -->
+                        <Button Grid.Column="1"
+                                Text="{Binding Source={x:Reference ModalFormView}, Path=CancelButtonText}"
+                                BackgroundColor="Transparent"
+                                TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                                BorderColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                                BorderWidth="1"
+                                Padding="20,10"
+                                CornerRadius="6"
+                                Command="{Binding Source={x:Reference ModalFormView}, Path=CancelCommand}"
+                                IsEnabled="{Binding Source={x:Reference ModalFormView}, Path=IsNotLoading}" />
+                        
+                        <!-- Submit Button -->
+                        <Button Grid.Column="2"
+                                Text="{Binding Source={x:Reference ModalFormView}, Path=SubmitButtonText}"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                                TextColor="White"
+                                Padding="20,10"
+                                CornerRadius="6"
+                                Command="{Binding Source={x:Reference ModalFormView}, Path=SubmitCommand}"
+                                IsEnabled="{Binding Source={x:Reference ModalFormView}, Path=CanSubmit}" />
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</ContentView>

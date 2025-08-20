@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView x:Class="A3Nest.Presentation.Components.CardWidget"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Border BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+            Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+            StrokeThickness="1"
+            StrokeShape="RoundRectangle 12"
+            Padding="16">
+        <Border.Shadow>
+            <Shadow Brush="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray800}}"
+                    Offset="0,2"
+                    Radius="4"
+                    Opacity="0.3" />
+        </Border.Shadow>
+        
+        <Grid RowDefinitions="Auto,*,Auto">
+            <!-- Header Section -->
+            <Grid Grid.Row="0" 
+                  ColumnDefinitions="*,Auto"
+                  Margin="0,0,0,12">
+                <Label x:Name="TitleLabel"
+                       Text="{Binding Source={x:Reference CardWidgetView}, Path=Title}"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                
+                <Image x:Name="IconImage"
+                       Grid.Column="1"
+                       Source="{Binding Source={x:Reference CardWidgetView}, Path=IconSource}"
+                       WidthRequest="24"
+                       HeightRequest="24"
+                       VerticalOptions="Center"
+                       IsVisible="{Binding Source={x:Reference CardWidgetView}, Path=HasIcon}" />
+            </Grid>
+
+            <!-- Content Section -->
+            <StackLayout Grid.Row="1" 
+                         x:Name="ContentContainer"
+                         Spacing="8">
+                <!-- Primary Value Display -->
+                <Label x:Name="PrimaryValueLabel"
+                       Text="{Binding Source={x:Reference CardWidgetView}, Path=PrimaryValue}"
+                       FontSize="32"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Start"
+                       TextColor="{Binding Source={x:Reference CardWidgetView}, Path=PrimaryValueColor}"
+                       IsVisible="{Binding Source={x:Reference CardWidgetView}, Path=HasPrimaryValue}" />
+
+                <!-- Secondary Value Display -->
+                <Label x:Name="SecondaryValueLabel"
+                       Text="{Binding Source={x:Reference CardWidgetView}, Path=SecondaryValue}"
+                       FontSize="14"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                       IsVisible="{Binding Source={x:Reference CardWidgetView}, Path=HasSecondaryValue}" />
+
+                <!-- Custom Content Area -->
+                <ContentPresenter x:Name="CustomContentPresenter"
+                                  Content="{Binding Source={x:Reference CardWidgetView}, Path=CustomContent}" />
+            </StackLayout>
+
+            <!-- Footer Section -->
+            <Grid Grid.Row="2" 
+                  ColumnDefinitions="*,Auto"
+                  Margin="0,12,0,0"
+                  IsVisible="{Binding Source={x:Reference CardWidgetView}, Path=HasFooter}">
+                <Label x:Name="FooterTextLabel"
+                       Text="{Binding Source={x:Reference CardWidgetView}, Path=FooterText}"
+                       FontSize="12"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}"
+                       VerticalOptions="Center" />
+                
+                <Button x:Name="ActionButton"
+                        Grid.Column="1"
+                        Text="{Binding Source={x:Reference CardWidgetView}, Path=ActionButtonText}"
+                        Command="{Binding Source={x:Reference CardWidgetView}, Path=ActionCommand}"
+                        BackgroundColor="Transparent"
+                        TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                        FontSize="12"
+                        Padding="8,4"
+                        IsVisible="{Binding Source={x:Reference CardWidgetView}, Path=HasActionButton}" />
+            </Grid>
+        </Grid>
+    </Border>
+</ContentView>

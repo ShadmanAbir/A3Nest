@@ -55,7 +55,9 @@
   - Configure dependency injection for repositories
   - _Requirements: 6.4, 5.5_
 
-- [-] 6. Create SignalR hubs for real-time communication
+- [x] 6. Create SignalR hubs for real-time communication
+
+
 
 
 
@@ -64,28 +66,42 @@
   - Configure SignalR services in dependency injection
   - _Requirements: 6.2, 5.5_
 
-- [ ] 7. Set up Elasticsearch indexer and search functionality
+- [x] 7. Set up Elasticsearch indexer and search functionality
+
+
+
+
 
   - Create ElasticsearchIndexer class with IndexPropertyAsync, IndexTenantAsync, SearchPropertiesAsync methods
   - Configure Elasticsearch client and connection settings
   - Implement search methods with NotImplementedException placeholders
   - _Requirements: 6.3, 5.5_
 
-- [ ] 8. Implement external service adapters
+- [x] 8. Implement external service adapters
+
+
+
+
 
   - Create Email service adapter implementing IEmailService with NotImplementedException methods
   - Create Push notification service adapter implementing IPushNotificationService with NotImplementedException methods
   - Configure external service dependencies in DI container
   - _Requirements: 6.5, 5.5_
 
-- [ ] 9. Create MAUI Shell navigation structure
+- [x] 9. Create MAUI Shell navigation structure
+
+
+
+
 
   - Implement AppShell.xaml with FlyoutItems for desktop navigation
   - Configure TabBar for mobile navigation with all required pages
   - Set up routing for DashboardPage, PropertiesPage, TenantsPage, LeaseApplicationsPage, OwnerPortalPage, MessagingPage, CalendarPage, SettingsPage, GuestViewPage
   - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
 
-- [ ] 10. Create reusable UI components
+- [-] 10. Create reusable UI components
+
+
 
   - Implement DataGrid component with ItemsSource and Columns bindable properties
   - Create CardWidget component for dashboard widgets
