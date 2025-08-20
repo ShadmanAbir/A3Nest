@@ -162,7 +162,7 @@
                     <Grid Grid.Row="3" ColumnDefinitions="Auto,*" ColumnSpacing="15">
                         <Label Grid.Column="0" Text="📊" FontSize="24" VerticalOptions="Center" />
                         <StackLayout Grid.Column="1">
-                            <Label Text="Analytics & Reports" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Analytics &amp; Reports" FontSize="16" FontAttributes="Bold" />
                             <Label Text="Detailed financial and operational reporting" FontSize="14" Opacity="0.7" />
                         </StackLayout>
                     </Grid>

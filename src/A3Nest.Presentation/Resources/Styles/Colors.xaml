@@ -7,53 +7,53 @@
     <!-- A3Nest Theme Colors - Automatically switches between Light and Dark themes -->
     
     <!-- Primary Brand Colors -->
-    <Color x:Key="Primary">{AppThemeBinding Light=#2563EB, Dark=#3B82F6}</Color>
-    <Color x:Key="PrimaryLight">{AppThemeBinding Light=#3B82F6, Dark=#60A5FA}</Color>
-    <Color x:Key="PrimaryDark">{AppThemeBinding Light=#1D4ED8, Dark=#2563EB}</Color>
+    <Color x:Key="Primary">#2563EB</Color>
+    <Color x:Key="PrimaryLight">#3B82F6</Color>
+    <Color x:Key="PrimaryDark">#1D4ED8</Color>
     
     <!-- Secondary Colors -->
-    <Color x:Key="Secondary">{AppThemeBinding Light=#10B981, Dark=#34D399}</Color>
-    <Color x:Key="SecondaryLight">{AppThemeBinding Light=#34D399, Dark=#6EE7B7}</Color>
-    <Color x:Key="SecondaryDark">{AppThemeBinding Light=#059669, Dark=#10B981}</Color>
+    <Color x:Key="Secondary">#10B981</Color>
+    <Color x:Key="SecondaryLight">#34D399</Color>
+    <Color x:Key="SecondaryDark">#059669</Color>
     
     <!-- Accent Colors -->
-    <Color x:Key="Accent">{AppThemeBinding Light=#F59E0B, Dark=#FBBF24}</Color>
-    <Color x:Key="AccentLight">{AppThemeBinding Light=#FBBF24, Dark=#FCD34D}</Color>
-    <Color x:Key="AccentDark">{AppThemeBinding Light=#D97706, Dark=#F59E0B}</Color>
+    <Color x:Key="Accent">#F59E0B</Color>
+    <Color x:Key="AccentLight">#FBBF24</Color>
+    <Color x:Key="AccentDark">#D97706</Color>
     
     <!-- Background Colors -->
-    <Color x:Key="BackgroundPrimary">{AppThemeBinding Light=#FFFFFF, Dark=#0F172A}</Color>
-    <Color x:Key="BackgroundSecondary">{AppThemeBinding Light=#F8FAFC, Dark=#1E293B}</Color>
-    <Color x:Key="BackgroundTertiary">{AppThemeBinding Light=#F1F5F9, Dark=#334155}</Color>
-    <Color x:Key="BackgroundCard">{AppThemeBinding Light=#FFFFFF, Dark=#1E293B}</Color>
+    <Color x:Key="BackgroundPrimary">#FFFFFF</Color>
+    <Color x:Key="BackgroundSecondary">#F8FAFC</Color>
+    <Color x:Key="BackgroundTertiary">#F1F5F9</Color>
+    <Color x:Key="BackgroundCard">#FFFFFF</Color>
     
     <!-- Surface Colors -->
-    <Color x:Key="Surface">{AppThemeBinding Light=#FFFFFF, Dark=#1E293B}</Color>
-    <Color x:Key="SurfaceVariant">{AppThemeBinding Light=#F8FAFC, Dark=#334155}</Color>
-    <Color x:Key="SurfaceContainer">{AppThemeBinding Light=#F1F5F9, Dark=#475569}</Color>
+    <Color x:Key="Surface">#FFFFFF</Color>
+    <Color x:Key="SurfaceVariant">#F8FAFC</Color>
+    <Color x:Key="SurfaceContainer">#F1F5F9</Color>
     
     <!-- Text Colors -->
-    <Color x:Key="TextPrimary">{AppThemeBinding Light=#0F172A, Dark=#F8FAFC}</Color>
-    <Color x:Key="TextSecondary">{AppThemeBinding Light=#475569, Dark=#CBD5E1}</Color>
-    <Color x:Key="TextTertiary">{AppThemeBinding Light=#64748B, Dark=#94A3B8}</Color>
-    <Color x:Key="TextDisabled">{AppThemeBinding Light=#94A3B8, Dark=#64748B}</Color>
-    <Color x:Key="TextOnPrimary">{AppThemeBinding Light=#FFFFFF, Dark=#FFFFFF}</Color>
-    <Color x:Key="TextOnSecondary">{AppThemeBinding Light=#FFFFFF, Dark=#0F172A}</Color>
+    <Color x:Key="TextPrimary">#0F172A</Color>
+    <Color x:Key="TextSecondary">#475569</Color>
+    <Color x:Key="TextTertiary">#64748B</Color>
+    <Color x:Key="TextDisabled">#94A3B8</Color>
+    <Color x:Key="TextOnPrimary">#FFFFFF</Color>
+    <Color x:Key="TextOnSecondary">#FFFFFF</Color>
     
     <!-- Border Colors -->
-    <Color x:Key="BorderPrimary">{AppThemeBinding Light=#E2E8F0, Dark=#475569}</Color>
-    <Color x:Key="BorderSecondary">{AppThemeBinding Light=#CBD5E1, Dark=#64748B}</Color>
-    <Color x:Key="BorderFocus">{AppThemeBinding Light=#2563EB, Dark=#3B82F6}</Color>
+    <Color x:Key="BorderPrimary">#E2E8F0</Color>
+    <Color x:Key="BorderSecondary">#CBD5E1</Color>
+    <Color x:Key="BorderFocus">#2563EB</Color>
     
     <!-- Status Colors -->
-    <Color x:Key="Success">{AppThemeBinding Light=#10B981, Dark=#34D399}</Color>
-    <Color x:Key="Warning">{AppThemeBinding Light=#F59E0B, Dark=#FBBF24}</Color>
-    <Color x:Key="Error">{AppThemeBinding Light=#EF4444, Dark=#F87171}</Color>
-    <Color x:Key="Info">{AppThemeBinding Light=#3B82F6, Dark=#60A5FA}</Color>
+    <Color x:Key="Success">#10B981</Color>
+    <Color x:Key="Warning">#F59E0B</Color>
+    <Color x:Key="Error">#EF4444</Color>
+    <Color x:Key="Info">#3B82F6</Color>
     
     <!-- Shadow Colors -->
-    <Color x:Key="Shadow">{AppThemeBinding Light=#00000020, Dark=#00000040}</Color>
-    <Color x:Key="ShadowLight">{AppThemeBinding Light=#00000010, Dark=#00000020}</Color>
+    <Color x:Key="Shadow">#00000020</Color>
+    <Color x:Key="ShadowLight">#00000010</Color>
     
     <!-- Legacy Colors for Compatibility -->
     <Color x:Key="White">White</Color>

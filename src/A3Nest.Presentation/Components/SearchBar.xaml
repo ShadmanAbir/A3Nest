@@ -2,11 +2,11 @@
 <ContentView x:Class="A3Nest.Presentation.Components.SearchBar"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    <Border BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
-            Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+    <Border BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundSecondary}, Dark={StaticResource Surface}}"
+            Stroke="{AppThemeBinding Light={StaticResource BorderPrimary}, Dark={StaticResource BorderPrimary}}"
             StrokeThickness="1"
             StrokeShape="RoundRectangle 8"
-            Padding="12,8">
+            Padding="16">
         <Grid ColumnDefinitions="Auto,*,Auto,Auto">
             <!-- Search Icon -->
             <Image Grid.Column="0"
@@ -23,8 +23,11 @@
                    Text="{Binding Source={x:Reference SearchBarView}, Path=SearchText, Mode=TwoWay}"
                    Placeholder="{Binding Source={x:Reference SearchBarView}, Path=Placeholder}"
                    BackgroundColor="Transparent"
+                   TextColor="{AppThemeBinding Light={StaticResource TextPrimary}, Dark={StaticResource TextPrimary}}"
+                   PlaceholderColor="{AppThemeBinding Light={StaticResource TextTertiary}, Dark={StaticResource TextTertiary}}"
                    VerticalOptions="Center"
-                   FontSize="16"
+                   FontSize="14"
+                   FontFamily="OpenSansRegular"
                    ReturnType="Search"
                    ReturnCommand="{Binding Source={x:Reference SearchBarView}, Path=SearchCommand}"
                    ReturnCommandParameter="{Binding Source={x:Reference SearchBarView}, Path=SearchText}"
@@ -35,7 +38,7 @@
                     Grid.Column="2"
                     Text="✕"
                     BackgroundColor="Transparent"
-                    TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
+                    TextColor="{AppThemeBinding Light={StaticResource TextTertiary}, Dark={StaticResource TextTertiary}}"
                     FontSize="16"
                     WidthRequest="32"
                     HeightRequest="32"
@@ -48,11 +51,9 @@
             <Button x:Name="SearchButton"
                     Grid.Column="3"
                     Text="Search"
-                    BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                    TextColor="White"
-                    FontSize="14"
-                    Padding="12,6"
-                    CornerRadius="6"
+                    Style="{StaticResource PrimaryButtonStyle}"
+                    FontSize="12"
+                    Padding="16,8"
                     Command="{Binding Source={x:Reference SearchBarView}, Path=SearchCommand}"
                     CommandParameter="{Binding Source={x:Reference SearchBarView}, Path=SearchText}"
                     IsVisible="{Binding Source={x:Reference SearchBarView}, Path=ShowSearchButton}" />

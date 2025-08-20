@@ -148,7 +148,9 @@
   - Create GuestViewPage with limited functionality for guests
   - _Requirements: 2.1, 2.2, 10.2_
 
-- [-] 14. Configure theme support and responsive design
+- [ ] 14. Configure theme support and responsive design
+
+
 
 
 
@@ -158,6 +160,8 @@
   - Apply modern, sleek design aesthetic across all components
   - _Requirements: 3.3, 3.4, 3.5_
 
+
+
 - [ ] 15. Add sample data and navigation functionality
 
   - Create sample data service with placeholder property, tenant, and user data
@@ -166,23 +170,32 @@
   - Configure sample data loading in ViewModels' Load methods
   - _Requirements: 10.1, 10.2, 10.3_
 
-- [ ] 16. Create branding assets and splash screen
+
+- [-] 16. Create branding assets and splash screen
+
 
   - Design and implement A3Nest logo placeholder
   - Create splash screen with branding elements
   - Configure app icons for different platforms
   - Set up app metadata and branding information
+
   - _Requirements: 10.4_
 
-- [ ] 17. Configure dependency injection and app startup
+
+- [x] 17. Configure dependency injection and app startup
+
+
 
   - Set up MauiProgram.cs with all service registrations
   - Configure Application, Infrastructure, and Presentation layer dependencies
   - Add logging configuration and error handling setup
   - Ensure proper service lifetime management
   - _Requirements: 1.2, 9.5, 10.1_
+-
 
 - [ ] 18. Final integration and build verification
+
+
 
   - Verify all project references and dependencies are correctly configured
   - Ensure application builds successfully for all target platforms

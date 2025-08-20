@@ -8,61 +8,61 @@
     FlyoutBehavior="Flyout">
 
     <!-- Desktop Navigation - FlyoutItems for sidebar navigation -->
-    <FlyoutItem Title="Dashboard" Icon="dotnet_bot.png">
+    <FlyoutItem Title="Dashboard" Icon="dashboard_icon.png">
         <ShellContent Route="dashboard" ContentTemplate="{DataTemplate pages:DashboardPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Properties" Icon="dotnet_bot.png">
+    <FlyoutItem Title="Properties" Icon="properties_icon.png">
         <ShellContent Route="properties" ContentTemplate="{DataTemplate pages:PropertiesPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Tenants" Icon="dotnet_bot.png">
+    <FlyoutItem Title="Tenants" Icon="tenants_icon.png">
         <ShellContent Route="tenants" ContentTemplate="{DataTemplate pages:TenantsPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Lease Applications" Icon="dotnet_bot.png">
+    <FlyoutItem Title="Lease Applications" Icon="applications_icon.png">
         <ShellContent Route="leaseapplications" ContentTemplate="{DataTemplate pages:LeaseApplicationsPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Owner Portal" Icon="dotnet_bot.png">
+    <FlyoutItem Title="Owner Portal" Icon="owner_icon.png">
         <ShellContent Route="ownerportal" ContentTemplate="{DataTemplate pages:OwnerPortalPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Messaging" Icon="dotnet_bot.png">
+    <FlyoutItem Title="Messaging" Icon="messages_icon.png">
         <ShellContent Route="messaging" ContentTemplate="{DataTemplate pages:MessagingPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Calendar" Icon="dotnet_bot.png">
+    <FlyoutItem Title="Calendar" Icon="calendar_icon.png">
         <ShellContent Route="calendar" ContentTemplate="{DataTemplate pages:CalendarPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Settings" Icon="dotnet_bot.png">
+    <FlyoutItem Title="Settings" Icon="settings_icon.png">
         <ShellContent Route="settings" ContentTemplate="{DataTemplate pages:SettingsPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Guest View" Icon="dotnet_bot.png">
+    <FlyoutItem Title="Guest View" Icon="guest_icon.png">
         <ShellContent Route="guestview" ContentTemplate="{DataTemplate pages:GuestViewPage}" />
     </FlyoutItem>
 
     <!-- Mobile Navigation - TabBar for bottom navigation -->
     <TabBar x:Name="MobileTabBar">
-        <Tab Title="Dashboard" Icon="dotnet_bot.png">
+        <Tab Title="Dashboard" Icon="dashboard_icon.png">
             <ShellContent Route="dashboard_mobile" ContentTemplate="{DataTemplate pages:DashboardPage}" />
         </Tab>
         
-        <Tab Title="Properties" Icon="dotnet_bot.png">
+        <Tab Title="Properties" Icon="properties_icon.png">
             <ShellContent Route="properties_mobile" ContentTemplate="{DataTemplate pages:PropertiesPage}" />
         </Tab>
         
-        <Tab Title="Tenants" Icon="dotnet_bot.png">
+        <Tab Title="Tenants" Icon="tenants_icon.png">
             <ShellContent Route="tenants_mobile" ContentTemplate="{DataTemplate pages:TenantsPage}" />
         </Tab>
         
-        <Tab Title="Messages" Icon="dotnet_bot.png">
+        <Tab Title="Messages" Icon="messages_icon.png">
             <ShellContent Route="messaging_mobile" ContentTemplate="{DataTemplate pages:MessagingPage}" />
         </Tab>
         
-        <Tab Title="More" Icon="dotnet_bot.png">
+        <Tab Title="More" Icon="more_icon.png">
             <ShellContent Route="settings_mobile" ContentTemplate="{DataTemplate pages:SettingsPage}" />
         </Tab>
     </TabBar>

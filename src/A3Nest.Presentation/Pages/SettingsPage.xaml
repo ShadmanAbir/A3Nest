@@ -118,7 +118,7 @@
 
             <!-- Data & Privacy Section -->
             <StackLayout>
-                <Label Text="Data & Privacy" 
+                <Label Text="Data &amp; Privacy" 
                        FontSize="20" 
                        FontAttributes="Bold" 
                        Margin="0,0,0,15" />

@@ -1,4 +1,4 @@
-using Microsoft.Maui.Authentication.WebUI;
+
 
 namespace A3Nest.Presentation.Services;
 
@@ -12,16 +12,16 @@ public class ThemeService : IThemeService
     
     public ThemeService()
     {
-        _currentTheme = Application.Current?.RequestedTheme ?? AppTheme.Unspecified;
+        _currentTheme = Microsoft.Maui.Controls.Application.Current?.RequestedTheme ?? AppTheme.Unspecified;
     }
     
     public void Initialize()
     {
         // Monitor system theme changes
-        if (Application.Current != null)
+        if (Microsoft.Maui.Controls.Application.Current != null)
         {
-            Application.Current.RequestedThemeChanged += OnSystemThemeChanged;
-            _currentTheme = Application.Current.RequestedTheme;
+            Microsoft.Maui.Controls.Application.Current.RequestedThemeChanged += OnSystemThemeChanged;
+            _currentTheme = Microsoft.Maui.Controls.Application.Current.RequestedTheme;
         }
     }
     
@@ -32,9 +32,9 @@ public class ThemeService : IThemeService
             
         _currentTheme = theme;
         
-        if (Application.Current != null)
+        if (Microsoft.Maui.Controls.Application.Current != null)
         {
-            Application.Current.UserAppTheme = theme;
+            Microsoft.Maui.Controls.Application.Current.UserAppTheme = theme;
         }
         
         ThemeChanged?.Invoke(this, theme);
@@ -56,7 +56,7 @@ public class ThemeService : IThemeService
     private void OnSystemThemeChanged(object? sender, AppThemeChangedEventArgs e)
     {
         // Only update if we're following system theme (Unspecified)
-        if (Application.Current?.UserAppTheme == AppTheme.Unspecified)
+        if (Microsoft.Maui.Controls.Application.Current?.UserAppTheme == AppTheme.Unspecified)
         {
             _currentTheme = e.RequestedTheme;
             ThemeChanged?.Invoke(this, _currentTheme);
