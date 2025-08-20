@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView x:Class="A3Nest.Presentation.Components.ThemeToggle"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Name="ThemeToggleView">
+    
+    <Border Style="{StaticResource CardStyle}">
+        <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="16">
+            
+            <!-- Header -->
+            <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                <Border BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}"
+                        StrokeShape="RoundRectangle 6"
+                        Padding="6">
+                    <Image Source="theme_icon.svg"
+                           WidthRequest="20"
+                           HeightRequest="20" />
+                </Border>
+                
+                <StackLayout Grid.Column="1" Spacing="2">
+                    <Label Text="Theme Settings"
+                           Style="{StaticResource HeadingSmall}" />
+                    <Label Text="Choose your preferred appearance"
+                           Style="{StaticResource BodyMedium}" />
+                </StackLayout>
+                
+                <Label Grid.Column="2"
+                       x:Name="CurrentThemeLabel"
+                       Text="{Binding Source={x:Reference ThemeToggleView}, Path=CurrentThemeText}"
+                       Style="{StaticResource Caption}"
+                       VerticalOptions="Center"
+                       HorizontalOptions="End" />
+            </Grid>
+            
+            <!-- Theme Options -->
+            <Grid Grid.Row="1" ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                
+                <!-- Light Theme -->
+                <Border Grid.Column="0"
+                        x:Name="LightThemeOption"
+                        Style="{StaticResource ChipStyle}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundPrimary}, Dark={StaticResource SurfaceVariant}}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Source={x:Reference ThemeToggleView}, Path=SetLightThemeCommand}" />
+                    </Border.GestureRecognizers>
+                    
+                    <StackLayout Orientation="Vertical" Spacing="4" HorizontalOptions="Center">
+                        <Border BackgroundColor="#FFFFFF"
+                                Stroke="#E2E8F0"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 4"
+                                WidthRequest="32"
+                                HeightRequest="20">
+                            <Ellipse Fill="#F59E0B"
+                                     WidthRequest="8"
+                                     HeightRequest="8"
+                                     HorizontalOptions="End"
+                                     VerticalOptions="Start"
+                                     Margin="4,2" />
+                        </Border>
+                        <Label Text="Light"
+                               Style="{StaticResource Caption}"
+                               HorizontalOptions="Center" />
+                    </StackLayout>
+                </Border>
+                
+                <!-- Dark Theme -->
+                <Border Grid.Column="1"
+                        x:Name="DarkThemeOption"
+                        Style="{StaticResource ChipStyle}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundSecondary}, Dark={StaticResource SurfaceContainer}}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Source={x:Reference ThemeToggleView}, Path=SetDarkThemeCommand}" />
+                    </Border.GestureRecognizers>
+                    
+                    <StackLayout Orientation="Vertical" Spacing="4" HorizontalOptions="Center">
+                        <Border BackgroundColor="#1E293B"
+                                Stroke="#475569"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 4"
+                                WidthRequest="32"
+                                HeightRequest="20">
+                            <Ellipse Fill="#FBBF24"
+                                     WidthRequest="6"
+                                     HeightRequest="6"
+                                     HorizontalOptions="End"
+                                     VerticalOptions="Start"
+                                     Margin="4,2" />
+                        </Border>
+                        <Label Text="Dark"
+                               Style="{StaticResource Caption}"
+                               HorizontalOptions="Center" />
+                    </StackLayout>
+                </Border>
+                
+                <!-- System Theme -->
+                <Border Grid.Column="2"
+                        x:Name="SystemThemeOption"
+                        Style="{StaticResource ChipStyle}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundSecondary}, Dark={StaticResource SurfaceVariant}}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Source={x:Reference ThemeToggleView}, Path=SetSystemThemeCommand}" />
+                    </Border.GestureRecognizers>
+                    
+                    <StackLayout Orientation="Vertical" Spacing="4" HorizontalOptions="Center">
+                        <Grid WidthRequest="32" HeightRequest="20">
+                            <Border BackgroundColor="#FFFFFF"
+                                    Stroke="#E2E8F0"
+                                    StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 4"
+                                    HorizontalOptions="Start"
+                                    WidthRequest="16"
+                                    HeightRequest="20" />
+                            <Border BackgroundColor="#1E293B"
+                                    Stroke="#475569"
+                                    StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 4"
+                                    HorizontalOptions="End"
+                                    WidthRequest="16"
+                                    HeightRequest="20" />
+                        </Grid>
+                        <Label Text="System"
+                               Style="{StaticResource Caption}"
+                               HorizontalOptions="Center" />
+                    </StackLayout>
+                </Border>
+            </Grid>
+            
+            <!-- Quick Toggle Button -->
+            <Button Grid.Row="2"
+                    Text="Toggle Theme"
+                    Style="{StaticResource SecondaryButtonStyle}"
+                    Command="{Binding Source={x:Reference ThemeToggleView}, Path=ToggleThemeCommand}"
+                    HorizontalOptions="Center"
+                    Padding="24,12" />
+        </Grid>
+    </Border>
+</ContentView>

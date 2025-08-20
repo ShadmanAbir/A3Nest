@@ -2,25 +2,31 @@
 <ContentView x:Class="A3Nest.Presentation.Components.CardWidget"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    <Border Style="{StaticResource CardStyle}">
+    <Border x:Name="CardContainer" Style="{StaticResource InteractiveCardStyle}">
         
-        <Grid RowDefinitions="Auto,*,Auto">
+        <Grid RowDefinitions="Auto,*,Auto" RowSpacing="12">
             <!-- Header Section -->
             <Grid Grid.Row="0" 
                   ColumnDefinitions="*,Auto"
-                  Margin="0,0,0,12">
+                  ColumnSpacing="12">
                 <Label x:Name="TitleLabel"
                        Text="{Binding Source={x:Reference CardWidgetView}, Path=Title}"
                        Style="{StaticResource HeadingSmall}"
-                       VerticalOptions="Center" />
-                
-                <Image x:Name="IconImage"
-                       Grid.Column="1"
-                       Source="{Binding Source={x:Reference CardWidgetView}, Path=IconSource}"
-                       WidthRequest="24"
-                       HeightRequest="24"
                        VerticalOptions="Center"
-                       IsVisible="{Binding Source={x:Reference CardWidgetView}, Path=HasIcon}" />
+                       LineBreakMode="TailTruncation" />
+                
+                <Border Grid.Column="1"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundSecondary}, Dark={StaticResource SurfaceVariant}}"
+                        StrokeShape="RoundRectangle 6"
+                        Padding="6"
+                        IsVisible="{Binding Source={x:Reference CardWidgetView}, Path=HasIcon}">
+                    <Image x:Name="IconImage"
+                           Source="{Binding Source={x:Reference CardWidgetView}, Path=IconSource}"
+                           WidthRequest="20"
+                           HeightRequest="20"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center" />
+                </Border>
             </Grid>
 
             <!-- Content Section -->
@@ -30,17 +36,19 @@
                 <!-- Primary Value Display -->
                 <Label x:Name="PrimaryValueLabel"
                        Text="{Binding Source={x:Reference CardWidgetView}, Path=PrimaryValue}"
-                       FontSize="32"
-                       FontAttributes="Bold"
+                       FontSize="28"
+                       FontFamily="OpenSansBold"
                        HorizontalOptions="Start"
                        TextColor="{Binding Source={x:Reference CardWidgetView}, Path=PrimaryValueColor}"
-                       IsVisible="{Binding Source={x:Reference CardWidgetView}, Path=HasPrimaryValue}" />
+                       IsVisible="{Binding Source={x:Reference CardWidgetView}, Path=HasPrimaryValue}"
+                       LineBreakMode="TailTruncation" />
 
                 <!-- Secondary Value Display -->
                 <Label x:Name="SecondaryValueLabel"
                        Text="{Binding Source={x:Reference CardWidgetView}, Path=SecondaryValue}"
                        Style="{StaticResource BodyMedium}"
-                       IsVisible="{Binding Source={x:Reference CardWidgetView}, Path=HasSecondaryValue}" />
+                       IsVisible="{Binding Source={x:Reference CardWidgetView}, Path=HasSecondaryValue}"
+                       LineBreakMode="WordWrap" />
 
                 <!-- Custom Content Area -->
                 <ContentPresenter x:Name="CustomContentPresenter"
@@ -50,20 +58,22 @@
             <!-- Footer Section -->
             <Grid Grid.Row="2" 
                   ColumnDefinitions="*,Auto"
-                  Margin="0,12,0,0"
+                  ColumnSpacing="12"
                   IsVisible="{Binding Source={x:Reference CardWidgetView}, Path=HasFooter}">
                 <Label x:Name="FooterTextLabel"
                        Text="{Binding Source={x:Reference CardWidgetView}, Path=FooterText}"
                        Style="{StaticResource Caption}"
-                       VerticalOptions="Center" />
+                       VerticalOptions="Center"
+                       LineBreakMode="TailTruncation" />
                 
                 <Button x:Name="ActionButton"
                         Grid.Column="1"
                         Text="{Binding Source={x:Reference CardWidgetView}, Path=ActionButtonText}"
                         Command="{Binding Source={x:Reference CardWidgetView}, Path=ActionCommand}"
-                        Style="{StaticResource SecondaryButtonStyle}"
+                        Style="{StaticResource TertiaryButtonStyle}"
                         FontSize="12"
-                        Padding="8,4"
+                        Padding="12,6"
+                        MinimumHeightRequest="32"
                         IsVisible="{Binding Source={x:Reference CardWidgetView}, Path=HasActionButton}" />
             </Grid>
         </Grid>

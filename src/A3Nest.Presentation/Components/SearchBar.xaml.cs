@@ -227,4 +227,22 @@ public partial class SearchBar : ContentView
             SearchCommand.Execute(SearchText);
         }
     }
+
+    private void OnSearchEntryFocused(object sender, FocusEventArgs e)
+    {
+        // Apply focused state to container
+        if (SearchContainer != null)
+        {
+            VisualStateManager.GoToState(SearchContainer, "Focused");
+        }
+    }
+
+    private void OnSearchEntryUnfocused(object sender, FocusEventArgs e)
+    {
+        // Apply normal state to container
+        if (SearchContainer != null)
+        {
+            VisualStateManager.GoToState(SearchContainer, "Normal");
+        }
+    }
 }

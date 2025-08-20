@@ -1,5 +1,4 @@
 
-
 namespace A3Nest.Presentation.Services;
 
 public interface IThemeService
@@ -8,6 +7,11 @@ public interface IThemeService
     /// Gets the current application theme
     /// </summary>
     AppTheme CurrentTheme { get; }
+    
+    /// <summary>
+    /// Gets whether the app is using system theme
+    /// </summary>
+    bool IsSystemTheme { get; }
     
     /// <summary>
     /// Sets the application theme
@@ -19,6 +23,11 @@ public interface IThemeService
     /// Toggles between light and dark theme
     /// </summary>
     void ToggleTheme();
+    
+    /// <summary>
+    /// Sets the app to follow system theme
+    /// </summary>
+    void UseSystemTheme();
     
     /// <summary>
     /// Event raised when the theme changes

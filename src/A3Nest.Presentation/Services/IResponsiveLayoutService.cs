@@ -61,6 +61,31 @@ public interface IResponsiveLayoutService
     Thickness GetPadding();
     
     /// <summary>
+    /// Gets responsive font size for the given category
+    /// </summary>
+    double GetFontSize(string sizeCategory);
+    
+    /// <summary>
+    /// Gets appropriate icon size for current device
+    /// </summary>
+    double GetIconSize();
+    
+    /// <summary>
+    /// Gets appropriate button height for current device
+    /// </summary>
+    double GetButtonHeight();
+    
+    /// <summary>
+    /// Gets sidebar width for current device
+    /// </summary>
+    GridLength GetSidebarWidth();
+    
+    /// <summary>
+    /// Determines if compact layout should be used
+    /// </summary>
+    bool ShouldUseCompactLayout();
+    
+    /// <summary>
     /// Event raised when the layout changes (screen size, orientation)
     /// </summary>
     event EventHandler<DeviceType> LayoutChanged;

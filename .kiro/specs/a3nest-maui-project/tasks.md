@@ -148,7 +148,12 @@
   - Create GuestViewPage with limited functionality for guests
   - _Requirements: 2.1, 2.2, 10.2_
 
-- [ ] 14. Configure theme support and responsive design
+- [x] 14. Configure theme support and responsive design
+
+
+
+
+
 
 
 
@@ -162,7 +167,10 @@
 
 
 
-- [ ] 15. Add sample data and navigation functionality
+- [-] 15. Add sample data and navigation functionality
+
+
+
 
   - Create sample data service with placeholder property, tenant, and user data
   - Implement navigation commands in ViewModels for page transitions

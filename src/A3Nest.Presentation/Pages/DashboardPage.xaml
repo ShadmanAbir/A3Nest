@@ -28,6 +28,7 @@
 
             <!-- Key Metrics Cards -->
             <Grid Grid.Row="1" 
+                  x:Name="MetricsGrid"
                   ColumnDefinitions="*,*,*,*" 
                   ColumnSpacing="{StaticResource SpacingMD}"
                   RowDefinitions="Auto,Auto"

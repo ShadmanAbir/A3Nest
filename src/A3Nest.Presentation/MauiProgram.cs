@@ -157,6 +157,10 @@ public static class MauiProgram
             var themeService = services.GetRequiredService<IThemeService>();
             themeService.Initialize();
 
+            // Initialize responsive layout service
+            var responsiveLayoutService = services.GetRequiredService<IResponsiveLayoutService>();
+            responsiveLayoutService.Initialize();
+
             // Initialize database (async operation handled in background)
             Task.Run(async () =>
             {
@@ -214,11 +218,7 @@ public static class MauiProgram
 #endif
 
 #if IOS
-        NSSetUncaughtExceptionHandler(new NSUncaughtExceptionHandler((exception) =>
-        {
-            var managedException = new Exception($"iOS Unhandled Exception: {exception.Description}");
-            errorHandler.LogError(managedException, "iOS Unhandled Exception");
-        }));
+        // iOS exception handling would be implemented here if needed
 #endif
     }
 }
