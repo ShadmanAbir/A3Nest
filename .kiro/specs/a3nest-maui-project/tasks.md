@@ -33,7 +33,9 @@
   - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5_
 
 
-- [-] 4. Set up Infrastructure layer with EF Core DbContext
+- [x] 4. Set up Infrastructure layer with EF Core DbContext
+
+
 
 
   - Create A3NestDbContext with all entity DbSets
@@ -42,7 +44,10 @@
   - Add connection string configuration and database provider setup
   - _Requirements: 6.1, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6_
 
-- [ ] 5. Implement Infrastructure repositories and services
+
+
+- [x] 5. Implement Infrastructure repositories and services
+
 
   - Create repository implementations for all Application service interfaces
   - Implement generic repository pattern with Unit of Work
@@ -50,7 +55,9 @@
   - Configure dependency injection for repositories
   - _Requirements: 6.4, 5.5_
 
-- [ ] 6. Create SignalR hubs for real-time communication
+- [-] 6. Create SignalR hubs for real-time communication
+
+
 
   - Implement MessageHub with SendMessage, JoinGroup methods (stubbed with NotImplementedException)
   - Implement NotificationHub with SendNotification method (stubbed with NotImplementedException)
