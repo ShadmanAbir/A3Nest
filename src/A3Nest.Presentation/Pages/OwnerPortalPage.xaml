@@ -2,21 +2,130 @@
 <ContentPage x:Class="A3Nest.Presentation.Pages.OwnerPortalPage"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:A3Nest.Presentation.Components"
+             xmlns:viewmodels="clr-namespace:A3Nest.Presentation.ViewModels"
+             x:DataType="viewmodels:OwnerPortalViewModel"
              Title="Owner Portal">
+    
     <ScrollView>
-        <VerticalStackLayout Spacing="25" Padding="30,0" VerticalOptions="Center">
-            <Label 
-                x:Name="TitleLabel"
-                Text="Owner Portal"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
+        <Grid RowDefinitions="Auto,Auto,*" Padding="20">
+            
+            <!-- Header Section -->
+            <StackLayout Grid.Row="0" Margin="0,0,0,20">
+                <Label Text="Owner Portal" 
+                       FontSize="28" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="Center" />
+                <Label Text="Manage your properties and view financial reports" 
+                       FontSize="16" 
+                       HorizontalOptions="Center" 
+                       Opacity="0.7" />
+            </StackLayout>
 
-            <Label 
-                x:Name="PlaceholderLabel"
-                Text="Owner portal content will be implemented in future tasks"
-                FontSize="18"
-                HorizontalOptions="Center" />
-        </VerticalStackLayout>
+            <!-- Financial Summary Cards -->
+            <Grid Grid.Row="1" 
+                  ColumnDefinitions="*,*,*" 
+                  RowDefinitions="Auto,Auto" 
+                  ColumnSpacing="15" 
+                  RowSpacing="15" 
+                  Margin="0,0,0,30">
+                
+                <components:CardWidget Grid.Column="0" Grid.Row="0"
+                                     Title="Total Revenue"
+                                     Value="{Binding TotalRevenue}"
+                                     Icon="💰" />
+                
+                <components:CardWidget Grid.Column="1" Grid.Row="0"
+                                     Title="Active Properties"
+                                     Value="{Binding ActivePropertiesCount}"
+                                     Icon="🏢" />
+                
+                <components:CardWidget Grid.Column="2" Grid.Row="0"
+                                     Title="Occupancy Rate"
+                                     Value="{Binding OccupancyRate}"
+                                     Icon="📊" />
+                
+                <components:CardWidget Grid.Column="0" Grid.Row="1"
+                                     Title="Monthly Income"
+                                     Value="{Binding MonthlyIncome}"
+                                     Icon="📈" />
+                
+                <components:CardWidget Grid.Column="1" Grid.Row="1"
+                                     Title="Pending Maintenance"
+                                     Value="{Binding PendingMaintenanceCount}"
+                                     Icon="🔧" />
+                
+                <components:CardWidget Grid.Column="2" Grid.Row="1"
+                                     Title="Lease Renewals"
+                                     Value="{Binding UpcomingRenewalsCount}"
+                                     Icon="📋" />
+            </Grid>
+
+            <!-- Main Content Tabs -->
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!-- Tab Headers -->
+                <Grid Grid.Row="0" ColumnDefinitions="*,*,*" Margin="0,0,0,20">
+                    <Button Grid.Column="0" 
+                            Text="Properties" 
+                            Command="{Binding ShowPropertiesCommand}" />
+                    <Button Grid.Column="1" 
+                            Text="Financial Reports" 
+                            Command="{Binding ShowFinancialReportsCommand}" />
+                    <Button Grid.Column="2" 
+                            Text="Maintenance" 
+                            Command="{Binding ShowMaintenanceCommand}" />
+                </Grid>
+
+                <!-- Tab Content -->
+                <Grid Grid.Row="1">
+                    
+                    <!-- Properties Tab -->
+                    <StackLayout IsVisible="{Binding PropertiesTabActive}">
+                        <Label Text="Your Properties" FontSize="20" FontAttributes="Bold" Margin="0,0,0,15" />
+                        <components:SearchBar Placeholder="Search properties..." 
+                                            SearchCommand="{Binding SearchPropertiesCommand}" />
+                        <components:DataGrid ItemsSource="{Binding Properties}" 
+                                           Columns="{Binding PropertyColumns}" />
+                    </StackLayout>
+
+                    <!-- Financial Reports Tab -->
+                    <StackLayout IsVisible="{Binding FinancialTabActive}">
+                        <Label Text="Financial Reports" FontSize="20" FontAttributes="Bold" Margin="0,0,0,15" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="20">
+                            <StackLayout Grid.Column="0">
+                                <Label Text="Income Summary" FontSize="16" FontAttributes="Bold" />
+                                <components:DataGrid ItemsSource="{Binding IncomeReports}" 
+                                                   Columns="{Binding IncomeColumns}" />
+                            </StackLayout>
+                            <StackLayout Grid.Column="1">
+                                <Label Text="Expense Summary" FontSize="16" FontAttributes="Bold" />
+                                <components:DataGrid ItemsSource="{Binding ExpenseReports}" 
+                                                   Columns="{Binding ExpenseColumns}" />
+                            </StackLayout>
+                        </Grid>
+                    </StackLayout>
+
+                    <!-- Maintenance Tab -->
+                    <StackLayout IsVisible="{Binding MaintenanceTabActive}">
+                        <Label Text="Maintenance Requests" FontSize="20" FontAttributes="Bold" Margin="0,0,0,15" />
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="15" Margin="0,0,0,15">
+                            <components:SearchBar Grid.Column="0" 
+                                                Placeholder="Search maintenance requests..." 
+                                                SearchCommand="{Binding SearchMaintenanceCommand}" />
+                            <Button Grid.Column="1" 
+                                    Text="New Request" 
+                                    Command="{Binding CreateMaintenanceRequestCommand}" />
+                        </Grid>
+                        <components:DataGrid ItemsSource="{Binding MaintenanceRequests}" 
+                                           Columns="{Binding MaintenanceColumns}" />
+                    </StackLayout>
+                </Grid>
+            </Grid>
+        </Grid>
     </ScrollView>
 </ContentPage>

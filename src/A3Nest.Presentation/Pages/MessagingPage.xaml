@@ -2,21 +2,185 @@
 <ContentPage x:Class="A3Nest.Presentation.Pages.MessagingPage"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:A3Nest.Presentation.Components"
+             xmlns:viewmodels="clr-namespace:A3Nest.Presentation.ViewModels"
+             x:DataType="viewmodels:MessagingViewModel"
              Title="Messaging">
-    <ScrollView>
-        <VerticalStackLayout Spacing="25" Padding="30,0" VerticalOptions="Center">
-            <Label 
-                x:Name="TitleLabel"
-                Text="Messaging Center"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
+    
+    <Grid ColumnDefinitions="300,*" Padding="10">
+        
+        <!-- Left Panel - Message List -->
+        <Grid Grid.Column="0" RowDefinitions="Auto,Auto,*" Margin="0,0,10,0">
+            
+            <!-- Header -->
+            <StackLayout Grid.Row="0" Margin="0,0,0,15">
+                <Label Text="Messages" 
+                       FontSize="24" 
+                       FontAttributes="Bold" />
+                <Button Text="New Message" 
+                        Command="{Binding NewMessageCommand}"
+                        BackgroundColor="DodgerBlue"
+                        TextColor="White" />
+            </StackLayout>
 
-            <Label 
-                x:Name="PlaceholderLabel"
-                Text="Messaging content will be implemented in future tasks"
-                FontSize="18"
-                HorizontalOptions="Center" />
-        </VerticalStackLayout>
-    </ScrollView>
+            <!-- Search -->
+            <components:SearchBar Grid.Row="1" 
+                                Placeholder="Search messages..." 
+                                SearchCommand="{Binding SearchMessagesCommand}"
+                                Margin="0,0,0,15" />
+
+            <!-- Message List -->
+            <CollectionView Grid.Row="2" 
+                          ItemsSource="{Binding Messages}"
+                          SelectedItem="{Binding SelectedMessage}"
+                          SelectionMode="Single">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid RowDefinitions="Auto,Auto,Auto" 
+                              Padding="10" 
+                              Margin="0,0,0,5">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MessagingViewModel}}, Path=SelectMessageCommand}"
+                                                    CommandParameter="{Binding .}" />
+                            </Grid.GestureRecognizers>
+                            
+                            <Label Grid.Row="0" 
+                                   Text="{Binding SenderName}" 
+                                   FontAttributes="Bold" 
+                                   FontSize="16" />
+                            <Label Grid.Row="1" 
+                                   Text="{Binding Subject}" 
+                                   FontSize="14" 
+                                   Opacity="0.8" />
+                            <Label Grid.Row="2" 
+                                   Text="{Binding CreatedAt, StringFormat='{0:MMM dd, yyyy}'}" 
+                                   FontSize="12" 
+                                   Opacity="0.6" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+
+        <!-- Right Panel - Message Detail/Compose -->
+        <Grid Grid.Column="1" RowDefinitions="Auto,*,Auto">
+            
+            <!-- Message Header -->
+            <Grid Grid.Row="0" 
+                  ColumnDefinitions="*,Auto" 
+                  IsVisible="{Binding IsMessageSelected}"
+                  Padding="15"
+                  Margin="0,0,0,10">
+                
+                <StackLayout Grid.Column="0">
+                    <Label Text="{Binding SelectedMessage.Subject}" 
+                           FontSize="20" 
+                           FontAttributes="Bold" />
+                    <Label Text="{Binding SelectedMessage.SenderName}" 
+                           FontSize="14" 
+                           Opacity="0.7" />
+                    <Label Text="{Binding SelectedMessage.CreatedAt, StringFormat='{0:MMM dd, yyyy HH:mm}'}" 
+                           FontSize="12" 
+                           Opacity="0.6" />
+                </StackLayout>
+
+                <StackLayout Grid.Column="1" Orientation="Horizontal">
+                    <Button Text="Reply" 
+                            Command="{Binding ReplyMessageCommand}" 
+                            BackgroundColor="Green" 
+                            TextColor="White" />
+                    <Button Text="Delete" 
+                            Command="{Binding DeleteMessageCommand}" 
+                            BackgroundColor="Red" 
+                            TextColor="White" />
+                </StackLayout>
+            </Grid>
+
+            <!-- Message Content -->
+            <ScrollView Grid.Row="1" IsVisible="{Binding IsMessageSelected}">
+                <StackLayout Padding="15">
+                    <Label Text="{Binding SelectedMessage.Content}" 
+                           FontSize="16" 
+                           LineBreakMode="WordWrap" />
+                </StackLayout>
+            </ScrollView>
+
+            <!-- Compose Area -->
+            <Grid Grid.Row="1" 
+                  RowDefinitions="Auto,Auto,*,Auto" 
+                  IsVisible="{Binding IsComposing}"
+                  Padding="15">
+                
+                <Label Grid.Row="0" 
+                       Text="New Message" 
+                       FontSize="20" 
+                       FontAttributes="Bold" 
+                       Margin="0,0,0,15" />
+
+                <Grid Grid.Row="1" 
+                      RowDefinitions="Auto,Auto,Auto" 
+                      RowSpacing="10" 
+                      Margin="0,0,0,15">
+                    
+                    <Grid Grid.Row="0" ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Grid.Column="0" Text="To:" VerticalOptions="Center" />
+                        <Entry Grid.Column="1" 
+                               Text="{Binding NewMessageRecipient}" 
+                               Placeholder="Enter recipient..." />
+                    </Grid>
+
+                    <Grid Grid.Row="1" ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Grid.Column="0" Text="Subject:" VerticalOptions="Center" />
+                        <Entry Grid.Column="1" 
+                               Text="{Binding NewMessageSubject}" 
+                               Placeholder="Enter subject..." />
+                    </Grid>
+
+                    <Grid Grid.Row="2" ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Grid.Column="0" Text="Type:" VerticalOptions="Center" />
+                        <Picker Grid.Column="1" 
+                                ItemsSource="{Binding MessageTypes}" 
+                                SelectedItem="{Binding NewMessageType}" />
+                    </Grid>
+                </Grid>
+
+                <Editor Grid.Row="2" 
+                        Text="{Binding NewMessageContent}" 
+                        Placeholder="Type your message here..." 
+                        AutoSize="TextChanges" 
+                        MinimumHeightRequest="200" />
+
+                <Grid Grid.Row="3" 
+                      ColumnDefinitions="*,Auto,Auto" 
+                      ColumnSpacing="10" 
+                      Margin="0,15,0,0">
+                    
+                    <Button Grid.Column="1" 
+                            Text="Send" 
+                            Command="{Binding SendMessageCommand}" 
+                            BackgroundColor="DodgerBlue" 
+                            TextColor="White" />
+                    <Button Grid.Column="2" 
+                            Text="Cancel" 
+                            Command="{Binding CancelComposeCommand}" 
+                            BackgroundColor="Gray" 
+                            TextColor="White" />
+                </Grid>
+            </Grid>
+
+            <!-- Empty State -->
+            <StackLayout Grid.Row="1" 
+                        IsVisible="{Binding IsEmptyState}"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center">
+                <Label Text="📧" 
+                       FontSize="48" 
+                       HorizontalOptions="Center" />
+                <Label Text="Select a message to view" 
+                       FontSize="18" 
+                       HorizontalOptions="Center" 
+                       Opacity="0.6" />
+            </StackLayout>
+        </Grid>
+    </Grid>
 </ContentPage>

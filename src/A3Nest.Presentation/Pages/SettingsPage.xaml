@@ -2,21 +2,276 @@
 <ContentPage x:Class="A3Nest.Presentation.Pages.SettingsPage"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:A3Nest.Presentation.ViewModels"
+             x:DataType="viewmodels:SettingsViewModel"
              Title="Settings">
-    <ScrollView>
-        <VerticalStackLayout Spacing="25" Padding="30,0" VerticalOptions="Center">
-            <Label 
-                x:Name="TitleLabel"
-                Text="Application Settings"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
+    
+    <ScrollView Padding="20">
+        <StackLayout Spacing="30">
+            
+            <!-- Header -->
+            <StackLayout>
+                <Label Text="Settings" 
+                       FontSize="28" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="Center" />
+                <Label Text="Configure your application preferences" 
+                       FontSize="16" 
+                       HorizontalOptions="Center" 
+                       Opacity="0.7" />
+            </StackLayout>
 
-            <Label 
-                x:Name="PlaceholderLabel"
-                Text="Settings content will be implemented in future tasks"
-                FontSize="18"
-                HorizontalOptions="Center" />
-        </VerticalStackLayout>
+            <!-- Appearance Section -->
+            <StackLayout>
+                <Label Text="Appearance" 
+                       FontSize="20" 
+                       FontAttributes="Bold" 
+                       Margin="0,0,0,15" />
+                
+                <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="15">
+                    
+                    <!-- Theme Selection -->
+                    <Grid Grid.Row="0" ColumnDefinitions="*,Auto" ColumnSpacing="15">
+                        <StackLayout Grid.Column="0">
+                            <Label Text="Theme" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Choose your preferred theme" FontSize="14" Opacity="0.7" />
+                        </StackLayout>
+                        <Picker Grid.Column="1" 
+                                ItemsSource="{Binding ThemeOptions}" 
+                                SelectedItem="{Binding SelectedTheme}" 
+                                WidthRequest="150" />
+                    </Grid>
+
+                    <!-- Language Selection -->
+                    <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="15">
+                        <StackLayout Grid.Column="0">
+                            <Label Text="Language" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Select your preferred language" FontSize="14" Opacity="0.7" />
+                        </StackLayout>
+                        <Picker Grid.Column="1" 
+                                ItemsSource="{Binding LanguageOptions}" 
+                                SelectedItem="{Binding SelectedLanguage}" 
+                                WidthRequest="150" />
+                    </Grid>
+
+                    <!-- Font Size -->
+                    <Grid Grid.Row="2" ColumnDefinitions="*,Auto" ColumnSpacing="15">
+                        <StackLayout Grid.Column="0">
+                            <Label Text="Font Size" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Adjust text size for better readability" FontSize="14" Opacity="0.7" />
+                        </StackLayout>
+                        <Slider Grid.Column="1" 
+                                Minimum="12" 
+                                Maximum="20" 
+                                Value="{Binding FontSize}" 
+                                WidthRequest="150" />
+                    </Grid>
+                </Grid>
+            </StackLayout>
+
+            <!-- Notifications Section -->
+            <StackLayout>
+                <Label Text="Notifications" 
+                       FontSize="20" 
+                       FontAttributes="Bold" 
+                       Margin="0,0,0,15" />
+                
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="15">
+                    
+                    <!-- Push Notifications -->
+                    <Grid Grid.Row="0" ColumnDefinitions="*,Auto" ColumnSpacing="15">
+                        <StackLayout Grid.Column="0">
+                            <Label Text="Push Notifications" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Receive notifications on your device" FontSize="14" Opacity="0.7" />
+                        </StackLayout>
+                        <Switch Grid.Column="1" IsToggled="{Binding PushNotificationsEnabled}" />
+                    </Grid>
+
+                    <!-- Email Notifications -->
+                    <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="15">
+                        <StackLayout Grid.Column="0">
+                            <Label Text="Email Notifications" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Receive notifications via email" FontSize="14" Opacity="0.7" />
+                        </StackLayout>
+                        <Switch Grid.Column="1" IsToggled="{Binding EmailNotificationsEnabled}" />
+                    </Grid>
+
+                    <!-- Maintenance Alerts -->
+                    <Grid Grid.Row="2" ColumnDefinitions="*,Auto" ColumnSpacing="15">
+                        <StackLayout Grid.Column="0">
+                            <Label Text="Maintenance Alerts" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Get notified about maintenance requests" FontSize="14" Opacity="0.7" />
+                        </StackLayout>
+                        <Switch Grid.Column="1" IsToggled="{Binding MaintenanceAlertsEnabled}" />
+                    </Grid>
+
+                    <!-- Lease Reminders -->
+                    <Grid Grid.Row="3" ColumnDefinitions="*,Auto" ColumnSpacing="15">
+                        <StackLayout Grid.Column="0">
+                            <Label Text="Lease Reminders" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Reminders for lease renewals and expirations" FontSize="14" Opacity="0.7" />
+                        </StackLayout>
+                        <Switch Grid.Column="1" IsToggled="{Binding LeaseRemindersEnabled}" />
+                    </Grid>
+                </Grid>
+            </StackLayout>
+
+            <!-- Data & Privacy Section -->
+            <StackLayout>
+                <Label Text="Data & Privacy" 
+                       FontSize="20" 
+                       FontAttributes="Bold" 
+                       Margin="0,0,0,15" />
+                
+                <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="15">
+                    
+                    <!-- Auto Backup -->
+                    <Grid Grid.Row="0" ColumnDefinitions="*,Auto" ColumnSpacing="15">
+                        <StackLayout Grid.Column="0">
+                            <Label Text="Auto Backup" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Automatically backup your data" FontSize="14" Opacity="0.7" />
+                        </StackLayout>
+                        <Switch Grid.Column="1" IsToggled="{Binding AutoBackupEnabled}" />
+                    </Grid>
+
+                    <!-- Data Sync -->
+                    <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="15">
+                        <StackLayout Grid.Column="0">
+                            <Label Text="Cloud Sync" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Sync data across devices" FontSize="14" Opacity="0.7" />
+                        </StackLayout>
+                        <Switch Grid.Column="1" IsToggled="{Binding CloudSyncEnabled}" />
+                    </Grid>
+
+                    <!-- Analytics -->
+                    <Grid Grid.Row="2" ColumnDefinitions="*,Auto" ColumnSpacing="15">
+                        <StackLayout Grid.Column="0">
+                            <Label Text="Usage Analytics" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Help improve the app by sharing usage data" FontSize="14" Opacity="0.7" />
+                        </StackLayout>
+                        <Switch Grid.Column="1" IsToggled="{Binding AnalyticsEnabled}" />
+                    </Grid>
+                </Grid>
+            </StackLayout>
+
+            <!-- Account Section -->
+            <StackLayout>
+                <Label Text="Account" 
+                       FontSize="20" 
+                       FontAttributes="Bold" 
+                       Margin="0,0,0,15" />
+                
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="15">
+                    
+                    <!-- Profile Info -->
+                    <Grid Grid.Row="0" ColumnDefinitions="*,Auto" ColumnSpacing="15">
+                        <StackLayout Grid.Column="0">
+                            <Label Text="Profile Information" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Update your profile details" FontSize="14" Opacity="0.7" />
+                        </StackLayout>
+                        <Button Grid.Column="1" 
+                                Text="Edit Profile" 
+                                Command="{Binding EditProfileCommand}" />
+                    </Grid>
+
+                    <!-- Change Password -->
+                    <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="15">
+                        <StackLayout Grid.Column="0">
+                            <Label Text="Password" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Change your account password" FontSize="14" Opacity="0.7" />
+                        </StackLayout>
+                        <Button Grid.Column="1" 
+                                Text="Change Password" 
+                                Command="{Binding ChangePasswordCommand}" />
+                    </Grid>
+
+                    <!-- Two-Factor Authentication -->
+                    <Grid Grid.Row="2" ColumnDefinitions="*,Auto" ColumnSpacing="15">
+                        <StackLayout Grid.Column="0">
+                            <Label Text="Two-Factor Authentication" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Add an extra layer of security" FontSize="14" Opacity="0.7" />
+                        </StackLayout>
+                        <Switch Grid.Column="1" IsToggled="{Binding TwoFactorEnabled}" />
+                    </Grid>
+
+                    <!-- Sign Out -->
+                    <Grid Grid.Row="3" ColumnDefinitions="*,Auto" ColumnSpacing="15">
+                        <StackLayout Grid.Column="0">
+                            <Label Text="Sign Out" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Sign out of your account" FontSize="14" Opacity="0.7" />
+                        </StackLayout>
+                        <Button Grid.Column="1" 
+                                Text="Sign Out" 
+                                Command="{Binding SignOutCommand}" 
+                                BackgroundColor="Red" 
+                                TextColor="White" />
+                    </Grid>
+                </Grid>
+            </StackLayout>
+
+            <!-- About Section -->
+            <StackLayout>
+                <Label Text="About" 
+                       FontSize="20" 
+                       FontAttributes="Bold" 
+                       Margin="0,0,0,15" />
+                
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="15">
+                    
+                    <!-- App Version -->
+                    <Grid Grid.Row="0" ColumnDefinitions="*,Auto" ColumnSpacing="15">
+                        <StackLayout Grid.Column="0">
+                            <Label Text="App Version" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Current version information" FontSize="14" Opacity="0.7" />
+                        </StackLayout>
+                        <Label Grid.Column="1" 
+                               Text="{Binding AppVersion}" 
+                               FontSize="14" 
+                               VerticalOptions="Center" />
+                    </Grid>
+
+                    <!-- Privacy Policy -->
+                    <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="15">
+                        <StackLayout Grid.Column="0">
+                            <Label Text="Privacy Policy" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Read our privacy policy" FontSize="14" Opacity="0.7" />
+                        </StackLayout>
+                        <Button Grid.Column="1" 
+                                Text="View" 
+                                Command="{Binding ViewPrivacyPolicyCommand}" />
+                    </Grid>
+
+                    <!-- Terms of Service -->
+                    <Grid Grid.Row="2" ColumnDefinitions="*,Auto" ColumnSpacing="15">
+                        <StackLayout Grid.Column="0">
+                            <Label Text="Terms of Service" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Read our terms of service" FontSize="14" Opacity="0.7" />
+                        </StackLayout>
+                        <Button Grid.Column="1" 
+                                Text="View" 
+                                Command="{Binding ViewTermsCommand}" />
+                    </Grid>
+
+                    <!-- Support -->
+                    <Grid Grid.Row="3" ColumnDefinitions="*,Auto" ColumnSpacing="15">
+                        <StackLayout Grid.Column="0">
+                            <Label Text="Support" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Get help and support" FontSize="14" Opacity="0.7" />
+                        </StackLayout>
+                        <Button Grid.Column="1" 
+                                Text="Contact Support" 
+                                Command="{Binding ContactSupportCommand}" />
+                    </Grid>
+                </Grid>
+            </StackLayout>
+
+            <!-- Save Button -->
+            <Button Text="Save Settings" 
+                    Command="{Binding SaveSettingsCommand}" 
+                    BackgroundColor="Green" 
+                    TextColor="White" 
+                    FontSize="16" 
+                    Margin="0,20,0,0" />
+        </StackLayout>
     </ScrollView>
 </ContentPage>

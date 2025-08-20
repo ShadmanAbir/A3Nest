@@ -2,21 +2,223 @@
 <ContentPage x:Class="A3Nest.Presentation.Pages.GuestViewPage"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:A3Nest.Presentation.Components"
+             xmlns:viewmodels="clr-namespace:A3Nest.Presentation.ViewModels"
+             x:DataType="viewmodels:GuestViewViewModel"
              Title="Guest View">
-    <ScrollView>
-        <VerticalStackLayout Spacing="25" Padding="30,0" VerticalOptions="Center">
-            <Label 
-                x:Name="TitleLabel"
-                Text="Guest View"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
+    
+    <ScrollView Padding="20">
+        <StackLayout Spacing="25">
+            
+            <!-- Header -->
+            <StackLayout>
+                <Label Text="Welcome to A3Nest" 
+                       FontSize="28" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="Center" />
+                <Label Text="Property Management Made Simple" 
+                       FontSize="18" 
+                       HorizontalOptions="Center" 
+                       Opacity="0.7" />
+            </StackLayout>
 
-            <Label 
-                x:Name="PlaceholderLabel"
-                Text="Guest view content will be implemented in future tasks"
-                FontSize="18"
-                HorizontalOptions="Center" />
-        </VerticalStackLayout>
+            <!-- Guest Access Notice -->
+            <Border BackgroundColor="LightYellow" 
+                    Stroke="Orange" 
+                    StrokeThickness="2" 
+                    Padding="15">
+                <StackLayout>
+                    <Label Text="🔒 Guest Access" 
+                           FontSize="16" 
+                           FontAttributes="Bold" />
+                    <Label Text="You are viewing A3Nest in guest mode with limited functionality. Sign in to access all features." 
+                           FontSize="14" 
+                           LineBreakMode="WordWrap" />
+                </StackLayout>
+            </Border>
+
+            <!-- Quick Overview Cards -->
+            <Grid ColumnDefinitions="*,*" 
+                  RowDefinitions="Auto,Auto" 
+                  ColumnSpacing="15" 
+                  RowSpacing="15">
+                
+                <components:CardWidget Grid.Column="0" Grid.Row="0"
+                                     Title="Properties"
+                                     Value="{Binding PublicPropertiesCount}"
+                                     Icon="🏢" />
+                
+                <components:CardWidget Grid.Column="1" Grid.Row="0"
+                                     Title="Available Units"
+                                     Value="{Binding AvailableUnitsCount}"
+                                     Icon="🏠" />
+                
+                <components:CardWidget Grid.Column="0" Grid.Row="1"
+                                     Title="Property Types"
+                                     Value="{Binding PropertyTypesCount}"
+                                     Icon="📋" />
+                
+                <components:CardWidget Grid.Column="1" Grid.Row="1"
+                                     Title="Locations"
+                                     Value="{Binding LocationsCount}"
+                                     Icon="📍" />
+            </Grid>
+
+            <!-- Available Properties Section -->
+            <StackLayout>
+                <Label Text="Available Properties" 
+                       FontSize="20" 
+                       FontAttributes="Bold" 
+                       Margin="0,0,0,15" />
+                
+                <components:SearchBar Placeholder="Search available properties..." 
+                                    SearchCommand="{Binding SearchPropertiesCommand}" />
+                
+                <CollectionView ItemsSource="{Binding AvailableProperties}" 
+                              Margin="0,15,0,0">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="White" 
+                                    Stroke="LightGray" 
+                                    StrokeThickness="1" 
+                                    Padding="15" 
+                                    Margin="0,0,0,10">
+                                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" 
+                                      ColumnDefinitions="*,Auto">
+                                    
+                                    <Label Grid.Row="0" Grid.Column="0" 
+                                           Text="{Binding Name}" 
+                                           FontSize="18" 
+                                           FontAttributes="Bold" />
+                                    
+                                    <Label Grid.Row="1" Grid.Column="0" 
+                                           Text="{Binding Address}" 
+                                           FontSize="14" 
+                                           Opacity="0.7" />
+                                    
+                                    <Label Grid.Row="2" Grid.Column="0" 
+                                           Text="{Binding PropertyType}" 
+                                           FontSize="12" 
+                                           BackgroundColor="LightBlue" 
+                                           Padding="5" 
+                                           HorizontalOptions="Start" />
+                                    
+                                    <Label Grid.Row="3" Grid.Column="0" 
+                                           Text="{Binding AvailableUnits, StringFormat='{0} units available'}" 
+                                           FontSize="14" 
+                                           TextColor="Green" />
+                                    
+                                    <Label Grid.Row="4" Grid.Column="0" 
+                                           Text="{Binding Description}" 
+                                           FontSize="12" 
+                                           LineBreakMode="WordWrap" 
+                                           Opacity="0.8" />
+                                    
+                                    <Button Grid.Row="0" Grid.RowSpan="5" Grid.Column="1" 
+                                            Text="View Details" 
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:GuestViewViewModel}}, Path=ViewPropertyDetailsCommand}"
+                                            CommandParameter="{Binding .}"
+                                            VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+
+            <!-- Features Overview -->
+            <StackLayout>
+                <Label Text="A3Nest Features" 
+                       FontSize="20" 
+                       FontAttributes="Bold" 
+                       Margin="0,0,0,15" />
+                
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="15">
+                    
+                    <Grid Grid.Row="0" ColumnDefinitions="Auto,*" ColumnSpacing="15">
+                        <Label Grid.Column="0" Text="🏢" FontSize="24" VerticalOptions="Center" />
+                        <StackLayout Grid.Column="1">
+                            <Label Text="Property Management" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Comprehensive property and unit management system" FontSize="14" Opacity="0.7" />
+                        </StackLayout>
+                    </Grid>
+
+                    <Grid Grid.Row="1" ColumnDefinitions="Auto,*" ColumnSpacing="15">
+                        <Label Grid.Column="0" Text="👥" FontSize="24" VerticalOptions="Center" />
+                        <StackLayout Grid.Column="1">
+                            <Label Text="Tenant Management" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Streamlined tenant onboarding and lease management" FontSize="14" Opacity="0.7" />
+                        </StackLayout>
+                    </Grid>
+
+                    <Grid Grid.Row="2" ColumnDefinitions="Auto,*" ColumnSpacing="15">
+                        <Label Grid.Column="0" Text="💬" FontSize="24" VerticalOptions="Center" />
+                        <StackLayout Grid.Column="1">
+                            <Label Text="Communication Hub" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Built-in messaging and notification system" FontSize="14" Opacity="0.7" />
+                        </StackLayout>
+                    </Grid>
+
+                    <Grid Grid.Row="3" ColumnDefinitions="Auto,*" ColumnSpacing="15">
+                        <Label Grid.Column="0" Text="📊" FontSize="24" VerticalOptions="Center" />
+                        <StackLayout Grid.Column="1">
+                            <Label Text="Analytics & Reports" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Detailed financial and operational reporting" FontSize="14" Opacity="0.7" />
+                        </StackLayout>
+                    </Grid>
+                </Grid>
+            </StackLayout>
+
+            <!-- Call to Action -->
+            <StackLayout Spacing="15">
+                <Label Text="Ready to get started?" 
+                       FontSize="18" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="Center" />
+                
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                    <Button Grid.Column="0" 
+                            Text="Sign In" 
+                            Command="{Binding SignInCommand}" 
+                            BackgroundColor="DodgerBlue" 
+                            TextColor="White" />
+                    <Button Grid.Column="1" 
+                            Text="Learn More" 
+                            Command="{Binding LearnMoreCommand}" 
+                            BackgroundColor="Gray" 
+                            TextColor="White" />
+                </Grid>
+            </StackLayout>
+
+            <!-- Contact Information -->
+            <StackLayout>
+                <Label Text="Need Help?" 
+                       FontSize="16" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="Center" />
+                <Label Text="Contact our support team for assistance" 
+                       FontSize="14" 
+                       HorizontalOptions="Center" 
+                       Opacity="0.7" />
+                <Button Text="Contact Support" 
+                        Command="{Binding ContactSupportCommand}" 
+                        BackgroundColor="Orange" 
+                        TextColor="White" 
+                        HorizontalOptions="Center" 
+                        Margin="0,10,0,0" />
+            </StackLayout>
+
+            <!-- Footer -->
+            <StackLayout Margin="0,20,0,0">
+                <Label Text="A3Nest Property Management" 
+                       FontSize="12" 
+                       HorizontalOptions="Center" 
+                       Opacity="0.6" />
+                <Label Text="{Binding AppVersion, StringFormat='Version {0}'}" 
+                       FontSize="10" 
+                       HorizontalOptions="Center" 
+                       Opacity="0.5" />
+            </StackLayout>
+        </StackLayout>
     </ScrollView>
 </ContentPage>

@@ -2,21 +2,297 @@
 <ContentPage x:Class="A3Nest.Presentation.Pages.DashboardPage"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             Title="Dashboard">
+             xmlns:components="clr-namespace:A3Nest.Presentation.Components"
+             xmlns:viewmodels="clr-namespace:A3Nest.Presentation.ViewModels"
+             x:DataType="viewmodels:DashboardViewModel"
+             x:Name="DashboardPageView"
+             Title="{Binding Title}">
+    
     <ScrollView>
-        <VerticalStackLayout Spacing="25" Padding="30,0" VerticalOptions="Center">
-            <Label 
-                x:Name="WelcomeLabel"
-                Text="Welcome to A3Nest Dashboard"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
+        <Grid Padding="16" RowSpacing="16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-            <Label 
-                x:Name="PlaceholderLabel"
-                Text="Dashboard content will be implemented in future tasks"
-                FontSize="18"
-                HorizontalOptions="Center" />
-        </VerticalStackLayout>
+            <!-- Welcome Header -->
+            <StackLayout Grid.Row="0" Spacing="8">
+                <Label Text="Welcome to A3Nest Dashboard"
+                       FontSize="28"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                <Label Text="Property Management Overview"
+                       FontSize="16"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+            </StackLayout>
+
+            <!-- Key Metrics Cards -->
+            <Grid Grid.Row="1" 
+                  ColumnDefinitions="*,*,*,*" 
+                  ColumnSpacing="12"
+                  RowDefinitions="Auto,Auto"
+                  RowSpacing="12">
+                
+                <!-- Total Properties Card -->
+                <components:CardWidget Grid.Column="0"
+                                       Title="Properties"
+                                       PrimaryValue="{Binding TotalProperties}"
+                                       SecondaryValue="Total Properties"
+                                       IconSource="property_icon.svg"
+                                       ActionButtonText="View All"
+                                       ActionCommand="{Binding NavigateToPropertiesCommand}" />
+
+                <!-- Total Tenants Card -->
+                <components:CardWidget Grid.Column="1"
+                                       Title="Tenants"
+                                       PrimaryValue="{Binding TotalTenants}"
+                                       SecondaryValue="Active Tenants"
+                                       IconSource="tenant_icon.svg"
+                                       ActionButtonText="View All"
+                                       ActionCommand="{Binding NavigateToTenantsCommand}" />
+
+                <!-- Pending Tasks Card -->
+                <components:CardWidget Grid.Column="2"
+                                       Title="Tasks"
+                                       PrimaryValue="{Binding PendingTasksCount}"
+                                       SecondaryValue="Pending Tasks"
+                                       IconSource="task_icon.svg"
+                                       ActionButtonText="View All"
+                                       ActionCommand="{Binding NavigateToTasksCommand}" />
+
+                <!-- Unread Messages Card -->
+                <components:CardWidget Grid.Column="3"
+                                       Title="Messages"
+                                       PrimaryValue="{Binding UnreadMessagesCount}"
+                                       SecondaryValue="Unread Messages"
+                                       IconSource="message_icon.svg"
+                                       ActionButtonText="View All"
+                                       ActionCommand="{Binding NavigateToMessagesCommand}" />
+
+                <!-- Financial Summary Cards -->
+                <components:CardWidget Grid.Row="1" Grid.Column="0"
+                                       Title="Total Revenue"
+                                       PrimaryValue="{Binding TotalRevenue, StringFormat='${0:N0}'}"
+                                       SecondaryValue="All Time"
+                                       IconSource="revenue_icon.svg" />
+
+                <components:CardWidget Grid.Row="1" Grid.Column="1"
+                                       Title="Monthly Revenue"
+                                       PrimaryValue="{Binding MonthlyRevenue, StringFormat='${0:N0}'}"
+                                       SecondaryValue="This Month"
+                                       IconSource="monthly_icon.svg" />
+
+                <components:CardWidget Grid.Row="1" Grid.Column="2"
+                                       Title="Occupancy Rate"
+                                       PrimaryValue="{Binding OccupancyRate, StringFormat='{0}%'}"
+                                       SecondaryValue="Current Rate"
+                                       IconSource="occupancy_icon.svg" />
+
+                <components:CardWidget Grid.Row="1" Grid.Column="3"
+                                       Title="Upcoming Events"
+                                       PrimaryValue="{Binding UpcomingEventsCount}"
+                                       SecondaryValue="This Week"
+                                       IconSource="calendar_icon.svg"
+                                       ActionButtonText="View Calendar"
+                                       ActionCommand="{Binding NavigateToCalendarCommand}" />
+            </Grid>
+
+            <!-- Quick Navigation Cards -->
+            <StackLayout Grid.Row="2" Spacing="12">
+                <Label Text="Quick Actions"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12">
+                    <Border Grid.Column="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                            StrokeShape="RoundRectangle 12"
+                            Padding="16">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NavigateToPropertiesCommand}" />
+                        </Border.GestureRecognizers>
+                        <StackLayout Spacing="8">
+                            <Image Source="property_icon.svg" 
+                                   WidthRequest="32" 
+                                   HeightRequest="32"
+                                   HorizontalOptions="Center" />
+                            <Label Text="Manage Properties"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center" />
+                            <Label Text="Add, edit, and view property details"
+                                   FontSize="12"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"
+                                   Opacity="0.8" />
+                        </StackLayout>
+                    </Border>
+
+                    <Border Grid.Column="1"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDark}}"
+                            StrokeShape="RoundRectangle 12"
+                            Padding="16">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NavigateToTenantsCommand}" />
+                        </Border.GestureRecognizers>
+                        <StackLayout Spacing="8">
+                            <Image Source="tenant_icon.svg" 
+                                   WidthRequest="32" 
+                                   HeightRequest="32"
+                                   HorizontalOptions="Center" />
+                            <Label Text="Manage Tenants"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center" />
+                            <Label Text="View tenant information and applications"
+                                   FontSize="12"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"
+                                   Opacity="0.8" />
+                        </StackLayout>
+                    </Border>
+
+                    <Border Grid.Column="2"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Tertiary}, Dark={StaticResource TertiaryDark}}"
+                            StrokeShape="RoundRectangle 12"
+                            Padding="16">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NavigateToMessagesCommand}" />
+                        </Border.GestureRecognizers>
+                        <StackLayout Spacing="8">
+                            <Image Source="message_icon.svg" 
+                                   WidthRequest="32" 
+                                   HeightRequest="32"
+                                   HorizontalOptions="Center" />
+                            <Label Text="Messages"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center" />
+                            <Label Text="Communicate with tenants and staff"
+                                   FontSize="12"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"
+                                   Opacity="0.8" />
+                        </StackLayout>
+                    </Border>
+                </Grid>
+            </StackLayout>
+
+            <!-- Recent Activity Section -->
+            <StackLayout Grid.Row="3" Spacing="12">
+                <Label Text="Recent Activity"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+                    <!-- Recent Properties -->
+                    <Border Grid.Column="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+                            Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 8"
+                            Padding="16">
+                        <StackLayout Spacing="12">
+                            <Label Text="Recent Properties"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                            
+                            <CollectionView ItemsSource="{Binding RecentProperties}"
+                                            HeightRequest="200">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Padding="0,4" ColumnDefinitions="*,Auto">
+                                            <StackLayout Grid.Column="0">
+                                                <Label Text="{Binding Name}"
+                                                       FontSize="14"
+                                                       FontAttributes="Bold" />
+                                                <Label Text="{Binding Address.Street}"
+                                                       FontSize="12"
+                                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                                            </StackLayout>
+                                            <Label Grid.Column="1"
+                                                   Text="{Binding TotalUnits, StringFormat='{0} units'}"
+                                                   FontSize="12"
+                                                   VerticalOptions="Center"
+                                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                                <CollectionView.EmptyView>
+                                    <Label Text="No recent properties"
+                                           FontSize="14"
+                                           TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                </CollectionView.EmptyView>
+                            </CollectionView>
+                        </StackLayout>
+                    </Border>
+
+                    <!-- Recent Tenants -->
+                    <Border Grid.Column="1"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+                            Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 8"
+                            Padding="16">
+                        <StackLayout Spacing="12">
+                            <Label Text="Recent Tenants"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                            
+                            <CollectionView ItemsSource="{Binding RecentTenants}"
+                                            HeightRequest="200">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Padding="0,4" ColumnDefinitions="*,Auto">
+                                            <StackLayout Grid.Column="0">
+                                                <Label Text="{Binding FullName}"
+                                                       FontSize="14"
+                                                       FontAttributes="Bold" />
+                                                <Label Text="{Binding ContactInfo.Email}"
+                                                       FontSize="12"
+                                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                                            </StackLayout>
+                                            <Label Grid.Column="1"
+                                                   Text="{Binding IsActive, Converter={StaticResource BoolToActiveStatusConverter}}"
+                                                   FontSize="12"
+                                                   VerticalOptions="Center"
+                                                   TextColor="{Binding IsActive, Converter={StaticResource BoolToStatusColorConverter}}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                                <CollectionView.EmptyView>
+                                    <Label Text="No recent tenants"
+                                           FontSize="14"
+                                           TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                </CollectionView.EmptyView>
+                            </CollectionView>
+                        </StackLayout>
+                    </Border>
+                </Grid>
+            </StackLayout>
+        </Grid>
     </ScrollView>
+
+    <!-- Loading Overlay -->
+    <Grid IsVisible="{Binding IsLoading}"
+          BackgroundColor="Black"
+          Opacity="0.5">
+        <ActivityIndicator IsRunning="{Binding IsLoading}"
+                           Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center" />
+    </Grid>
 </ContentPage>

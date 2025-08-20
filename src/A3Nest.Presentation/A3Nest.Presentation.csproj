@@ -68,6 +68,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\A3Nest.Application\A3Nest.Application.csproj" />
 	  <ProjectReference Include="..\A3Nest.Domain\A3Nest.Domain.csproj" />
+	  <ProjectReference Include="..\A3Nest.Infrastructure\A3Nest.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

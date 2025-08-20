@@ -104,13 +104,18 @@
 
 
 
+
   - Implement DataGrid component with ItemsSource and Columns bindable properties
   - Create CardWidget component for dashboard widgets
   - Implement SearchBar component with Elasticsearch-ready SearchCommand property
   - Create ModalForm component for data entry forms
   - _Requirements: 3.1, 3.2, 3.5_
 
-- [ ] 11. Implement page ViewModels with MVVM pattern
+- [x] 11. Implement page ViewModels with MVVM pattern
+
+
+
+
 
   - Create DashboardViewModel, PropertiesViewModel, TenantsViewModel, LeaseApplicationsViewModel ViewModels
   - Create OwnerPortalViewModel, MessagingViewModel, CalendarViewModel, SettingsViewModel, GuestViewViewModel
@@ -118,7 +123,11 @@
   - Configure dependency injection for ViewModels with Application service interfaces
   - _Requirements: 4.1, 4.2, 4.3, 4.4_
 
-- [ ] 12. Create MAUI pages with XAML layouts
+- [x] 12. Create MAUI pages with XAML layouts
+
+
+
+
 
   - Implement DashboardPage with dashboard widgets and navigation cards
   - Create PropertiesPage with property list and search functionality
@@ -126,7 +135,11 @@
   - Create LeaseApplicationsPage with application workflow interface
   - _Requirements: 2.1, 2.2, 10.2_
 
-- [ ] 13. Implement remaining MAUI pages
+- [x] 13. Implement remaining MAUI pages
+
+
+
+
 
   - Create OwnerPortalPage with owner-specific functionality
   - Implement MessagingPage with message list and composition interface
@@ -135,7 +148,9 @@
   - Create GuestViewPage with limited functionality for guests
   - _Requirements: 2.1, 2.2, 10.2_
 
-- [ ] 14. Configure theme support and responsive design
+- [-] 14. Configure theme support and responsive design
+
+
 
   - Implement light and dark theme resource dictionaries
   - Configure automatic theme switching based on system preferences

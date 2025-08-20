@@ -2,21 +2,229 @@
 <ContentPage x:Class="A3Nest.Presentation.Pages.CalendarPage"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:A3Nest.Presentation.Components"
+             xmlns:viewmodels="clr-namespace:A3Nest.Presentation.ViewModels"
+             x:DataType="viewmodels:CalendarViewModel"
              Title="Calendar">
-    <ScrollView>
-        <VerticalStackLayout Spacing="25" Padding="30,0" VerticalOptions="Center">
-            <Label 
-                x:Name="TitleLabel"
-                Text="Calendar and Events"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
+    
+    <Grid RowDefinitions="Auto,*" Padding="15">
+        
+        <!-- Header and Controls -->
+        <Grid Grid.Row="0" 
+              ColumnDefinitions="*,Auto,Auto,Auto" 
+              ColumnSpacing="10" 
+              Margin="0,0,0,20">
+            
+            <Label Grid.Column="0" 
+                   Text="{Binding CurrentMonthYear}" 
+                   FontSize="24" 
+                   FontAttributes="Bold" 
+                   VerticalOptions="Center" />
+            
+            <Button Grid.Column="1" 
+                    Text="◀" 
+                    Command="{Binding PreviousMonthCommand}" 
+                    WidthRequest="40" />
+            
+            <Button Grid.Column="2" 
+                    Text="▶" 
+                    Command="{Binding NextMonthCommand}" 
+                    WidthRequest="40" />
+            
+            <Button Grid.Column="3" 
+                    Text="New Event" 
+                    Command="{Binding NewEventCommand}" 
+                    BackgroundColor="DodgerBlue" 
+                    TextColor="White" />
+        </Grid>
 
-            <Label 
-                x:Name="PlaceholderLabel"
-                Text="Calendar content will be implemented in future tasks"
-                FontSize="18"
-                HorizontalOptions="Center" />
-        </VerticalStackLayout>
-    </ScrollView>
+        <!-- Main Content -->
+        <Grid Grid.Row="1" ColumnDefinitions="2*,*" ColumnSpacing="20">
+            
+            <!-- Calendar View -->
+            <Grid Grid.Column="0" RowDefinitions="Auto,*">
+                
+                <!-- Day Headers -->
+                <Grid Grid.Row="0" 
+                      ColumnDefinitions="*,*,*,*,*,*,*" 
+                      HeightRequest="40" 
+                      Margin="0,0,0,10">
+                    
+                    <Label Grid.Column="0" Text="Sun" HorizontalOptions="Center" FontAttributes="Bold" />
+                    <Label Grid.Column="1" Text="Mon" HorizontalOptions="Center" FontAttributes="Bold" />
+                    <Label Grid.Column="2" Text="Tue" HorizontalOptions="Center" FontAttributes="Bold" />
+                    <Label Grid.Column="3" Text="Wed" HorizontalOptions="Center" FontAttributes="Bold" />
+                    <Label Grid.Column="4" Text="Thu" HorizontalOptions="Center" FontAttributes="Bold" />
+                    <Label Grid.Column="5" Text="Fri" HorizontalOptions="Center" FontAttributes="Bold" />
+                    <Label Grid.Column="6" Text="Sat" HorizontalOptions="Center" FontAttributes="Bold" />
+                </Grid>
+
+                <!-- Calendar Grid -->
+                <CollectionView Grid.Row="1" 
+                              ItemsSource="{Binding CalendarDays}"
+                              SelectionMode="Single"
+                              SelectedItem="{Binding SelectedDay}">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" 
+                                       Span="7" 
+                                       VerticalItemSpacing="5" 
+                                       HorizontalItemSpacing="5" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="{Binding IsToday, Converter={StaticResource BoolToColorConverter}}"
+                                    Stroke="{Binding IsSelected, Converter={StaticResource BoolToColorConverter}}"
+                                    StrokeThickness="2"
+                                    HeightRequest="80"
+                                    Padding="5">
+                                <Grid RowDefinitions="Auto,*">
+                                    <Label Grid.Row="0" 
+                                           Text="{Binding Day}" 
+                                           FontSize="14" 
+                                           FontAttributes="{Binding IsCurrentMonth, Converter={StaticResource BoolToFontAttributesConverter}}"
+                                           HorizontalOptions="Start" />
+                                    <StackLayout Grid.Row="1" Spacing="2">
+                                        <CollectionView ItemsSource="{Binding Events}" 
+                                                      IsVisible="{Binding HasEvents}">
+                                            <CollectionView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Label Text="{Binding Title}" 
+                                                           FontSize="10" 
+                                                           BackgroundColor="LightBlue" 
+                                                           Padding="2" 
+                                                           Margin="0,1" />
+                                                </DataTemplate>
+                                            </CollectionView.ItemTemplate>
+                                        </CollectionView>
+                                    </StackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+
+            <!-- Right Panel - Event Details and Management -->
+            <Grid Grid.Column="1" RowDefinitions="Auto,*,Auto">
+                
+                <!-- Selected Day Info -->
+                <StackLayout Grid.Row="0" 
+                           IsVisible="{Binding IsDaySelected}" 
+                           Margin="0,0,0,20">
+                    <Label Text="{Binding SelectedDay.Date, StringFormat='{0:MMMM dd, yyyy}'}" 
+                           FontSize="18" 
+                           FontAttributes="Bold" />
+                    <Label Text="{Binding SelectedDay.EventsCount, StringFormat='{0} events'}" 
+                           FontSize="14" 
+                           Opacity="0.7" />
+                </StackLayout>
+
+                <!-- Events List for Selected Day -->
+                <ScrollView Grid.Row="1" IsVisible="{Binding IsDaySelected}">
+                    <StackLayout>
+                        <Label Text="Events" 
+                               FontSize="16" 
+                               FontAttributes="Bold" 
+                               Margin="0,0,0,10" />
+                        
+                        <CollectionView ItemsSource="{Binding SelectedDay.Events}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BackgroundColor="LightGray" 
+                                            Padding="10" 
+                                            Margin="0,0,0,10">
+                                        <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="*,Auto">
+                                            <Label Grid.Row="0" Grid.Column="0" 
+                                                   Text="{Binding Title}" 
+                                                   FontAttributes="Bold" 
+                                                   FontSize="14" />
+                                            <Label Grid.Row="1" Grid.Column="0" 
+                                                   Text="{Binding StartTime, StringFormat='{0:HH:mm}'}" 
+                                                   FontSize="12" 
+                                                   Opacity="0.7" />
+                                            <Label Grid.Row="2" Grid.Column="0" 
+                                                   Text="{Binding Description}" 
+                                                   FontSize="12" 
+                                                   LineBreakMode="WordWrap" />
+                                            <Label Grid.Row="3" Grid.Column="0" 
+                                                   Text="{Binding Location}" 
+                                                   FontSize="11" 
+                                                   Opacity="0.6" />
+                                            
+                                            <StackLayout Grid.Row="0" Grid.RowSpan="4" Grid.Column="1" 
+                                                       Orientation="Vertical" 
+                                                       Spacing="5">
+                                                <Button Text="Edit" 
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CalendarViewModel}}, Path=EditEventCommand}"
+                                                        CommandParameter="{Binding .}"
+                                                        FontSize="10" />
+                                                <Button Text="Delete" 
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CalendarViewModel}}, Path=DeleteEventCommand}"
+                                                        CommandParameter="{Binding .}"
+                                                        BackgroundColor="Red"
+                                                        TextColor="White"
+                                                        FontSize="10" />
+                                            </StackLayout>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
+                </ScrollView>
+
+                <!-- Event Form -->
+                <StackLayout Grid.Row="1" 
+                           IsVisible="{Binding IsCreatingEvent}" 
+                           Spacing="15">
+                    
+                    <Label Text="New Event" 
+                           FontSize="18" 
+                           FontAttributes="Bold" />
+
+                    <Entry Text="{Binding NewEventTitle}" 
+                           Placeholder="Event title..." />
+
+                    <Editor Text="{Binding NewEventDescription}" 
+                            Placeholder="Event description..." 
+                            HeightRequest="80" />
+
+                    <Entry Text="{Binding NewEventLocation}" 
+                           Placeholder="Location..." />
+
+                    <DatePicker Date="{Binding NewEventDate}" />
+
+                    <TimePicker Time="{Binding NewEventTime}" />
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <Button Grid.Column="0" 
+                                Text="Save" 
+                                Command="{Binding SaveEventCommand}" 
+                                BackgroundColor="Green" 
+                                TextColor="White" />
+                        <Button Grid.Column="1" 
+                                Text="Cancel" 
+                                Command="{Binding CancelEventCommand}" 
+                                BackgroundColor="Gray" 
+                                TextColor="White" />
+                    </Grid>
+                </StackLayout>
+
+                <!-- Quick Actions -->
+                <StackLayout Grid.Row="2" 
+                           Orientation="Horizontal" 
+                           Spacing="10" 
+                           Margin="0,20,0,0">
+                    <Button Text="Today" 
+                            Command="{Binding GoToTodayCommand}" 
+                            BackgroundColor="Orange" 
+                            TextColor="White" />
+                    <Button Text="Week View" 
+                            Command="{Binding WeekViewCommand}" />
+                    <Button Text="Month View" 
+                            Command="{Binding MonthViewCommand}" />
+                </StackLayout>
+            </Grid>
+        </Grid>
+    </Grid>
 </ContentPage>
