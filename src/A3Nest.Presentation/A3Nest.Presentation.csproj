@@ -19,6 +19,9 @@
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<WarningsAsErrors />
+		<WarningsNotAsErrors>XFC0045</WarningsNotAsErrors>
+
 
 		<!-- Display name -->
 		<ApplicationTitle>A3Nest</ApplicationTitle>

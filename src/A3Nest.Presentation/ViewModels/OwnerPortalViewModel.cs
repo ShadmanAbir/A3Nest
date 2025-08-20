@@ -76,12 +76,31 @@ public partial class OwnerPortalViewModel : BaseViewModel
     [ObservableProperty]
     private int upcomingRenewalsCount = 2;
 
+    [ObservableProperty]
+    private bool propertiesTabActive = true;
+
+    [ObservableProperty]
+    private bool financialTabActive;
+
     public ObservableCollection<PropertyDto> OwnerProperties { get; }
     public ObservableCollection<TenantDto> OwnerTenants { get; }
     public ObservableCollection<LeaseApplicationDto> OwnerLeaseApplications { get; }
     public ObservableCollection<ReportDto> OwnerReports { get; }
     public ObservableCollection<TaskDto> OwnerTasks { get; }
     public ObservableCollection<MessageDto> OwnerMessages { get; }
+
+    // Alias for XAML binding compatibility
+    public ObservableCollection<PropertyDto> Properties => OwnerProperties;
+
+    // Property columns for DataGrid
+    public List<string> PropertyColumns { get; } = new()
+    {
+        "Name",
+        "Address",
+        "Type",
+        "Units",
+        "Occupancy"
+    };
 
     public List<string> TimeRangeOptions { get; } = new()
     {
@@ -211,6 +230,36 @@ public partial class OwnerPortalViewModel : BaseViewModel
         
         // Navigation to message details page placeholder
         await Shell.Current.GoToAsync($"//messaging/details?id={message.Id}");
+    }
+
+    [RelayCommand]
+    private async Task ShowPropertiesAsync()
+    {
+        // Navigate to properties page
+        await Shell.Current.GoToAsync("//properties");
+    }
+
+    [RelayCommand]
+    private async Task ShowFinancialReportsAsync()
+    {
+        // Navigate to financial reports or show financial reports view
+        SelectedView = "Reports";
+        await LoadViewDataAsync();
+    }
+
+    [RelayCommand]
+    private async Task ShowMaintenanceAsync()
+    {
+        // Navigate to maintenance view or show maintenance tasks
+        SelectedView = "Tasks";
+        await LoadViewDataAsync();
+    }
+
+    [RelayCommand]
+    private async Task SearchPropertiesAsync()
+    {
+        // Placeholder for property search functionality
+        await Task.Delay(100);
     }
 
     partial void OnSelectedTimeRangeChanged(string value)

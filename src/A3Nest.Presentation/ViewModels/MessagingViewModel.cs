@@ -60,7 +60,21 @@ public partial class MessagingViewModel : BaseViewModel
     private int newMessageRecipientId;
 
     [ObservableProperty]
+    private string newMessageRecipient = string.Empty;
+
+    [ObservableProperty]
+    private string newMessageType = "User";
+
+    [ObservableProperty]
     private bool isComposingMessage;
+
+    // Alias for XAML binding compatibility
+    public bool IsComposing => IsComposingMessage;
+
+    partial void OnIsComposingMessageChanged(bool value)
+    {
+        OnPropertyChanged(nameof(IsComposing));
+    }
 
     [ObservableProperty]
     private bool isSendingMessage;
@@ -83,6 +97,9 @@ public partial class MessagingViewModel : BaseViewModel
     [ObservableProperty]
     private bool isMessageSelected;
 
+    [ObservableProperty]
+    private bool isEmptyState;
+
     public ObservableCollection<MessageDto> Messages { get; }
     public ObservableCollection<MessageDto> FilteredMessages { get; }
     public ObservableCollection<ConversationDto> Conversations { get; }
@@ -101,6 +118,14 @@ public partial class MessagingViewModel : BaseViewModel
         "Sent",
         "Unread",
         "All Messages"
+    };
+
+    public List<string> MessageTypes { get; } = new()
+    {
+        "All",
+        "User",
+        "System",
+        "Notification"
     };
 
     public override async Task LoadAsync()
@@ -193,6 +218,12 @@ public partial class MessagingViewModel : BaseViewModel
         NewMessageText = string.Empty;
         NewMessageSubject = string.Empty;
         NewMessageRecipientId = 0;
+    }
+
+    [RelayCommand]
+    private void CancelCompose()
+    {
+        CancelComposingMessage();
     }
 
     [RelayCommand]

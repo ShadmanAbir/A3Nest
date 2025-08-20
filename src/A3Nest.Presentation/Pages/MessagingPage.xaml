@@ -146,7 +146,7 @@
                 </Grid>
 
                 <Editor Grid.Row="2" 
-                        Text="{Binding NewMessageContent}" 
+                        Text="{Binding NewMessageText}" 
                         Placeholder="Type your message here..." 
                         AutoSize="TextChanges" 
                         MinimumHeightRequest="200" />
