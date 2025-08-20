@@ -5,226 +5,254 @@
              xmlns:components="clr-namespace:A3Nest.Presentation.Components"
              xmlns:viewmodels="clr-namespace:A3Nest.Presentation.ViewModels"
              x:DataType="viewmodels:CalendarViewModel"
-             Title="Calendar">
-    
-    <Grid RowDefinitions="Auto,*" Padding="15">
+             x:Name="CalendarPageView"
+             Title="{Binding Title}">
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="16" RowSpacing="16">
         
-        <!-- Header and Controls -->
-        <Grid Grid.Row="0" 
-              ColumnDefinitions="*,Auto,Auto,Auto" 
-              ColumnSpacing="10" 
-              Margin="0,0,0,20">
+        <!-- Header Section -->
+        <StackLayout Grid.Row="0" Spacing="8">
+            <Label Text="Calendar Management"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+            <Label Text="Manage events, appointments, and scheduling"
+                   FontSize="16"
+                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+        </StackLayout>
+
+        <!-- Navigation and Controls -->
+        <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto,Auto,Auto" ColumnSpacing="12">
             
-            <Label Grid.Column="0" 
-                   Text="{Binding CurrentMonthYear}" 
-                   FontSize="24" 
-                   FontAttributes="Bold" 
-                   VerticalOptions="Center" />
-            
-            <Button Grid.Column="1" 
-                    Text="◀" 
-                    Command="{Binding PreviousMonthCommand}" 
+            <!-- Previous Period Button -->
+            <Button Grid.Column="0"
+                    Text="◀"
+                    Command="{Binding NavigateToPreviousPeriodCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                    FontSize="18"
                     WidthRequest="40" />
-            
-            <Button Grid.Column="2" 
-                    Text="▶" 
-                    Command="{Binding NextMonthCommand}" 
+
+            <!-- Current Period Display -->
+            <StackLayout Grid.Column="1" VerticalOptions="Center">
+                <Label Text="{Binding CurrentMonthYear}"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+            </StackLayout>
+
+            <!-- Next Period Button -->
+            <Button Grid.Column="2"
+                    Text="▶"
+                    Command="{Binding NavigateToNextPeriodCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                    FontSize="18"
                     WidthRequest="40" />
-            
-            <Button Grid.Column="3" 
-                    Text="New Event" 
-                    Command="{Binding NewEventCommand}" 
-                    BackgroundColor="DodgerBlue" 
-                    TextColor="White" />
+
+            <!-- Today Button -->
+            <Button Grid.Column="3"
+                    Text="Today"
+                    Command="{Binding NavigateToTodayCommand}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                    TextColor="White"
+                    FontSize="14"
+                    Padding="12,6"
+                    CornerRadius="6" />
+
+            <!-- Add Event Button -->
+            <Button Grid.Column="4"
+                    Text="Add Event"
+                    Command="{Binding StartCreatingEventCommand}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDark}}"
+                    TextColor="White"
+                    FontSize="14"
+                    Padding="12,6"
+                    CornerRadius="6" />
         </Grid>
 
-        <!-- Main Content -->
-        <Grid Grid.Row="1" ColumnDefinitions="2*,*" ColumnSpacing="20">
+        <!-- Calendar Content -->
+        <Grid Grid.Row="2" ColumnDefinitions="2*,*" ColumnSpacing="16">
             
-            <!-- Calendar View -->
-            <Grid Grid.Column="0" RowDefinitions="Auto,*">
+            <!-- Main Calendar View -->
+            <Border Grid.Column="0"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+                    Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 8"
+                    Padding="16">
                 
-                <!-- Day Headers -->
-                <Grid Grid.Row="0" 
-                      ColumnDefinitions="*,*,*,*,*,*,*" 
-                      HeightRequest="40" 
-                      Margin="0,0,0,10">
+                <StackLayout Spacing="16">
+                    <Label Text="Calendar Events"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
                     
-                    <Label Grid.Column="0" Text="Sun" HorizontalOptions="Center" FontAttributes="Bold" />
-                    <Label Grid.Column="1" Text="Mon" HorizontalOptions="Center" FontAttributes="Bold" />
-                    <Label Grid.Column="2" Text="Tue" HorizontalOptions="Center" FontAttributes="Bold" />
-                    <Label Grid.Column="3" Text="Wed" HorizontalOptions="Center" FontAttributes="Bold" />
-                    <Label Grid.Column="4" Text="Thu" HorizontalOptions="Center" FontAttributes="Bold" />
-                    <Label Grid.Column="5" Text="Fri" HorizontalOptions="Center" FontAttributes="Bold" />
-                    <Label Grid.Column="6" Text="Sat" HorizontalOptions="Center" FontAttributes="Bold" />
-                </Grid>
+                    <!-- Events List -->
+                    <CollectionView ItemsSource="{Binding FilteredEvents}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="12" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={x:Reference CalendarPageView}, Path=BindingContext.ViewEventDetailsCommand}"
+                                                              CommandParameter="{Binding .}" />
+                                    </Grid.GestureRecognizers>
 
-                <!-- Calendar Grid -->
-                <CollectionView Grid.Row="1" 
-                              ItemsSource="{Binding CalendarDays}"
-                              SelectionMode="Single"
-                              SelectedItem="{Binding SelectedDay}">
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" 
-                                       Span="7" 
-                                       VerticalItemSpacing="5" 
-                                       HorizontalItemSpacing="5" />
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Border BackgroundColor="{Binding IsToday, Converter={StaticResource BoolToColorConverter}}"
-                                    Stroke="{Binding IsSelected, Converter={StaticResource BoolToColorConverter}}"
-                                    StrokeThickness="2"
-                                    HeightRequest="80"
-                                    Padding="5">
-                                <Grid RowDefinitions="Auto,*">
-                                    <Label Grid.Row="0" 
-                                           Text="{Binding Day}" 
-                                           FontSize="14" 
-                                           FontAttributes="{Binding IsCurrentMonth, Converter={StaticResource BoolToFontAttributesConverter}}"
-                                           HorizontalOptions="Start" />
-                                    <StackLayout Grid.Row="1" Spacing="2">
-                                        <CollectionView ItemsSource="{Binding Events}" 
-                                                      IsVisible="{Binding HasEvents}">
-                                            <CollectionView.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Label Text="{Binding Title}" 
-                                                           FontSize="10" 
-                                                           BackgroundColor="LightBlue" 
-                                                           Padding="2" 
-                                                           Margin="0,1" />
-                                                </DataTemplate>
-                                            </CollectionView.ItemTemplate>
-                                        </CollectionView>
+                                    <!-- Time -->
+                                    <StackLayout Grid.Column="0" VerticalOptions="Center">
+                                        <Label Text="{Binding StartDate, StringFormat='{0:MMM dd}'}"
+                                               FontSize="12"
+                                               FontAttributes="Bold"
+                                               TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                                        <Label Text="{Binding StartDate, StringFormat='{0:HH:mm}'}"
+                                               FontSize="10"
+                                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                                    </StackLayout>
+
+                                    <!-- Event Details -->
+                                    <StackLayout Grid.Column="1" Spacing="4">
+                                        <Label Text="{Binding Title}"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                                        <Label Text="{Binding Description}"
+                                               FontSize="14"
+                                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                                               LineBreakMode="TailTruncation" />
+                                        <Label Text="{Binding Location}"
+                                               FontSize="12"
+                                               TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}" />
+                                    </StackLayout>
+
+                                    <!-- Actions -->
+                                    <StackLayout Grid.Column="2" Orientation="Horizontal" Spacing="8">
+                                        <Button Text="Edit"
+                                                Command="{Binding Source={x:Reference CalendarPageView}, Path=BindingContext.EditEventCommand}"
+                                                CommandParameter="{Binding .}"
+                                                BackgroundColor="Transparent"
+                                                TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                                                FontSize="12"
+                                                Padding="8,4" />
+                                        <Button Text="Delete"
+                                                Command="{Binding Source={x:Reference CalendarPageView}, Path=BindingContext.DeleteEventCommand}"
+                                                CommandParameter="{Binding .}"
+                                                BackgroundColor="Transparent"
+                                                TextColor="{AppThemeBinding Light={StaticResource Danger}, Dark={StaticResource DangerDark}}"
+                                                FontSize="12"
+                                                Padding="8,4" />
                                     </StackLayout>
                                 </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </Grid>
-
-            <!-- Right Panel - Event Details and Management -->
-            <Grid Grid.Column="1" RowDefinitions="Auto,*,Auto">
-                
-                <!-- Selected Day Info -->
-                <StackLayout Grid.Row="0" 
-                           IsVisible="{Binding IsDaySelected}" 
-                           Margin="0,0,0,20">
-                    <Label Text="{Binding SelectedDay.Date, StringFormat='{0:MMMM dd, yyyy}'}" 
-                           FontSize="18" 
-                           FontAttributes="Bold" />
-                    <Label Text="{Binding SelectedDay.EventsCount, StringFormat='{0} events'}" 
-                           FontSize="14" 
-                           Opacity="0.7" />
-                </StackLayout>
-
-                <!-- Events List for Selected Day -->
-                <ScrollView Grid.Row="1" IsVisible="{Binding IsDaySelected}">
-                    <StackLayout>
-                        <Label Text="Events" 
-                               FontSize="16" 
-                               FontAttributes="Bold" 
-                               Margin="0,0,0,10" />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
                         
-                        <CollectionView ItemsSource="{Binding SelectedDay.Events}">
+                        <CollectionView.EmptyView>
+                            <StackLayout Padding="40" Spacing="16" VerticalOptions="Center">
+                                <Label Text="📅"
+                                       FontSize="48"
+                                       HorizontalOptions="Center" />
+                                <Label Text="No events scheduled"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="Center"
+                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                                <Label Text="Add your first event to get started"
+                                       FontSize="14"
+                                       HorizontalOptions="Center"
+                                       TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}" />
+                            </StackLayout>
+                        </CollectionView.EmptyView>
+                    </CollectionView>
+                </StackLayout>
+            </Border>
+
+            <!-- Sidebar -->
+            <StackLayout Grid.Column="1" Spacing="16">
+                
+                <!-- Today's Events -->
+                <Border BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+                        Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 8"
+                        Padding="16">
+                    <StackLayout Spacing="12">
+                        <Label Text="Today's Events"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                        
+                        <CollectionView ItemsSource="{Binding TodayEvents}"
+                                        HeightRequest="150">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Border BackgroundColor="LightGray" 
-                                            Padding="10" 
-                                            Margin="0,0,0,10">
-                                        <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="*,Auto">
-                                            <Label Grid.Row="0" Grid.Column="0" 
-                                                   Text="{Binding Title}" 
-                                                   FontAttributes="Bold" 
-                                                   FontSize="14" />
-                                            <Label Grid.Row="1" Grid.Column="0" 
-                                                   Text="{Binding StartTime, StringFormat='{0:HH:mm}'}" 
-                                                   FontSize="12" 
-                                                   Opacity="0.7" />
-                                            <Label Grid.Row="2" Grid.Column="0" 
-                                                   Text="{Binding Description}" 
-                                                   FontSize="12" 
-                                                   LineBreakMode="WordWrap" />
-                                            <Label Grid.Row="3" Grid.Column="0" 
-                                                   Text="{Binding Location}" 
-                                                   FontSize="11" 
-                                                   Opacity="0.6" />
-                                            
-                                            <StackLayout Grid.Row="0" Grid.RowSpan="4" Grid.Column="1" 
-                                                       Orientation="Vertical" 
-                                                       Spacing="5">
-                                                <Button Text="Edit" 
-                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CalendarViewModel}}, Path=EditEventCommand}"
-                                                        CommandParameter="{Binding .}"
-                                                        FontSize="10" />
-                                                <Button Text="Delete" 
-                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CalendarViewModel}}, Path=DeleteEventCommand}"
-                                                        CommandParameter="{Binding .}"
-                                                        BackgroundColor="Red"
-                                                        TextColor="White"
-                                                        FontSize="10" />
-                                            </StackLayout>
-                                        </Grid>
-                                    </Border>
+                                    <StackLayout Padding="0,4" Spacing="2">
+                                        <Label Text="{Binding Title}"
+                                               FontSize="14"
+                                               FontAttributes="Bold" />
+                                        <Label Text="{Binding StartDate, StringFormat='{0:HH:mm}'}"
+                                               FontSize="12"
+                                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                                    </StackLayout>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
+                            <CollectionView.EmptyView>
+                                <Label Text="No events today"
+                                       FontSize="14"
+                                       TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </CollectionView.EmptyView>
                         </CollectionView>
                     </StackLayout>
-                </ScrollView>
+                </Border>
 
-                <!-- Event Form -->
-                <StackLayout Grid.Row="1" 
-                           IsVisible="{Binding IsCreatingEvent}" 
-                           Spacing="15">
-                    
-                    <Label Text="New Event" 
-                           FontSize="18" 
-                           FontAttributes="Bold" />
-
-                    <Entry Text="{Binding NewEventTitle}" 
-                           Placeholder="Event title..." />
-
-                    <Editor Text="{Binding NewEventDescription}" 
-                            Placeholder="Event description..." 
-                            HeightRequest="80" />
-
-                    <Entry Text="{Binding NewEventLocation}" 
-                           Placeholder="Location..." />
-
-                    <DatePicker Date="{Binding NewEventDate}" />
-
-                    <TimePicker Time="{Binding NewEventTime}" />
-
-                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
-                        <Button Grid.Column="0" 
-                                Text="Save" 
-                                Command="{Binding SaveEventCommand}" 
-                                BackgroundColor="Green" 
-                                TextColor="White" />
-                        <Button Grid.Column="1" 
-                                Text="Cancel" 
-                                Command="{Binding CancelEventCommand}" 
-                                BackgroundColor="Gray" 
-                                TextColor="White" />
-                    </Grid>
-                </StackLayout>
-
-                <!-- Quick Actions -->
-                <StackLayout Grid.Row="2" 
-                           Orientation="Horizontal" 
-                           Spacing="10" 
-                           Margin="0,20,0,0">
-                    <Button Text="Today" 
-                            Command="{Binding GoToTodayCommand}" 
-                            BackgroundColor="Orange" 
-                            TextColor="White" />
-                    <Button Text="Week View" 
-                            Command="{Binding WeekViewCommand}" />
-                    <Button Text="Month View" 
-                            Command="{Binding MonthViewCommand}" />
-                </StackLayout>
-            </Grid>
+                <!-- Upcoming Events -->
+                <Border BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+                        Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 8"
+                        Padding="16">
+                    <StackLayout Spacing="12">
+                        <Label Text="Upcoming Events"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                        
+                        <CollectionView ItemsSource="{Binding UpcomingEvents}"
+                                        HeightRequest="200">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackLayout Padding="0,4" Spacing="2">
+                                        <Label Text="{Binding Title}"
+                                               FontSize="14"
+                                               FontAttributes="Bold" />
+                                        <Label Text="{Binding StartDate, StringFormat='{0:MMM dd, HH:mm}'}"
+                                               FontSize="12"
+                                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                                    </StackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                            <CollectionView.EmptyView>
+                                <Label Text="No upcoming events"
+                                       FontSize="14"
+                                       TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </CollectionView.EmptyView>
+                        </CollectionView>
+                    </StackLayout>
+                </Border>
+            </StackLayout>
         </Grid>
+    </Grid>
+
+    <!-- Loading Overlay -->
+    <Grid IsVisible="{Binding IsLoading}"
+          BackgroundColor="Black"
+          Opacity="0.5">
+        <ActivityIndicator IsRunning="{Binding IsLoading}"
+                           Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center" />
     </Grid>
 </ContentPage>

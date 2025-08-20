@@ -5,220 +5,308 @@
              xmlns:components="clr-namespace:A3Nest.Presentation.Components"
              xmlns:viewmodels="clr-namespace:A3Nest.Presentation.ViewModels"
              x:DataType="viewmodels:GuestViewViewModel"
-             Title="Guest View">
-    
-    <ScrollView Padding="20">
-        <StackLayout Spacing="25">
-            
-            <!-- Header -->
-            <StackLayout>
-                <Label Text="Welcome to A3Nest" 
-                       FontSize="28" 
-                       FontAttributes="Bold" 
-                       HorizontalOptions="Center" />
-                <Label Text="Property Management Made Simple" 
-                       FontSize="18" 
-                       HorizontalOptions="Center" 
-                       Opacity="0.7" />
-            </StackLayout>
+             x:Name="GuestViewPageView"
+             Title="{Binding Title}">
 
-            <!-- Guest Access Notice -->
-            <Border BackgroundColor="LightYellow" 
-                    Stroke="Orange" 
-                    StrokeThickness="2" 
-                    Padding="15">
-                <StackLayout>
-                    <Label Text="🔒 Guest Access" 
-                           FontSize="16" 
-                           FontAttributes="Bold" />
-                    <Label Text="You are viewing A3Nest in guest mode with limited functionality. Sign in to access all features." 
-                           FontSize="14" 
-                           LineBreakMode="WordWrap" />
-                </StackLayout>
-            </Border>
-
-            <!-- Quick Overview Cards -->
-            <Grid ColumnDefinitions="*,*" 
-                  RowDefinitions="Auto,Auto" 
-                  ColumnSpacing="15" 
-                  RowSpacing="15">
-                
-                <components:CardWidget Grid.Column="0" Grid.Row="0"
-                                     Title="Properties"
-                                     Value="{Binding PublicPropertiesCount}"
-                                     Icon="🏢" />
-                
-                <components:CardWidget Grid.Column="1" Grid.Row="0"
-                                     Title="Available Units"
-                                     Value="{Binding AvailableUnitsCount}"
-                                     Icon="🏠" />
-                
-                <components:CardWidget Grid.Column="0" Grid.Row="1"
-                                     Title="Property Types"
-                                     Value="{Binding PropertyTypesCount}"
-                                     Icon="📋" />
-                
-                <components:CardWidget Grid.Column="1" Grid.Row="1"
-                                     Title="Locations"
-                                     Value="{Binding LocationsCount}"
-                                     Icon="📍" />
-            </Grid>
-
-            <!-- Available Properties Section -->
-            <StackLayout>
-                <Label Text="Available Properties" 
-                       FontSize="20" 
-                       FontAttributes="Bold" 
-                       Margin="0,0,0,15" />
-                
-                <components:SearchBar Placeholder="Search available properties..." 
-                                    SearchCommand="{Binding SearchPropertiesCommand}" />
-                
-                <CollectionView ItemsSource="{Binding AvailableProperties}" 
-                              Margin="0,15,0,0">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Border BackgroundColor="White" 
-                                    Stroke="LightGray" 
-                                    StrokeThickness="1" 
-                                    Padding="15" 
-                                    Margin="0,0,0,10">
-                                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" 
-                                      ColumnDefinitions="*,Auto">
-                                    
-                                    <Label Grid.Row="0" Grid.Column="0" 
-                                           Text="{Binding Name}" 
-                                           FontSize="18" 
-                                           FontAttributes="Bold" />
-                                    
-                                    <Label Grid.Row="1" Grid.Column="0" 
-                                           Text="{Binding Address}" 
-                                           FontSize="14" 
-                                           Opacity="0.7" />
-                                    
-                                    <Label Grid.Row="2" Grid.Column="0" 
-                                           Text="{Binding PropertyType}" 
-                                           FontSize="12" 
-                                           BackgroundColor="LightBlue" 
-                                           Padding="5" 
-                                           HorizontalOptions="Start" />
-                                    
-                                    <Label Grid.Row="3" Grid.Column="0" 
-                                           Text="{Binding AvailableUnits, StringFormat='{0} units available'}" 
-                                           FontSize="14" 
-                                           TextColor="Green" />
-                                    
-                                    <Label Grid.Row="4" Grid.Column="0" 
-                                           Text="{Binding Description}" 
-                                           FontSize="12" 
-                                           LineBreakMode="WordWrap" 
-                                           Opacity="0.8" />
-                                    
-                                    <Button Grid.Row="0" Grid.RowSpan="5" Grid.Column="1" 
-                                            Text="View Details" 
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:GuestViewViewModel}}, Path=ViewPropertyDetailsCommand}"
-                                            CommandParameter="{Binding .}"
-                                            VerticalOptions="Center" />
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </StackLayout>
-
-            <!-- Features Overview -->
-            <StackLayout>
-                <Label Text="A3Nest Features" 
-                       FontSize="20" 
-                       FontAttributes="Bold" 
-                       Margin="0,0,0,15" />
-                
-                <Grid RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="15">
-                    
-                    <Grid Grid.Row="0" ColumnDefinitions="Auto,*" ColumnSpacing="15">
-                        <Label Grid.Column="0" Text="🏢" FontSize="24" VerticalOptions="Center" />
-                        <StackLayout Grid.Column="1">
-                            <Label Text="Property Management" FontSize="16" FontAttributes="Bold" />
-                            <Label Text="Comprehensive property and unit management system" FontSize="14" Opacity="0.7" />
-                        </StackLayout>
-                    </Grid>
-
-                    <Grid Grid.Row="1" ColumnDefinitions="Auto,*" ColumnSpacing="15">
-                        <Label Grid.Column="0" Text="👥" FontSize="24" VerticalOptions="Center" />
-                        <StackLayout Grid.Column="1">
-                            <Label Text="Tenant Management" FontSize="16" FontAttributes="Bold" />
-                            <Label Text="Streamlined tenant onboarding and lease management" FontSize="14" Opacity="0.7" />
-                        </StackLayout>
-                    </Grid>
-
-                    <Grid Grid.Row="2" ColumnDefinitions="Auto,*" ColumnSpacing="15">
-                        <Label Grid.Column="0" Text="💬" FontSize="24" VerticalOptions="Center" />
-                        <StackLayout Grid.Column="1">
-                            <Label Text="Communication Hub" FontSize="16" FontAttributes="Bold" />
-                            <Label Text="Built-in messaging and notification system" FontSize="14" Opacity="0.7" />
-                        </StackLayout>
-                    </Grid>
-
-                    <Grid Grid.Row="3" ColumnDefinitions="Auto,*" ColumnSpacing="15">
-                        <Label Grid.Column="0" Text="📊" FontSize="24" VerticalOptions="Center" />
-                        <StackLayout Grid.Column="1">
-                            <Label Text="Analytics &amp; Reports" FontSize="16" FontAttributes="Bold" />
-                            <Label Text="Detailed financial and operational reporting" FontSize="14" Opacity="0.7" />
-                        </StackLayout>
-                    </Grid>
-                </Grid>
-            </StackLayout>
-
-            <!-- Call to Action -->
-            <StackLayout Spacing="15">
-                <Label Text="Ready to get started?" 
-                       FontSize="18" 
-                       FontAttributes="Bold" 
-                       HorizontalOptions="Center" />
-                
-                <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
-                    <Button Grid.Column="0" 
-                            Text="Sign In" 
-                            Command="{Binding SignInCommand}" 
-                            BackgroundColor="DodgerBlue" 
-                            TextColor="White" />
-                    <Button Grid.Column="1" 
-                            Text="Learn More" 
-                            Command="{Binding LearnMoreCommand}" 
-                            BackgroundColor="Gray" 
-                            TextColor="White" />
-                </Grid>
-            </StackLayout>
-
-            <!-- Contact Information -->
-            <StackLayout>
-                <Label Text="Need Help?" 
-                       FontSize="16" 
-                       FontAttributes="Bold" 
-                       HorizontalOptions="Center" />
-                <Label Text="Contact our support team for assistance" 
-                       FontSize="14" 
-                       HorizontalOptions="Center" 
-                       Opacity="0.7" />
-                <Button Text="Contact Support" 
-                        Command="{Binding ContactSupportCommand}" 
-                        BackgroundColor="Orange" 
-                        TextColor="White" 
-                        HorizontalOptions="Center" 
-                        Margin="0,10,0,0" />
-            </StackLayout>
-
-            <!-- Footer -->
-            <StackLayout Margin="0,20,0,0">
-                <Label Text="A3Nest Property Management" 
-                       FontSize="12" 
-                       HorizontalOptions="Center" 
-                       Opacity="0.6" />
-                <Label Text="{Binding AppVersion, StringFormat='Version {0}'}" 
-                       FontSize="10" 
-                       HorizontalOptions="Center" 
-                       Opacity="0.5" />
-            </StackLayout>
+    <Grid RowDefinitions="Auto,Auto,*" Padding="16" RowSpacing="16">
+        
+        <!-- Header Section -->
+        <StackLayout Grid.Row="0" Spacing="8">
+            <Label Text="Property Search"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+            <Label Text="Find your perfect rental property"
+                   FontSize="16"
+                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
         </StackLayout>
-    </ScrollView>
+
+        <!-- Search and Filter Section -->
+        <Grid Grid.Row="1" RowDefinitions="Auto,Auto" RowSpacing="12">
+            
+            <!-- Search Bar -->
+            <components:SearchBar Grid.Row="0"
+                                  SearchText="{Binding SearchText, Mode=TwoWay}"
+                                  Placeholder="Search properties by name, location, or description..."
+                                  SearchCommand="{Binding SearchCommand}"
+                                  ClearCommand="{Binding ClearSearchCommand}"
+                                  ShowSearchButton="True" />
+
+            <!-- Filter Controls -->
+            <ScrollView Grid.Row="1" Orientation="Horizontal">
+                <StackLayout Orientation="Horizontal" Spacing="12" Padding="0,8">
+                    
+                    <!-- Property Type Filter -->
+                    <StackLayout Spacing="4">
+                        <Label Text="Type" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                        <Picker ItemsSource="{Binding PropertyTypeOptions}"
+                                SelectedItem="{Binding SelectedPropertyType, Mode=TwoWay}"
+                                WidthRequest="120"
+                                FontSize="14" />
+                    </StackLayout>
+
+                    <!-- Location Filter -->
+                    <StackLayout Spacing="4">
+                        <Label Text="Location" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                        <Picker ItemsSource="{Binding LocationOptions}"
+                                SelectedItem="{Binding SelectedLocation, Mode=TwoWay}"
+                                WidthRequest="140"
+                                FontSize="14" />
+                    </StackLayout>
+
+                    <!-- Rent Range -->
+                    <StackLayout Spacing="4">
+                        <Label Text="Min Rent" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                        <Entry Text="{Binding MinRent, Mode=TwoWay}"
+                               Placeholder="0"
+                               Keyboard="Numeric"
+                               WidthRequest="80"
+                               FontSize="14" />
+                    </StackLayout>
+
+                    <StackLayout Spacing="4">
+                        <Label Text="Max Rent" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                        <Entry Text="{Binding MaxRent, Mode=TwoWay}"
+                               Placeholder="10000"
+                               Keyboard="Numeric"
+                               WidthRequest="80"
+                               FontSize="14" />
+                    </StackLayout>
+
+                    <!-- Bedrooms -->
+                    <StackLayout Spacing="4">
+                        <Label Text="Min Bedrooms" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                        <Entry Text="{Binding MinBedrooms, Mode=TwoWay}"
+                               Placeholder="0"
+                               Keyboard="Numeric"
+                               WidthRequest="60"
+                               FontSize="14" />
+                    </StackLayout>
+
+                    <!-- Clear Filters Button -->
+                    <StackLayout Spacing="4" VerticalOptions="End">
+                        <Button Text="Clear Filters"
+                                Command="{Binding ClearFiltersCommand}"
+                                BackgroundColor="Transparent"
+                                TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                                FontSize="12"
+                                Padding="8,4" />
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+        </Grid>
+
+        <!-- Properties Grid -->
+        <ScrollView Grid.Row="2">
+            <StackLayout Spacing="16">
+                
+                <!-- Featured Properties Section -->
+                <StackLayout Spacing="12" IsVisible="{Binding FeaturedProperties.Count, Converter={StaticResource IntToBoolConverter}}">
+                    <Label Text="Featured Properties"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                    
+                    <CollectionView ItemsSource="{Binding FeaturedProperties}"
+                                    HeightRequest="200">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Horizontal" ItemSpacing="16" />
+                        </CollectionView.ItemsLayout>
+                        
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+                                        Stroke="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                                        StrokeThickness="2"
+                                        StrokeShape="RoundRectangle 12"
+                                        Padding="16"
+                                        WidthRequest="300">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={x:Reference GuestViewPageView}, Path=BindingContext.ViewPropertyDetailsCommand}"
+                                                              CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                    
+                                    <StackLayout Spacing="8">
+                                        <Label Text="⭐ FEATURED"
+                                               FontSize="10"
+                                               FontAttributes="Bold"
+                                               TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                                               HorizontalOptions="Start" />
+                                        
+                                        <Label Text="{Binding Name}"
+                                               FontSize="18"
+                                               FontAttributes="Bold"
+                                               TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                                        
+                                        <Label Text="{Binding Address.Street}"
+                                               FontSize="14"
+                                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                                        
+                                        <Label Text="{Binding Description}"
+                                               FontSize="12"
+                                               TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}"
+                                               LineBreakMode="TailTruncation"
+                                               MaxLines="2" />
+                                        
+                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                            <Label Grid.Column="0"
+                                                   Text="{Binding PropertyType}"
+                                                   FontSize="12"
+                                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                                                   VerticalOptions="Center" />
+                                            
+                                            <Button Grid.Column="1"
+                                                    Text="View Details"
+                                                    Command="{Binding Source={x:Reference GuestViewPageView}, Path=BindingContext.ViewPropertyDetailsCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                                                    TextColor="White"
+                                                    FontSize="12"
+                                                    Padding="12,6"
+                                                    CornerRadius="6" />
+                                        </Grid>
+                                    </StackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+
+                <!-- All Properties Section -->
+                <StackLayout Spacing="12">
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                        <Label Grid.Column="0"
+                               Text="Available Properties"
+                               FontSize="20"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}"
+                               VerticalOptions="Center" />
+                        
+                        <Label Grid.Column="1"
+                               Text="{Binding FilteredProperties.Count, StringFormat='{0} properties'}"
+                               FontSize="14"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                               VerticalOptions="Center" />
+                    </Grid>
+                    
+                    <CollectionView ItemsSource="{Binding FilteredProperties}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+                                        Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                                        StrokeThickness="1"
+                                        StrokeShape="RoundRectangle 8"
+                                        Padding="16"
+                                        Margin="0,0,0,12">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={x:Reference GuestViewPageView}, Path=BindingContext.ViewPropertyDetailsCommand}"
+                                                              CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                    
+                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="16">
+                                        
+                                        <!-- Property Details -->
+                                        <StackLayout Grid.Column="0" Spacing="8">
+                                            <Label Text="{Binding Name}"
+                                                   FontSize="18"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                                            
+                                            <Label Text="{Binding Address.Street}"
+                                                   FontSize="14"
+                                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                                            
+                                            <Label Text="{Binding Description}"
+                                                   FontSize="12"
+                                                   TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}"
+                                                   LineBreakMode="TailTruncation"
+                                                   MaxLines="2" />
+                                            
+                                            <Grid ColumnDefinitions="Auto,Auto,Auto" ColumnSpacing="16">
+                                                <Label Grid.Column="0"
+                                                       Text="{Binding PropertyType}"
+                                                       FontSize="12"
+                                                       TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                                                       FontAttributes="Bold" />
+                                                
+                                                <Label Grid.Column="1"
+                                                       Text="{Binding TotalUnits, StringFormat='{0} units'}"
+                                                       FontSize="12"
+                                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                                            </Grid>
+                                        </StackLayout>
+
+                                        <!-- Action Buttons -->
+                                        <StackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
+                                            <Button Text="View Details"
+                                                    Command="{Binding Source={x:Reference GuestViewPageView}, Path=BindingContext.ViewPropertyDetailsCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                                                    TextColor="White"
+                                                    FontSize="12"
+                                                    Padding="12,6"
+                                                    CornerRadius="6" />
+                                            
+                                            <Button Text="Contact"
+                                                    Command="{Binding Source={x:Reference GuestViewPageView}, Path=BindingContext.SubmitInquiryCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDark}}"
+                                                    TextColor="White"
+                                                    FontSize="12"
+                                                    Padding="12,6"
+                                                    CornerRadius="6" />
+                                            
+                                            <Button Text="♡ Save"
+                                                    Command="{Binding Source={x:Reference GuestViewPageView}, Path=BindingContext.SaveFavoriteCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    BackgroundColor="Transparent"
+                                                    TextColor="{AppThemeBinding Light={StaticResource Tertiary}, Dark={StaticResource TertiaryDark}}"
+                                                    FontSize="12"
+                                                    Padding="12,6" />
+                                        </StackLayout>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                        
+                        <CollectionView.EmptyView>
+                            <StackLayout Padding="40" Spacing="16" VerticalOptions="Center">
+                                <Label Text="🏠"
+                                       FontSize="48"
+                                       HorizontalOptions="Center" />
+                                <Label Text="No properties found"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="Center"
+                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                                <Label Text="Try adjusting your search filters to find more properties"
+                                       FontSize="14"
+                                       HorizontalOptions="Center"
+                                       HorizontalTextAlignment="Center"
+                                       TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}" />
+                                <Button Text="Clear Filters"
+                                        Command="{Binding ClearFiltersCommand}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                                        TextColor="White"
+                                        FontSize="16"
+                                        Padding="20,12"
+                                        CornerRadius="8"
+                                        HorizontalOptions="Center" />
+                            </StackLayout>
+                        </CollectionView.EmptyView>
+                    </CollectionView>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+
+    <!-- Loading Overlay -->
+    <Grid IsVisible="{Binding IsLoading}"
+          BackgroundColor="Black"
+          Opacity="0.5">
+        <ActivityIndicator IsRunning="{Binding IsLoading}"
+                           Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center" />
+    </Grid>
 </ContentPage>

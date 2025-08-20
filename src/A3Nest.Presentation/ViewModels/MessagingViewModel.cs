@@ -115,6 +115,12 @@ public partial class MessagingViewModel : BaseViewModel
     }
 
     [RelayCommand]
+    private async Task SearchMessagesAsync()
+    {
+        await SearchAsync();
+    }
+
+    [RelayCommand]
     private async Task SearchAsync()
     {
         if (IsSearching) return;

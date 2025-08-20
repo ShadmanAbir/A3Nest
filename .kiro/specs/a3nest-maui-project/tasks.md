@@ -167,7 +167,9 @@
 
 
 
-- [-] 15. Add sample data and navigation functionality
+- [x] 15. Add sample data and navigation functionality
+
+
 
 
 
@@ -211,7 +213,9 @@
   - _Requirements: 1.2, 9.5, 10.1_
 -
 
-- [ ] 18. Final integration and build verification
+- [-] 18. Final integration and build verification
+
+
 
 
 
