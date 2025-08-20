@@ -99,7 +99,8 @@
   - Set up routing for DashboardPage, PropertiesPage, TenantsPage, LeaseApplicationsPage, OwnerPortalPage, MessagingPage, CalendarPage, SettingsPage, GuestViewPage
   - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
 
-- [-] 10. Create reusable UI components
+- [x] 10. Create reusable UI components
+
 
 
 
