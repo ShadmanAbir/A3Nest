@@ -93,30 +93,29 @@
                         <Grid ColumnDefinitions="*,*" ColumnSpacing="20">
                             <StackLayout Grid.Column="0">
                                 <Label Text="Income Summary" FontSize="16" FontAttributes="Bold" />
-                                <components:DataGrid ItemsSource="{Binding IncomeReports}" 
-                                                   Columns="{Binding IncomeColumns}" />
+                                <components:DataGrid ItemsSource="{Binding OwnerReports}" 
+                                                   Columns="{Binding PropertyColumns}" />
                             </StackLayout>
                             <StackLayout Grid.Column="1">
                                 <Label Text="Expense Summary" FontSize="16" FontAttributes="Bold" />
-                                <components:DataGrid ItemsSource="{Binding ExpenseReports}" 
-                                                   Columns="{Binding ExpenseColumns}" />
+                                <components:DataGrid ItemsSource="{Binding FinancialSummary}" 
+                                                   Columns="{Binding PropertyColumns}" />
                             </StackLayout>
                         </Grid>
                     </StackLayout>
 
                     <!-- Maintenance Tab -->
-                    <StackLayout IsVisible="{Binding MaintenanceTabActive}">
+                    <StackLayout IsVisible="{Binding PendingMaintenanceCount}">
                         <Label Text="Maintenance Requests" FontSize="20" FontAttributes="Bold" Margin="0,0,0,15" />
                         <Grid ColumnDefinitions="*,Auto" ColumnSpacing="15" Margin="0,0,0,15">
                             <components:SearchBar Grid.Column="0" 
                                                 Placeholder="Search maintenance requests..." 
-                                                SearchCommand="{Binding SearchMaintenanceCommand}" />
+                                                SearchCommand="{Binding SearchPropertiesCommand}" />
                             <Button Grid.Column="1" 
                                     Text="New Request" 
-                                    Command="{Binding CreateMaintenanceRequestCommand}" />
+                                    Command="{Binding FinancialSummary}" />
                         </Grid>
-                        <components:DataGrid ItemsSource="{Binding MaintenanceRequests}" 
-                                           Columns="{Binding MaintenanceColumns}" />
+                        
                     </StackLayout>
                 </Grid>
             </Grid>

@@ -8,305 +8,259 @@
              x:Name="GuestViewPageView"
              Title="{Binding Title}">
 
-    <Grid RowDefinitions="Auto,Auto,*" Padding="16" RowSpacing="16">
-        
-        <!-- Header Section -->
-        <StackLayout Grid.Row="0" Spacing="8">
-            <Label Text="Property Search"
-                   FontSize="28"
-                   FontAttributes="Bold"
-                   TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
-            <Label Text="Find your perfect rental property"
-                   FontSize="16"
-                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-        </StackLayout>
+    <!-- Root grid with overlay z-order -->
+    <Grid>
+        <!-- Main content -->
+        <Grid RowDefinitions="Auto,Auto,*" Padding="16" RowSpacing="16">
 
-        <!-- Search and Filter Section -->
-        <Grid Grid.Row="1" RowDefinitions="Auto,Auto" RowSpacing="12">
-            
-            <!-- Search Bar -->
-            <components:SearchBar Grid.Row="0"
-                                  SearchText="{Binding SearchText, Mode=TwoWay}"
-                                  Placeholder="Search properties by name, location, or description..."
-                                  SearchCommand="{Binding SearchCommand}"
-                                  ClearCommand="{Binding ClearSearchCommand}"
-                                  ShowSearchButton="True" />
+            <!-- Header Section -->
+            <VerticalStackLayout Grid.Row="0" Spacing="8">
+                <Label Text="Property Search"
+                       FontSize="28"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                <Label Text="Find your perfect rental property"
+                       FontSize="16"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+            </VerticalStackLayout>
 
-            <!-- Filter Controls -->
-            <ScrollView Grid.Row="1" Orientation="Horizontal">
-                <StackLayout Orientation="Horizontal" Spacing="12" Padding="0,8">
-                    
-                    <!-- Property Type Filter -->
-                    <StackLayout Spacing="4">
-                        <Label Text="Type" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-                        <Picker ItemsSource="{Binding PropertyTypeOptions}"
-                                SelectedItem="{Binding SelectedPropertyType, Mode=TwoWay}"
-                                WidthRequest="120"
-                                FontSize="14" />
-                    </StackLayout>
+            <!-- Search + Filters -->
+            <Grid Grid.Row="1" RowDefinitions="Auto,Auto" RowSpacing="12">
+                <components:SearchBar Grid.Row="0"
+                                      SearchText="{Binding SearchText, Mode=TwoWay}"
+                                      Placeholder="Search properties..."
+                                      SearchCommand="{Binding SearchCommand}"
+                                      ClearCommand="{Binding ClearSearchCommand}"
+                                      ShowSearchButton="True" />
 
-                    <!-- Location Filter -->
-                    <StackLayout Spacing="4">
-                        <Label Text="Location" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-                        <Picker ItemsSource="{Binding LocationOptions}"
-                                SelectedItem="{Binding SelectedLocation, Mode=TwoWay}"
-                                WidthRequest="140"
-                                FontSize="14" />
-                    </StackLayout>
+                <ScrollView Grid.Row="1" Orientation="Horizontal">
+                    <HorizontalStackLayout Spacing="12" Padding="0,8">
 
-                    <!-- Rent Range -->
-                    <StackLayout Spacing="4">
-                        <Label Text="Min Rent" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-                        <Entry Text="{Binding MinRent, Mode=TwoWay}"
-                               Placeholder="0"
-                               Keyboard="Numeric"
-                               WidthRequest="80"
-                               FontSize="14" />
-                    </StackLayout>
+                        <!-- Property Type -->
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Type" FontSize="12"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                            <Picker ItemsSource="{Binding PropertyTypeOptions}"
+                                    SelectedItem="{Binding SelectedPropertyType, Mode=TwoWay}"
+                                    WidthRequest="120"
+                                    FontSize="14" />
+                        </VerticalStackLayout>
 
-                    <StackLayout Spacing="4">
-                        <Label Text="Max Rent" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-                        <Entry Text="{Binding MaxRent, Mode=TwoWay}"
-                               Placeholder="10000"
-                               Keyboard="Numeric"
-                               WidthRequest="80"
-                               FontSize="14" />
-                    </StackLayout>
+                        <!-- Location -->
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Location" FontSize="12"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                            <Picker ItemsSource="{Binding LocationOptions}"
+                                    SelectedItem="{Binding SelectedLocation, Mode=TwoWay}"
+                                    WidthRequest="140"
+                                    FontSize="14" />
+                        </VerticalStackLayout>
 
-                    <!-- Bedrooms -->
-                    <StackLayout Spacing="4">
-                        <Label Text="Min Bedrooms" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-                        <Entry Text="{Binding MinBedrooms, Mode=TwoWay}"
-                               Placeholder="0"
-                               Keyboard="Numeric"
-                               WidthRequest="60"
-                               FontSize="14" />
-                    </StackLayout>
+                        <!-- Rent Min/Max -->
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Min Rent" FontSize="12"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                            <Entry Text="{Binding MinRent, Mode=TwoWay}"
+                                   Placeholder="0"
+                                   Keyboard="Numeric"
+                                   WidthRequest="80"
+                                   FontSize="14" />
+                        </VerticalStackLayout>
 
-                    <!-- Clear Filters Button -->
-                    <StackLayout Spacing="4" VerticalOptions="End">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Max Rent" FontSize="12"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                            <Entry Text="{Binding MaxRent, Mode=TwoWay}"
+                                   Placeholder="10000"
+                                   Keyboard="Numeric"
+                                   WidthRequest="80"
+                                   FontSize="14" />
+                        </VerticalStackLayout>
+
+                        <!-- Bedrooms -->
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Bedrooms" FontSize="12"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                            <Entry Text="{Binding MinBedrooms, Mode=TwoWay}"
+                                   Placeholder="0"
+                                   Keyboard="Numeric"
+                                   WidthRequest="60"
+                                   FontSize="14" />
+                        </VerticalStackLayout>
+
+                        <!-- Clear Filters -->
                         <Button Text="Clear Filters"
                                 Command="{Binding ClearFiltersCommand}"
                                 BackgroundColor="Transparent"
                                 TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
                                 FontSize="12"
-                                Padding="8,4" />
-                    </StackLayout>
-                </StackLayout>
+                                Padding="8,4"
+                                VerticalOptions="End" />
+                    </HorizontalStackLayout>
+                </ScrollView>
+            </Grid>
+
+            <!-- Properties Section -->
+            <ScrollView Grid.Row="2">
+                <VerticalStackLayout Spacing="16">
+
+                    <!-- Featured -->
+                    <VerticalStackLayout Spacing="12"
+                                         IsVisible="{Binding FeaturedProperties.Count, Converter={StaticResource IntToBoolConverter}}">
+                        <Label Text="Featured Properties"
+                               FontSize="20"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+
+                        <CollectionView ItemsSource="{Binding FeaturedProperties}"
+                                        ItemsLayout="HorizontalList"
+                                        ItemSizingStrategy="MeasureAllItems"
+                                        HeightRequest="220">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+                                            Stroke="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                                            StrokeThickness="2"
+                                            Padding="16"
+                                            WidthRequest="300">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="12" />
+                                        </Border.StrokeShape>
+
+                                        <VerticalStackLayout Spacing="8">
+                                            <Label Text="⭐ FEATURED"
+                                                   FontSize="10"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+
+                                            <Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold"
+                                                   TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                                            <Label Text="{Binding Street}" FontSize="14"
+                                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                                            <Label Text="{Binding Address}" FontSize="12"
+                                                   LineBreakMode="TailTruncation" MaxLines="2"
+                                                   TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}" />
+
+                                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                                <Label Grid.Column="0"
+                                                       Text="{Binding SelectedPropertyType}"
+                                                       FontSize="12"
+                                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                                                <Button Grid.Column="1"
+                                                        Text="View Details"
+                                                        Command="{Binding Source={x:Reference GuestViewPageView}, Path=BindingContext.ViewPropertyDetailsCommand}"
+                                                        CommandParameter="{Binding .}"
+                                                        BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                                                        TextColor="White"
+                                                        FontSize="12"
+                                                        CornerRadius="6" />
+                                            </Grid>
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+
+                    <!-- All Properties -->
+                    <VerticalStackLayout Spacing="12">
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                            <Label Text="Available Properties"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                            <Label Grid.Column="1"
+                                   Text="{Binding FilteredProperties.Count, StringFormat='{0} properties'}"
+                                   FontSize="14"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                        </Grid>
+
+                        <CollectionView ItemsSource="{Binding FilteredProperties}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+                                            Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                                            StrokeThickness="1"
+                                            Padding="16" Margin="0,0,0,12">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="8" />
+                                        </Border.StrokeShape>
+                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="16">
+                                            <!-- Property Details -->
+                                            <VerticalStackLayout Spacing="6">
+                                                <Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold"
+                                                       TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                                                <Label Text="{Binding Address}" FontSize="14"
+                                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                                                <Label Text="{Binding Title}" FontSize="12"
+                                                       LineBreakMode="TailTruncation" MaxLines="2"
+                                                       TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}" />
+                                            </VerticalStackLayout>
+
+                                            <!-- Buttons -->
+                                            <VerticalStackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
+                                                <Button Text="View Details"
+                                                        Command="{Binding Source={x:Reference GuestViewPageView}, Path=BindingContext.ViewPropertyDetailsCommand}"
+                                                        CommandParameter="{Binding .}"
+                                                        BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                                                        TextColor="White"
+                                                        FontSize="12"
+                                                        CornerRadius="6" />
+                                                <Button Text="Contact"
+                                                        Command="{Binding Source={x:Reference GuestViewPageView}, Path=BindingContext.SubmitInquiryCommand}"
+                                                        CommandParameter="{Binding .}"
+                                                        BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDark}}"
+                                                        TextColor="White"
+                                                        FontSize="12"
+                                                        CornerRadius="6" />
+                                                <Button Text="♡ Save"
+                                                        Command="{Binding Source={x:Reference GuestViewPageView}, Path=BindingContext.SaveFavoriteCommand}"
+                                                        CommandParameter="{Binding .}"
+                                                        BackgroundColor="Transparent"
+                                                        TextColor="{AppThemeBinding Light={StaticResource Tertiary}, Dark={StaticResource TertiaryDark}}"
+                                                        FontSize="12" />
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+
+                            <!-- EmptyView -->
+                            <CollectionView.EmptyView>
+                                <VerticalStackLayout Padding="40" Spacing="16" VerticalOptions="Center">
+                                    <Label Text="🏠" FontSize="48" HorizontalOptions="Center" />
+                                    <Label Text="No properties found"
+                                           FontSize="18"
+                                           FontAttributes="Bold"
+                                           HorizontalOptions="Center"
+                                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                                    <Label Text="Try adjusting your search filters"
+                                           FontSize="14"
+                                           HorizontalTextAlignment="Center"
+                                           TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}" />
+                                    <Button Text="Clear Filters"
+                                            Command="{Binding ClearFiltersCommand}"
+                                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                                            TextColor="White"
+                                            FontSize="16"
+                                            CornerRadius="8" />
+                                </VerticalStackLayout>
+                            </CollectionView.EmptyView>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
             </ScrollView>
         </Grid>
 
-        <!-- Properties Grid -->
-        <ScrollView Grid.Row="2">
-            <StackLayout Spacing="16">
-                
-                <!-- Featured Properties Section -->
-                <StackLayout Spacing="12" IsVisible="{Binding FeaturedProperties.Count, Converter={StaticResource IntToBoolConverter}}">
-                    <Label Text="Featured Properties"
-                           FontSize="20"
-                           FontAttributes="Bold"
-                           TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
-                    
-                    <CollectionView ItemsSource="{Binding FeaturedProperties}"
-                                    HeightRequest="200">
-                        <CollectionView.ItemsLayout>
-                            <LinearItemsLayout Orientation="Horizontal" ItemSpacing="16" />
-                        </CollectionView.ItemsLayout>
-                        
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Border BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
-                                        Stroke="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                                        StrokeThickness="2"
-                                        StrokeShape="RoundRectangle 12"
-                                        Padding="16"
-                                        WidthRequest="300">
-                                    <Border.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Source={x:Reference GuestViewPageView}, Path=BindingContext.ViewPropertyDetailsCommand}"
-                                                              CommandParameter="{Binding .}" />
-                                    </Border.GestureRecognizers>
-                                    
-                                    <StackLayout Spacing="8">
-                                        <Label Text="⭐ FEATURED"
-                                               FontSize="10"
-                                               FontAttributes="Bold"
-                                               TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                                               HorizontalOptions="Start" />
-                                        
-                                        <Label Text="{Binding Name}"
-                                               FontSize="18"
-                                               FontAttributes="Bold"
-                                               TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
-                                        
-                                        <Label Text="{Binding Address.Street}"
-                                               FontSize="14"
-                                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-                                        
-                                        <Label Text="{Binding Description}"
-                                               FontSize="12"
-                                               TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}"
-                                               LineBreakMode="TailTruncation"
-                                               MaxLines="2" />
-                                        
-                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
-                                            <Label Grid.Column="0"
-                                                   Text="{Binding PropertyType}"
-                                                   FontSize="12"
-                                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
-                                                   VerticalOptions="Center" />
-                                            
-                                            <Button Grid.Column="1"
-                                                    Text="View Details"
-                                                    Command="{Binding Source={x:Reference GuestViewPageView}, Path=BindingContext.ViewPropertyDetailsCommand}"
-                                                    CommandParameter="{Binding .}"
-                                                    BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                                                    TextColor="White"
-                                                    FontSize="12"
-                                                    Padding="12,6"
-                                                    CornerRadius="6" />
-                                        </Grid>
-                                    </StackLayout>
-                                </Border>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </StackLayout>
-
-                <!-- All Properties Section -->
-                <StackLayout Spacing="12">
-                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
-                        <Label Grid.Column="0"
-                               Text="Available Properties"
-                               FontSize="20"
-                               FontAttributes="Bold"
-                               TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}"
-                               VerticalOptions="Center" />
-                        
-                        <Label Grid.Column="1"
-                               Text="{Binding FilteredProperties.Count, StringFormat='{0} properties'}"
-                               FontSize="14"
-                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
-                               VerticalOptions="Center" />
-                    </Grid>
-                    
-                    <CollectionView ItemsSource="{Binding FilteredProperties}">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Border BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
-                                        Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
-                                        StrokeThickness="1"
-                                        StrokeShape="RoundRectangle 8"
-                                        Padding="16"
-                                        Margin="0,0,0,12">
-                                    <Border.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Source={x:Reference GuestViewPageView}, Path=BindingContext.ViewPropertyDetailsCommand}"
-                                                              CommandParameter="{Binding .}" />
-                                    </Border.GestureRecognizers>
-                                    
-                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="16">
-                                        
-                                        <!-- Property Details -->
-                                        <StackLayout Grid.Column="0" Spacing="8">
-                                            <Label Text="{Binding Name}"
-                                                   FontSize="18"
-                                                   FontAttributes="Bold"
-                                                   TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
-                                            
-                                            <Label Text="{Binding Address.Street}"
-                                                   FontSize="14"
-                                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-                                            
-                                            <Label Text="{Binding Description}"
-                                                   FontSize="12"
-                                                   TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}"
-                                                   LineBreakMode="TailTruncation"
-                                                   MaxLines="2" />
-                                            
-                                            <Grid ColumnDefinitions="Auto,Auto,Auto" ColumnSpacing="16">
-                                                <Label Grid.Column="0"
-                                                       Text="{Binding PropertyType}"
-                                                       FontSize="12"
-                                                       TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                                                       FontAttributes="Bold" />
-                                                
-                                                <Label Grid.Column="1"
-                                                       Text="{Binding TotalUnits, StringFormat='{0} units'}"
-                                                       FontSize="12"
-                                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-                                            </Grid>
-                                        </StackLayout>
-
-                                        <!-- Action Buttons -->
-                                        <StackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
-                                            <Button Text="View Details"
-                                                    Command="{Binding Source={x:Reference GuestViewPageView}, Path=BindingContext.ViewPropertyDetailsCommand}"
-                                                    CommandParameter="{Binding .}"
-                                                    BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                                                    TextColor="White"
-                                                    FontSize="12"
-                                                    Padding="12,6"
-                                                    CornerRadius="6" />
-                                            
-                                            <Button Text="Contact"
-                                                    Command="{Binding Source={x:Reference GuestViewPageView}, Path=BindingContext.SubmitInquiryCommand}"
-                                                    CommandParameter="{Binding .}"
-                                                    BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDark}}"
-                                                    TextColor="White"
-                                                    FontSize="12"
-                                                    Padding="12,6"
-                                                    CornerRadius="6" />
-                                            
-                                            <Button Text="♡ Save"
-                                                    Command="{Binding Source={x:Reference GuestViewPageView}, Path=BindingContext.SaveFavoriteCommand}"
-                                                    CommandParameter="{Binding .}"
-                                                    BackgroundColor="Transparent"
-                                                    TextColor="{AppThemeBinding Light={StaticResource Tertiary}, Dark={StaticResource TertiaryDark}}"
-                                                    FontSize="12"
-                                                    Padding="12,6" />
-                                        </StackLayout>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                        
-                        <CollectionView.EmptyView>
-                            <StackLayout Padding="40" Spacing="16" VerticalOptions="Center">
-                                <Label Text="🏠"
-                                       FontSize="48"
-                                       HorizontalOptions="Center" />
-                                <Label Text="No properties found"
-                                       FontSize="18"
-                                       FontAttributes="Bold"
-                                       HorizontalOptions="Center"
-                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-                                <Label Text="Try adjusting your search filters to find more properties"
-                                       FontSize="14"
-                                       HorizontalOptions="Center"
-                                       HorizontalTextAlignment="Center"
-                                       TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}" />
-                                <Button Text="Clear Filters"
-                                        Command="{Binding ClearFiltersCommand}"
-                                        BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                                        TextColor="White"
-                                        FontSize="16"
-                                        Padding="20,12"
-                                        CornerRadius="8"
-                                        HorizontalOptions="Center" />
-                            </StackLayout>
-                        </CollectionView.EmptyView>
-                    </CollectionView>
-                </StackLayout>
-            </StackLayout>
-        </ScrollView>
-    </Grid>
-
-    <!-- Loading Overlay -->
-    <Grid IsVisible="{Binding IsLoading}"
-          BackgroundColor="Black"
-          Opacity="0.5">
-        <ActivityIndicator IsRunning="{Binding IsLoading}"
-                           Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                           VerticalOptions="Center"
-                           HorizontalOptions="Center" />
+        <!-- Overlay -->
+        <Grid IsVisible="{Binding IsLoading}"
+              BackgroundColor="Black"
+              Opacity="0.5"
+              InputTransparent="False">
+            <ActivityIndicator IsRunning="{Binding IsLoading}"
+                               Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" />
+        </Grid>
     </Grid>
 </ContentPage>

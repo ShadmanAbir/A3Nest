@@ -9,7 +9,7 @@
              Title="{Binding Title}">
 
     <Grid RowDefinitions="Auto,Auto,*" Padding="16" RowSpacing="16">
-        
+
         <!-- Header Section -->
         <StackLayout Grid.Row="0" Spacing="8">
             <Label Text="Properties Management"
@@ -23,7 +23,7 @@
 
         <!-- Search and Filter Section -->
         <Grid Grid.Row="1" RowDefinitions="Auto,Auto" RowSpacing="12">
-            
+
             <!-- Search Bar -->
             <components:SearchBar Grid.Row="0"
                                   SearchText="{Binding SearchText, Mode=TwoWay}"
@@ -34,10 +34,12 @@
 
             <!-- Filter and Action Bar -->
             <Grid Grid.Row="1" ColumnDefinitions="Auto,Auto,Auto,Auto,*,Auto" ColumnSpacing="12">
-                
+
                 <!-- Property Type Filter -->
                 <StackLayout Grid.Column="0" Spacing="4">
-                    <Label Text="Type" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                    <Label Text="Type"
+                           FontSize="12"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
                     <Picker ItemsSource="{Binding PropertyTypes}"
                             SelectedItem="{Binding SelectedPropertyType, Mode=TwoWay}"
                             WidthRequest="120"
@@ -46,7 +48,9 @@
 
                 <!-- Sort By Filter -->
                 <StackLayout Grid.Column="1" Spacing="4">
-                    <Label Text="Sort By" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                    <Label Text="Sort By"
+                           FontSize="12"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
                     <Picker ItemsSource="{Binding SortOptions}"
                             SelectedItem="{Binding SortBy, Mode=TwoWay}"
                             WidthRequest="120"
@@ -55,9 +59,11 @@
 
                 <!-- Sort Direction -->
                 <StackLayout Grid.Column="2" Spacing="4">
-                    <Label Text="Order" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                    <Label Text="Order"
+                           FontSize="12"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
                     <Button Text="{Binding SortAscending, Converter={StaticResource BoolToSortDirectionConverter}}"
-                            Command="{Binding Source={x:Reference PropertiesPageView}, Path=ToggleSortDirectionCommand}"
+                            Command="{Binding RefreshCommand}"
                             BackgroundColor="Transparent"
                             TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
                             FontSize="14"
@@ -93,13 +99,14 @@
                 Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
                 StrokeThickness="1"
                 StrokeShape="RoundRectangle 8">
-            
+
+            <!-- Only one child allowed inside Border -->
             <CollectionView ItemsSource="{Binding FilteredProperties}"
                             SelectionMode="Single"
                             SelectedItem="{Binding SelectedProperty, Mode=TwoWay}">
-                
+
+                <!-- Header -->
                 <CollectionView.Header>
-                    <!-- Header Row -->
                     <Grid BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
                           Padding="16,12"
                           ColumnDefinitions="*,120,100,120,120,100">
@@ -112,12 +119,13 @@
                     </Grid>
                 </CollectionView.Header>
 
+                <!-- Items -->
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid Padding="16,12"
                               ColumnDefinitions="*,120,100,120,120,100"
                               BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
-                            
+
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding Source={x:Reference PropertiesPageView}, Path=BindingContext.ViewPropertyDetailsCommand}"
                                                       CommandParameter="{Binding .}" />
@@ -125,14 +133,14 @@
 
                             <!-- Property Details -->
                             <StackLayout Grid.Column="0" Spacing="4">
-                                <Label Text="{Binding Name}"
+                                <Label Text="{Binding Name, TargetNullValue='N/A'}"
                                        FontSize="16"
                                        FontAttributes="Bold"
                                        TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
-                                <Label Text="{Binding Address.Street}"
+                                <Label Text="{Binding Street, TargetNullValue='N/A'}"
                                        FontSize="14"
                                        TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-                                <Label Text="{Binding Description}"
+                                <Label Text="{Binding Address, TargetNullValue='No description'}"
                                        FontSize="12"
                                        TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}"
                                        LineBreakMode="TailTruncation" />
@@ -140,29 +148,25 @@
 
                             <!-- Property Type -->
                             <Label Grid.Column="1"
-                                   Text="{Binding PropertyType}"
+                                   Text="{Binding Address, TargetNullValue='N/A'}"
                                    FontSize="14"
                                    VerticalOptions="Center"
                                    TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
 
                             <!-- Total Units -->
                             <Label Grid.Column="2"
-                                   Text="{Binding TotalUnits}"
+                                   Text="{Binding Title, StringFormat='{0} units'}"
                                    FontSize="14"
                                    VerticalOptions="Center"
                                    HorizontalOptions="Center"
                                    TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
 
                             <!-- Purchase Date -->
-                            <Label Grid.Column="3"
-                                   Text="{Binding PurchaseDate, StringFormat='{0:MMM dd, yyyy}'}"
-                                   FontSize="14"
-                                   VerticalOptions="Center"
-                                   TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
+                            
 
                             <!-- Current Value -->
                             <Label Grid.Column="4"
-                                   Text="{Binding CurrentValue.Amount, StringFormat='${0:N0}'}"
+                                   Text="{Binding Title, StringFormat='${0:N0}', TargetNullValue='$0'}"
                                    FontSize="14"
                                    VerticalOptions="Center"
                                    FontAttributes="Bold"
@@ -195,6 +199,7 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 
+                <!-- Empty View -->
                 <CollectionView.EmptyView>
                     <StackLayout Padding="40" Spacing="16" VerticalOptions="Center">
                         <Image Source="empty_properties.svg"
@@ -222,19 +227,20 @@
                                 HorizontalOptions="Center" />
                     </StackLayout>
                 </CollectionView.EmptyView>
+
             </CollectionView>
         </Border>
     </Grid>
 
-    <!-- Loading Overlay -->
-    <Grid IsVisible="{Binding IsLoading}"
+    <!-- Grid IsVisible="{Binding IsLoading}"
           BackgroundColor="Black"
           Opacity="0.5">
         <ActivityIndicator IsRunning="{Binding IsLoading}"
                            Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
                            VerticalOptions="Center"
                            HorizontalOptions="Center" />
-    </Grid>
+    </Grid> -->
+  
 
     <!-- Search Loading Indicator -->
     <Grid IsVisible="{Binding IsSearching}"

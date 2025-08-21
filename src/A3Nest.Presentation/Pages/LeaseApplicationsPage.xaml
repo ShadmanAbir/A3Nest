@@ -8,293 +8,322 @@
              x:Name="LeaseApplicationsPageView"
              Title="{Binding Title}">
 
-    <Grid RowDefinitions="Auto,Auto,Auto,*" Padding="16" RowSpacing="16">
-        
-        <!-- Header Section -->
-        <StackLayout Grid.Row="0" Spacing="8">
-            <Label Text="Lease Applications"
-                   FontSize="28"
-                   FontAttributes="Bold"
-                   TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
-            <Label Text="Manage lease applications and approvals"
-                   FontSize="16"
-                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-        </StackLayout>
+    <!-- Root Grid to layer content and overlay -->
+    <Grid>
 
-        <!-- Summary Cards -->
-        <Grid Grid.Row="1" ColumnDefinitions="*,*,*" ColumnSpacing="12">
-            <Border Grid.Column="0"
-                    BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                    StrokeShape="RoundRectangle 8"
-                    Padding="16">
-                <StackLayout Spacing="4">
-                    <Label Text="{Binding PendingCount}"
-                           FontSize="24"
-                           FontAttributes="Bold"
-                           TextColor="White"
-                           HorizontalOptions="Center" />
-                    <Label Text="Pending"
-                           FontSize="14"
-                           TextColor="White"
-                           HorizontalOptions="Center" />
-                </StackLayout>
-            </Border>
+        <!-- ================= MAIN CONTENT ================= -->
+        <Grid RowDefinitions="Auto,Auto,Auto,*"
+              RowSpacing="16"
+              Padding="16">
 
-            <Border Grid.Column="1"
-                    BackgroundColor="{AppThemeBinding Light={StaticResource Success}, Dark={StaticResource SuccessDark}}"
-                    StrokeShape="RoundRectangle 8"
-                    Padding="16">
-                <StackLayout Spacing="4">
-                    <Label Text="{Binding ApprovedCount}"
-                           FontSize="24"
-                           FontAttributes="Bold"
-                           TextColor="White"
-                           HorizontalOptions="Center" />
-                    <Label Text="Approved"
-                           FontSize="14"
-                           TextColor="White"
-                           HorizontalOptions="Center" />
-                </StackLayout>
-            </Border>
+            <!-- ================= HEADER ================= -->
+            <VerticalStackLayout Grid.Row="0" Spacing="4">
+                <Label Text="Lease Applications"
+                       FontSize="28"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                <Label Text="Manage lease applications and approvals"
+                       FontSize="16"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+            </VerticalStackLayout>
 
-            <Border Grid.Column="2"
-                    BackgroundColor="{AppThemeBinding Light={StaticResource Danger}, Dark={StaticResource DangerDark}}"
-                    StrokeShape="RoundRectangle 8"
-                    Padding="16">
-                <StackLayout Spacing="4">
-                    <Label Text="{Binding RejectedCount}"
-                           FontSize="24"
-                           FontAttributes="Bold"
-                           TextColor="White"
-                           HorizontalOptions="Center" />
-                    <Label Text="Rejected"
-                           FontSize="14"
-                           TextColor="White"
-                           HorizontalOptions="Center" />
-                </StackLayout>
-            </Border>
-        </Grid>
+            <!-- ================= SUMMARY CARDS ================= -->
+            <Grid Grid.Row="1"
+                  ColumnDefinitions="*,*,*"
+                  ColumnSpacing="12">
 
-        <!-- Search and Filter Section -->
-        <Grid Grid.Row="2" RowDefinitions="Auto,Auto" RowSpacing="12">
-            
-            <!-- Search Bar -->
-            <components:SearchBar Grid.Row="0"
-                                  SearchText="{Binding SearchText, Mode=TwoWay}"
-                                  Placeholder="Search applications by tenant name, property, or unit..."
-                                  SearchCommand="{Binding SearchCommand}"
-                                  ClearCommand="{Binding ClearSearchCommand}"
-                                  ShowSearchButton="True" />
+                <!-- Pending -->
+                <Border Grid.Column="0"
+                        Padding="16"
+                        StrokeShape="RoundRectangle 8"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="{Binding PendingCount}"
+                               FontSize="24"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               HorizontalOptions="Center" />
+                        <Label Text="Pending"
+                               FontSize="14"
+                               TextColor="White"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Border>
 
-            <!-- Filter and Action Bar -->
-            <Grid Grid.Row="1" ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,*" ColumnSpacing="12">
-                
-                <!-- Status Filter -->
-                <StackLayout Grid.Column="0" Spacing="4">
-                    <Label Text="Status" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-                    <Picker ItemsSource="{Binding StatusOptions}"
-                            SelectedItem="{Binding SelectedStatus, Mode=TwoWay}"
-                            WidthRequest="100"
-                            FontSize="14" />
-                </StackLayout>
+                <!-- Approved -->
+                <Border Grid.Column="1"
+                        Padding="16"
+                        StrokeShape="RoundRectangle 8"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Success}, Dark={StaticResource SuccessDark}}">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="{Binding ApprovedCount}"
+                               FontSize="24"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               HorizontalOptions="Center" />
+                        <Label Text="Approved"
+                               FontSize="14"
+                               TextColor="White"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Border>
 
-                <!-- Sort By Filter -->
-                <StackLayout Grid.Column="1" Spacing="4">
-                    <Label Text="Sort By" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-                    <Picker ItemsSource="{Binding SortOptions}"
-                            SelectedItem="{Binding SortBy, Mode=TwoWay}"
-                            WidthRequest="120"
-                            FontSize="14" />
-                </StackLayout>
-
-                <!-- Sort Direction -->
-                <StackLayout Grid.Column="2" Spacing="4">
-                    <Label Text="Order" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-                    <Button Text="{Binding SortAscending, Converter={StaticResource BoolToSortDirectionConverter}}"
-                            Command="{Binding Source={x:Reference LeaseApplicationsPageView}, Path=ToggleSortDirectionCommand}"
-                            BackgroundColor="Transparent"
-                            TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                            FontSize="14"
-                            WidthRequest="80" />
-                </StackLayout>
-
-                <!-- Date Range Filter -->
-                <StackLayout Grid.Column="3" Spacing="4">
-                    <Label Text="From Date" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-                    <DatePicker Date="{Binding FilterStartDate, Mode=TwoWay}"
-                                FontSize="12"
-                                WidthRequest="120" />
-                </StackLayout>
-
-                <StackLayout Grid.Column="4" Spacing="4">
-                    <Label Text="To Date" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-                    <DatePicker Date="{Binding FilterEndDate, Mode=TwoWay}"
-                                FontSize="12"
-                                WidthRequest="120" />
-                </StackLayout>
-
-                <!-- Results Count -->
-                <StackLayout Grid.Column="5" Spacing="4" VerticalOptions="End" HorizontalOptions="End">
-                    <Label Text="{Binding FilteredApplications.Count, StringFormat='{0} applications'}"
-                           FontSize="14"
-                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
-                           VerticalOptions="Center" />
-                </StackLayout>
+                <!-- Rejected -->
+                <Border Grid.Column="2"
+                        Padding="16"
+                        StrokeShape="RoundRectangle 8"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Danger}, Dark={StaticResource DangerDark}}">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="{Binding RejectedCount}"
+                               FontSize="24"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               HorizontalOptions="Center" />
+                        <Label Text="Rejected"
+                               FontSize="14"
+                               TextColor="White"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Border>
             </Grid>
-        </Grid>
 
-        <!-- Applications List -->
-        <Border Grid.Row="3"
-                BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
-                Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
-                StrokeThickness="1"
-                StrokeShape="RoundRectangle 8">
-            
-            <CollectionView ItemsSource="{Binding FilteredApplications}"
-                            SelectionMode="Single"
-                            SelectedItem="{Binding SelectedApplication, Mode=TwoWay}">
-                
-                <CollectionView.Header>
-                    <!-- Header Row -->
-                    <Grid BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
-                          Padding="16,12"
-                          ColumnDefinitions="*,120,120,120,100,140">
-                        <Label Grid.Column="0" Text="Application Details" FontAttributes="Bold" FontSize="14" />
-                        <Label Grid.Column="1" Text="Property" FontAttributes="Bold" FontSize="14" />
-                        <Label Grid.Column="2" Text="Application Date" FontAttributes="Bold" FontSize="14" />
-                        <Label Grid.Column="3" Text="Proposed Rent" FontAttributes="Bold" FontSize="14" />
-                        <Label Grid.Column="4" Text="Status" FontAttributes="Bold" FontSize="14" />
-                        <Label Grid.Column="5" Text="Actions" FontAttributes="Bold" FontSize="14" />
-                    </Grid>
-                </CollectionView.Header>
+            <!-- ================= SEARCH + FILTER ================= -->
+            <Grid Grid.Row="2"
+                  RowDefinitions="Auto,Auto"
+                  RowSpacing="12">
 
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
+                <!-- Search -->
+                <components:SearchBar Grid.Row="0"
+                                      SearchText="{Binding SearchText, Mode=TwoWay}"
+                                      Placeholder="Search applications by tenant name, property, or unit..."
+                                      SearchCommand="{Binding SearchCommand}"
+                                      ClearCommand="{Binding ClearSearchCommand}"
+                                      ShowSearchButton="True" />
+
+                <!-- Filters -->
+                <Grid Grid.Row="1"
+                      ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,*"
+                      ColumnSpacing="12">
+
+                    <!-- Status -->
+                    <VerticalStackLayout Grid.Column="0" Spacing="2">
+                        <Label Text="Status"
+                               FontSize="12"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                        <Picker ItemsSource="{Binding StatusOptions}"
+                                SelectedItem="{Binding SelectedStatus, Mode=TwoWay}"
+                                WidthRequest="100"
+                                FontSize="14" />
+                    </VerticalStackLayout>
+
+                    <!-- Sort By -->
+                    <VerticalStackLayout Grid.Column="1" Spacing="2">
+                        <Label Text="Sort By"
+                               FontSize="12"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                        <Picker ItemsSource="{Binding SortOptions}"
+                                SelectedItem="{Binding SortBy, Mode=TwoWay}"
+                                WidthRequest="120"
+                                FontSize="14" />
+                    </VerticalStackLayout>
+
+                    <!-- Order -->
+                    <VerticalStackLayout Grid.Column="2" Spacing="2">
+                        <Label Text="Order"
+                               FontSize="12"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                        <Button Text="{Binding SortAscending, Converter={StaticResource BoolToSortDirectionConverter}}"
+                                Command="{Binding BindingContext.ToggleSortDirectionCommand, Source={x:Reference LeaseApplicationsPageView}}"
+                                BackgroundColor="Transparent"
+                                TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                                FontSize="14"
+                                WidthRequest="80" />
+                    </VerticalStackLayout>
+
+                    <!-- From Date -->
+                    <VerticalStackLayout Grid.Column="3" Spacing="2">
+                        <Label Text="From Date"
+                               FontSize="12"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                        <DatePicker Date="{Binding FilterStartDate, Mode=TwoWay}"
+                                    WidthRequest="120"
+                                    FontSize="12" />
+                    </VerticalStackLayout>
+
+                    <!-- To Date -->
+                    <VerticalStackLayout Grid.Column="4" Spacing="2">
+                        <Label Text="To Date"
+                               FontSize="12"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                        <DatePicker Date="{Binding FilterEndDate, Mode=TwoWay}"
+                                    WidthRequest="120"
+                                    FontSize="12" />
+                    </VerticalStackLayout>
+
+                    <!-- Results Count -->
+                    <Label Grid.Column="5"
+                           Text="{Binding FilteredApplications.Count, StringFormat='{0} applications'}"
+                           FontSize="14"
+                           VerticalOptions="End"
+                           HorizontalOptions="End"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                </Grid>
+            </Grid>
+
+            <!-- ================= APPLICATIONS LIST ================= -->
+            <Border Grid.Row="3"
+                    Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 8"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+
+                <CollectionView ItemsSource="{Binding FilteredApplications}"
+                                SelectionMode="Single"
+                                SelectedItem="{Binding SelectedApplication, Mode=TwoWay}">
+
+                    <!-- Table Header -->
+                    <CollectionView.Header>
                         <Grid Padding="16,12"
                               ColumnDefinitions="*,120,120,120,100,140"
-                              BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
-                            
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={x:Reference LeaseApplicationsPageView}, Path=BindingContext.ViewApplicationDetailsCommand}"
-                                                      CommandParameter="{Binding .}" />
-                            </Grid.GestureRecognizers>
-
-                            <!-- Application Details -->
-                            <StackLayout Grid.Column="0" Spacing="4">
-                                <Label Text="{Binding Tenant.FullName}"
-                                       FontSize="16"
-                                       FontAttributes="Bold"
-                                       TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
-                                <Label Text="{Binding Unit.UnitNumber, StringFormat='Unit: {0}'}"
-                                       FontSize="14"
-                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-                                <Label Text="{Binding Tenant.ContactInfo.Email}"
-                                       FontSize="12"
-                                       TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}" />
-                            </StackLayout>
-
-                            <!-- Property -->
-                            <Label Grid.Column="1"
-                                   Text="{Binding Property.Name}"
-                                   FontSize="14"
-                                   VerticalOptions="Center"
-                                   TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}"
-                                   LineBreakMode="TailTruncation" />
-
-                            <!-- Application Date -->
-                            <Label Grid.Column="2"
-                                   Text="{Binding ApplicationDate, StringFormat='{0:MMM dd, yyyy}'}"
-                                   FontSize="14"
-                                   VerticalOptions="Center"
-                                   TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
-
-                            <!-- Proposed Rent -->
-                            <Label Grid.Column="3"
-                                   Text="{Binding ProposedRent.Amount, StringFormat='${0:N0}'}"
-                                   FontSize="14"
-                                   VerticalOptions="Center"
-                                   FontAttributes="Bold"
-                                   TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
-
-                            <!-- Status -->
-                            <Border Grid.Column="4"
-                                    BackgroundColor="{Binding Status, Converter={StaticResource LeaseStatusToColorConverter}}"
-                                    StrokeShape="RoundRectangle 12"
-                                    Padding="8,4"
-                                    VerticalOptions="Center">
-                                <Label Text="{Binding Status}"
-                                       FontSize="12"
-                                       FontAttributes="Bold"
-                                       TextColor="White"
-                                       HorizontalOptions="Center" />
-                            </Border>
-
-                            <!-- Actions -->
-                            <StackLayout Grid.Column="5" Orientation="Horizontal" Spacing="4" VerticalOptions="Center">
-                                <Button Text="View"
-                                        Command="{Binding Source={x:Reference LeaseApplicationsPageView}, Path=BindingContext.ViewApplicationDetailsCommand}"
-                                        CommandParameter="{Binding .}"
-                                        BackgroundColor="Transparent"
-                                        TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                                        FontSize="12"
-                                        Padding="6,4" />
-                                
-                                <Button Text="Approve"
-                                        Command="{Binding Source={x:Reference LeaseApplicationsPageView}, Path=BindingContext.ApproveApplicationCommand}"
-                                        CommandParameter="{Binding .}"
-                                        BackgroundColor="Transparent"
-                                        TextColor="{AppThemeBinding Light={StaticResource Success}, Dark={StaticResource SuccessDark}}"
-                                        FontSize="12"
-                                        Padding="6,4"
-                                        IsVisible="{Binding Status, Converter={StaticResource LeaseStatusToPendingVisibilityConverter}}" />
-                                
-                                <Button Text="Reject"
-                                        Command="{Binding Source={x:Reference LeaseApplicationsPageView}, Path=BindingContext.RejectApplicationCommand}"
-                                        CommandParameter="{Binding .}"
-                                        BackgroundColor="Transparent"
-                                        TextColor="{AppThemeBinding Light={StaticResource Danger}, Dark={StaticResource DangerDark}}"
-                                        FontSize="12"
-                                        Padding="6,4"
-                                        IsVisible="{Binding Status, Converter={StaticResource LeaseStatusToPendingVisibilityConverter}}" />
-                            </StackLayout>
-
-                            <!-- Row Separator -->
-                            <BoxView Grid.ColumnSpan="6"
-                                     HeightRequest="1"
-                                     BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}"
-                                     VerticalOptions="End" />
+                              BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}">
+                            <Label Grid.Column="0" Text="Application Details" FontSize="14" FontAttributes="Bold" />
+                            <Label Grid.Column="1" Text="Property" FontSize="14" FontAttributes="Bold" />
+                            <Label Grid.Column="2" Text="Application Date" FontSize="14" FontAttributes="Bold" />
+                            <Label Grid.Column="3" Text="Proposed Rent" FontSize="14" FontAttributes="Bold" />
+                            <Label Grid.Column="4" Text="Status" FontSize="14" FontAttributes="Bold" />
+                            <Label Grid.Column="5" Text="Actions" FontSize="14" FontAttributes="Bold" />
                         </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
+                    </CollectionView.Header>
 
-                <CollectionView.EmptyView>
-                    <StackLayout Padding="40" Spacing="16" VerticalOptions="Center">
-                        <Label Text="📋"
-                               FontSize="48"
-                               HorizontalOptions="Center" />
-                        <Label Text="No lease applications found"
-                               FontSize="18"
-                               FontAttributes="Bold"
-                               HorizontalOptions="Center"
-                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-                        <Label Text="Applications will appear here when tenants submit them"
-                               FontSize="14"
-                               HorizontalOptions="Center"
-                               HorizontalTextAlignment="Center"
-                               TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}" />
-                    </StackLayout>
-                </CollectionView.EmptyView>
-            </CollectionView>
-        </Border>
-    </Grid>
+                    <!-- Table Rows -->
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="16,12"
+                                  ColumnDefinitions="*,120,120,120,100,140"
+                                  BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
 
-    <!-- Loading Overlay -->
-    <Grid IsVisible="{Binding IsLoading}"
-          BackgroundColor="Black"
-          Opacity="0.5">
-        <ActivityIndicator IsRunning="{Binding IsLoading}"
-                           Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                           VerticalOptions="Center"
-                           HorizontalOptions="Center" />
+                                <!-- Tap Navigation -->
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={x:Reference LeaseApplicationsPageView}, Path=BindingContext.ViewApplicationDetailsCommand}"
+                                                          CommandParameter="{Binding .}" />
+                                </Grid.GestureRecognizers>
+
+                                <!-- Tenant Details -->
+                                <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                    <Label Text="{Binding Tenant}"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                                    <Label Text="{Binding Tenant, StringFormat='Unit: {0}'}"
+                                           FontSize="14"
+                                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                                    <Label Text="{Binding Tenant}"
+                                           FontSize="12"
+                                           TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}" />
+                                </VerticalStackLayout>
+
+                                <!-- Property -->
+                                <Label Grid.Column="1"
+                                       Text="{Binding ApproveApplicationCommand}"
+                                       FontSize="14"
+                                       VerticalOptions="Center"
+                                       TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}"
+                                       LineBreakMode="TailTruncation" />
+
+                                <!-- Application Date -->
+                                <Label Grid.Column="2"
+                                       Text="{Binding FilterStartDate, StringFormat='{0:MMM dd, yyyy}'}"
+                                       FontSize="14"
+                                       VerticalOptions="Center"
+                                       TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
+
+                                <!-- Proposed Rent -->
+                                <Label Grid.Column="3"
+                                       Text="{Binding Title, StringFormat='${0:N0}'}"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       VerticalOptions="Center"
+                                       TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+
+                                <!-- Status -->
+                                <Border Grid.Column="4"
+                                        Padding="8,4"
+                                        VerticalOptions="Center"
+                                        StrokeShape="RoundRectangle 12"
+                                        BackgroundColor="{Binding Title, Converter={StaticResource LeaseStatusToColorConverter}}">
+                                    <Label Text="{Binding Title}"
+                                           FontSize="12"
+                                           FontAttributes="Bold"
+                                           TextColor="White"
+                                           HorizontalOptions="Center" />
+                                </Border>
+
+                                <!-- Actions -->
+                                <HorizontalStackLayout Grid.Column="5" Spacing="4" VerticalOptions="Center">
+                                    <Button Text="View"
+                                            Command="{Binding Source={x:Reference LeaseApplicationsPageView}, Path=BindingContext.ViewApplicationDetailsCommand}"
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="Transparent"
+                                            TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                                            FontSize="12"
+                                            Padding="6,4" />
+                                    <Button Text="Approve"
+                                            IsVisible="{Binding Title, Converter={StaticResource LeaseStatusToPendingVisibilityConverter}}"
+                                            Command="{Binding Source={x:Reference LeaseApplicationsPageView}, Path=BindingContext.ApproveApplicationCommand}"
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="Transparent"
+                                            TextColor="{AppThemeBinding Light={StaticResource Success}, Dark={StaticResource SuccessDark}}"
+                                            FontSize="12"
+                                            Padding="6,4" />
+                                    <Button Text="Reject"
+                                            IsVisible="{Binding Title, Converter={StaticResource LeaseStatusToPendingVisibilityConverter}}"
+                                            Command="{Binding Source={x:Reference LeaseApplicationsPageView}, Path=BindingContext.RejectApplicationCommand}"
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="Transparent"
+                                            TextColor="{AppThemeBinding Light={StaticResource Danger}, Dark={StaticResource DangerDark}}"
+                                            FontSize="12"
+                                            Padding="6,4" />
+                                </HorizontalStackLayout>
+
+                                <!-- Row Divider -->
+                                <BoxView Grid.ColumnSpan="6"
+                                         HeightRequest="1"
+                                         VerticalOptions="End"
+                                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                    <!-- Empty View -->
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout Padding="40" Spacing="12" VerticalOptions="Center">
+                            <Label Text="📋"
+                                   FontSize="48"
+                                   HorizontalOptions="Center" />
+                            <Label Text="No lease applications found"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="Center"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                            <Label Text="Applications will appear here when tenants submit them"
+                                   FontSize="14"
+                                   HorizontalOptions="Center"
+                                   HorizontalTextAlignment="Center"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}" />
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                </CollectionView>
+            </Border>
+        </Grid>
+
+        <!-- ================= LOADING OVERLAY ================= -->
+        <Grid IsVisible="{Binding IsLoading}"
+              BackgroundColor="Black"
+              Opacity="0.5">
+            <ActivityIndicator IsRunning="{Binding IsLoading}"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center"
+                               Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+        </Grid>
     </Grid>
 </ContentPage>
